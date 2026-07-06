@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OmniPulse — AI-Powered Operations Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Spectral:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f0f0e8;--o:#ff5c00;--panel:#ffffff;--border:#d4d4c8;
+  --o2:#ff8800;--w:#1a1a2e;--dim:#e8e8e0;--glow:rgba(255,92,0,.20);
+  --text:#5a5a72;--text-bright:#2e2e44;
+  --font-head:'Inter',system-ui,sans-serif;
+  --font-body:'Inter',system-ui,sans-serif;
+  --font-display:'Spectral',Georgia,serif;
+}
+body.day-mode{
+  --bg:#03040a;--panel:#080b16;--border:#111428;--w:#f0f0ff;
+  --dim:#1e2040;--glow:rgba(255,92,0,.25);--text:#c2c2d8;--text-bright:#dcdcf0;
+}
+body,section,footer,.ps,.marquee{transition:background .35s,color .35s,border-color .35s}
+nav{transition:none}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--w);font-family:var(--font-body);overflow-x:hidden;cursor:none;-webkit-font-smoothing:antialiased}
+#cursor{position:fixed;pointer-events:none;z-index:9999;contain:strict}
+#cur-ring{width:40px;height:40px;border:1.5px solid var(--o);border-radius:50%;position:absolute;transform:translate(-50%,-50%);transition:width .22s,height .22s,border-color .22s;will-change:transform}
+#cur-dot{width:6px;height:6px;background:var(--o);border-radius:50%;position:absolute;transform:translate(-50%,-50%);will-change:transform}
+#loader{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;contain:layout}
+.load-logo{font-family:var(--font-display);font-size:32px;font-weight:800;letter-spacing:6px;color:var(--w);opacity:0;animation:loadIn .6s ease forwards .3s}
+.load-logo em{color:var(--o);font-style:normal}
+.load-bar-wrap{width:280px;height:2px;background:var(--dim);overflow:hidden}
+.load-bar{height:100%;width:0;background:linear-gradient(90deg,var(--o),var(--o2));animation:loadBar 1.8s ease-out forwards .5s}
+.load-pct{font-family:var(--font-body);font-weight:500;font-size:11px;letter-spacing:3px;color:var(--text);margin-top:8px;opacity:0;animation:loadIn .4s ease forwards .8s}
+@keyframes loadIn{to{opacity:1}}
+@keyframes loadBar{to{width:100%}}
+#loader.done{animation:fadeOut .5s ease forwards;pointer-events:none}
+@keyframes fadeOut{to{opacity:0;visibility:hidden}}
+#theme-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:var(--w);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .25s,background .25s;line-height:1;padding:0}
+#theme-btn:hover{border-color:var(--o);background:rgba(255,92,0,.1)}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(3,4,10,.92);border-bottom:1px solid var(--border);transform:translateY(-100%);animation:navDrop .6s ease forwards 2.2s;gap:16px;contain:layout}
+@keyframes navDrop{to{transform:translateY(0)}}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-orbit-wrap{position:relative;width:38px;height:38px;flex-shrink:0}
+.lo-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,92,0,.28);will-change:transform;contain:layout paint}
+.lo-ring.r1{width:16px;height:16px;top:11px;left:11px;animation:spin 4s linear infinite}
+.lo-ring.r2{width:26px;height:26px;top:6px;left:6px;animation:spin 7s linear infinite reverse}
+.lo-ring.r3{width:36px;height:36px;top:1px;left:1px;animation:spin 12s linear infinite;border-style:dashed;border-color:rgba(255,92,0,.14)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lo-dot{position:absolute;top:-4px;left:50%;width:7px;height:7px;border-radius:50%;background:#ff5c00;transform:translateX(-50%)}
+.lo-dot.sm{width:5px;height:5px;top:-2.5px;background:#ff8800}
+.lo-dot.dim{width:4px;height:4px;top:-2px;background:rgba(255,92,0,.5);box-shadow:none}
+.lo-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:6px;height:6px;border-radius:50%;background:#ff5c00;z-index:2}
+.lo-pulse{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;border:1px solid rgba(255,92,0,.5);animation:lopulse 2.5s ease-out infinite;will-change:width,height,opacity}
+.lo-pulse:nth-child(2){animation-delay:.9s}
+@keyframes lopulse{0%{width:12px;height:12px;opacity:.7}100%{width:38px;height:38px;opacity:0}}
+.logo-text{font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:3px;color:#f0f0ff}
+.logo-text em{color:var(--o);font-style:normal}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-family:var(--font-body);font-size:12px;font-weight:500;letter-spacing:2px;color:#e0e0f4;text-decoration:none;transition:color .2s;text-transform:uppercase}
+.nav-links a:hover{color:var(--o)}
+.nav-cta{font-family:var(--font-body);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;background:var(--o);color:#f0f0ff!important;padding:10px 22px;text-decoration:none;transition:background .2s,box-shadow .2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.nav-cta:hover{background:var(--o2);box-shadow:0 0 20px rgba(255,92,0,.35)}
+#hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;contain:layout}
+#hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
+.hero-video-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(105deg,rgba(3,4,10,.72) 0%,rgba(3,4,10,.45) 50%,rgba(3,4,10,.18) 100%),linear-gradient(to top,rgba(255,92,0,.09) 0%,transparent 40%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;z-index:2;background-image:linear-gradient(rgba(255,92,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,92,0,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%);pointer-events:none}
+.hero-content{position:relative;z-index:3;padding:0 60px;max-width:800px}
+.hero-eyebrow{font-family:var(--font-body);font-weight:500;font-size:11px;letter-spacing:4px;color:var(--o);text-transform:uppercase;margin-bottom:28px;display:flex;align-items:center;gap:10px;opacity:0;animation:slideUp .8s ease forwards 2.5s}
+.hero-eyebrow::before{content:'[ ';color:#c2c2d8}.hero-eyebrow::after{content:' ]';color:#c2c2d8}
+.hero-h1{font-family:var(--font-display);font-weight:700;line-height:1;letter-spacing:-1px;margin-bottom:24px}
+.h1-we{display:block;font-size:clamp(16px,2.5vw,28px);color:rgba(240,240,255,.8);letter-spacing:8px;font-weight:400;font-family:var(--font-body);opacity:0;animation:slideUp .7s ease forwards 2.7s}
+.h1-are{display:block;font-size:clamp(16px,2.5vw,28px);color:rgba(240,240,255,.8);letter-spacing:8px;font-weight:400;font-family:var(--font-body);opacity:0;animation:slideUp .7s ease forwards 2.85s}
+.h1-conn{display:block;font-size:clamp(32px,4.8vw,68px);color:var(--o);letter-spacing:-2px;opacity:0;animation:connBlast 1s cubic-bezier(0.16,1,0.3,1) forwards 3.15s}
+@keyframes connBlast{0%{opacity:0;transform:scale(.75);filter:blur(10px)}100%{opacity:1;transform:scale(1);filter:blur(0)}}
+.hero-p{font-size:16px;line-height:1.85;color:#dcdcf0;max-width:480px;margin-bottom:40px;opacity:0;animation:slideUp .7s ease forwards 3.7s;font-weight:400}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;opacity:0;animation:slideUp .7s ease forwards 3.9s}
+@keyframes slideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.btn-prime{font-family:var(--font-body);font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;background:var(--o);color:#f0f0ff!important;padding:15px 32px;text-decoration:none;transition:background .2s,transform .2s,box-shadow .2s;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%)}
+.btn-prime:hover{background:var(--o2);transform:translateY(-2px);box-shadow:0 5px 20px rgba(255,92,0,.32)}
+.btn-ghost{font-family:var(--font-body);font-size:12px;font-weight:500;letter-spacing:2px;color:#dcdcf0!important;padding:15px 28px;text-decoration:none;border:1px solid rgba(255,255,255,.22);transition:border-color .2s,color .2s}
+.btn-ghost:hover{border-color:var(--o);color:var(--o)!important}
+.hero-side{position:absolute;right:60px;top:50%;transform:translateY(-50%);z-index:3;display:flex;flex-direction:column;gap:2px;opacity:0;animation:slideLeft .8s ease forwards 4s}
+@keyframes slideLeft{from{opacity:0;transform:translate(22px,-50%)}to{opacity:1;transform:translate(0,-50%)}}
+.hstat{background:rgba(8,11,22,.8);border:1px solid #111428;border-left:2px solid var(--o);padding:18px 24px;text-align:right;min-width:140px;transition:border-left-color .2s,background .2s;cursor:default}
+.hstat:hover{border-left-color:var(--o2);background:rgba(255,92,0,.07)}
+.hstat-n{font-family:var(--font-display);font-size:26px;font-weight:700;color:#f0f0ff;line-height:1}
+.hstat-n em{color:var(--o);font-style:normal}
+.hstat-l{font-family:var(--font-body);font-weight:500;font-size:9px;letter-spacing:2px;color:#c2c2d8;text-transform:uppercase;margin-top:4px}
+.scroll-hint{position:absolute;bottom:30px;left:60px;z-index:3;display:flex;align-items:center;gap:12px;opacity:0;animation:slideUp .6s ease forwards 4.2s}
+.scroll-line{width:40px;height:1px;background:linear-gradient(90deg,var(--o),transparent);animation:spulse 2.5s ease-in-out infinite}
+@keyframes spulse{0%,100%{opacity:.3}50%{opacity:1}}
+.scroll-txt{font-family:var(--font-body);font-weight:500;font-size:10px;letter-spacing:3px;color:#c2c2d8;text-transform:uppercase}
+.hero-mute{position:absolute;bottom:88px;right:60px;z-index:4;width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(255,255,255,.22);background:rgba(3,4,10,.6);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s,background .2s;opacity:0;animation:loadIn .5s ease forwards 4.2s}
+.hero-mute:hover{border-color:var(--o);background:rgba(255,92,0,.14)}
+.marquee{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--panel);padding:12px 0;overflow:hidden;contain:layout}
+.marquee-track{display:flex;width:max-content;animation:mq 28s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.mq-item{font-family:var(--font-body);font-weight:500;font-size:11px;letter-spacing:3px;color:var(--text);padding:0 36px;text-transform:uppercase;white-space:nowrap}
+.mq-item em{color:var(--o);font-style:normal;margin-right:6px}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+section{padding:100px 60px;position:relative}
+.sec-tag{font-family:var(--font-body);font-weight:600;font-size:10px;letter-spacing:4px;color:var(--o);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.sec-tag::before{content:'';width:20px;height:1px;background:var(--o)}
+.sec-h2{font-family:var(--font-display);font-size:clamp(28px,4vw,52px);font-weight:700;line-height:1.05;letter-spacing:-1px;margin-bottom:16px}
+.sec-h2 em{color:var(--o);font-style:normal}
+#partners{background:var(--bg);padding:100px 0;overflow:hidden;content-visibility:auto;contain-intrinsic-size:0 900px}
+.partners-intro{padding:0 60px;margin-bottom:52px}
+.partners-intro p{font-family:var(--font-body);font-size:14px;color:var(--text);line-height:1.75;margin-top:10px;max-width:680px;font-weight:400}
+.partners-intro .hint{font-family:var(--font-body);font-weight:500;font-size:11px;color:rgba(255,92,0,.5);letter-spacing:1px;margin-top:10px}
+.partners-layout{display:flex;gap:0;padding:0 60px}
+.partners-strip-wrap{flex:1;min-width:0}
+.serve-strip{display:flex;height:clamp(400px,54vh,520px);gap:3px;background:var(--border);contain:layout}
+.serve-panel{flex:1;min-width:68px;position:relative;overflow:hidden;cursor:pointer;transition:flex .5s cubic-bezier(0.22,1,0.36,1);will-change:flex;contain:layout paint}
+.serve-panel:hover{flex:7}
+.spanel-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s ease,filter .5s ease;filter:brightness(.2) saturate(.35);will-change:transform,filter}
+.serve-panel:hover .spanel-bg{filter:brightness(.38) saturate(.9);transform:scale(1.04)}
+.spanel-tint{position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,92,0,.1) 0%,transparent 45%),linear-gradient(to top,rgba(3,4,10,.99) 0%,rgba(3,4,10,.35) 50%,transparent 100%);z-index:1;pointer-events:none}
+.spanel-peek{position:absolute;top:26px;left:0;right:0;z-index:3;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 10px;transition:opacity .2s,transform .2s}
+.serve-panel:hover .spanel-peek{opacity:0;transform:translateY(-6px);pointer-events:none}
+.spanel-peek-title{font-family:var(--font-display);font-size:14px;font-weight:700;letter-spacing:.5px;color:#fff;line-height:1.25;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.spanel-peek-sub{font-family:var(--font-body);font-weight:600;font-size:9px;letter-spacing:2px;color:rgba(255,150,80,.9);text-transform:uppercase;margin-top:6px}
+.spanel-vtitle{position:absolute;bottom:32px;left:50%;transform:translateX(-50%) rotate(-90deg);transform-origin:center;white-space:nowrap;font-family:var(--font-display);font-size:10px;font-weight:600;letter-spacing:3px;color:rgba(255,255,255,.36);text-transform:uppercase;z-index:3;transition:opacity .2s;display:none}
+.serve-panel:hover .spanel-vtitle{opacity:0;pointer-events:none}
+.spanel-badge{position:absolute;top:50%;left:50%;transform:translate(-50%,-42%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;transition:opacity .2s .04s}
+.serve-panel:hover .spanel-badge{opacity:0;pointer-events:none}
+.spanel-badge-icon{font-size:26px;line-height:1;color:rgba(255,145,80,.85);display:inline-flex}
+.spanel-badge-icon::before{font-weight:400}
+.spanel-badge-num{font-family:var(--font-body);font-size:8px;letter-spacing:2px;color:rgba(255,92,0,.55);font-weight:500}
+.spanel-content{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;padding:16px 18px 14px;opacity:0;transform:translateY(8px);transition:opacity .3s .1s,transform .3s .1s;pointer-events:none;overflow:hidden}
+.serve-panel:hover .spanel-content{opacity:1;transform:translateY(0);pointer-events:all}
+.spanel-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;flex-shrink:0}
+.spanel-head-left{display:flex;align-items:center;gap:10px}
+.spanel-icon{font-size:16px;line-height:1;color:var(--o);display:inline-flex}
+.spanel-title{font-family:var(--font-display);font-size:17px;font-weight:700;color:#fff;letter-spacing:-.2px;line-height:1.15}
+.spanel-label{font-family:var(--font-body);font-size:8px;letter-spacing:2.5px;color:var(--o);text-transform:uppercase;font-weight:600;display:flex;align-items:center;gap:6px;margin-top:2px}
+.spanel-label::before{content:'';width:12px;height:1px;background:var(--o)}
+.spanel-subtitle{font-family:var(--font-body);font-size:9px;letter-spacing:1.5px;color:rgba(255,200,120,.75);text-transform:uppercase;margin-top:3px;margin-left:26px;font-weight:500}
+.spanel-blurb{font-family:var(--font-body);font-size:11.5px;color:rgba(240,240,255,.62);line-height:1.55;margin-bottom:10px;max-width:600px;flex-shrink:0;border-left:2px solid rgba(255,92,0,.25);padding-left:10px;font-style:italic;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.spanel-services{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));column-gap:36px;row-gap:0;flex:1;align-content:start;margin-top:0;position:relative;min-height:0;overflow:hidden}
+.ss-row{display:flex;align-items:baseline;gap:12px;padding:7px 4px;border-bottom:1px solid rgba(255,92,0,.10);transition:padding-left .2s ease,border-color .2s ease;cursor:default}
+.ss-row:hover{padding-left:8px;border-color:rgba(255,92,0,.32)}
+.ss-index{font-family:var(--font-body);font-size:9px;letter-spacing:1.5px;color:rgba(255,92,0,.55);font-weight:600;flex-shrink:0;width:16px}
+.ss-name{font-family:var(--font-body);font-size:12px;color:rgba(240,240,255,.78);font-weight:500;line-height:1.3;flex:1;transition:color .2s ease}
+.ss-row:hover .ss-name{color:#fff}
+.ss-arrow{font-size:10px;color:transparent;transition:color .2s ease,transform .2s ease;transform:translateX(-4px);flex-shrink:0}
+.ss-row:hover .ss-arrow{color:var(--o);transform:translateX(0)}
+.spanel-watermark{position:absolute;right:-14px;bottom:-34px;font-size:210px;line-height:1;color:rgba(255,92,0,.05);z-index:-1;pointer-events:none;user-select:none}
+.spanel-extra{font-family:var(--font-body);font-size:10px;letter-spacing:.3px;color:rgba(255,160,80,.65);font-style:italic;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,92,0,.12);flex-shrink:0;display:flex;align-items:center;gap:8px}
+.spanel-extra i{font-size:12px;flex-shrink:0}
+.spanel-foot{margin-top:8px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.spanel-foot-note{font-family:var(--font-body);font-size:9px;color:rgba(255,160,80,.6);letter-spacing:.5px;line-height:1.4;max-width:55%;font-weight:400}
+.spanel-foot-note strong{color:rgba(255,255,255,.75);font-weight:600}
+.spanel-cta{display:inline-flex;align-items:center;gap:8px;padding:8px 16px 8px 12px;background:var(--o);color:#fff!important;text-decoration:none;font-family:var(--font-body);font-weight:700;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;clip-path:polygon(7px 0%,100% 0%,calc(100% - 7px) 100%,0% 100%);transition:background .2s,transform .2s;pointer-events:all;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.spanel-cta:hover{background:var(--o2);transform:translateY(-2px)}
+.spanel-cta-icon{width:16px;height:16px;border:1.5px solid rgba(255,255,255,.45);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0}
+.spanel-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--o);transform:scaleX(0);transform-origin:left;transition:transform .45s .06s;z-index:5;will-change:transform}
+.serve-panel:hover .spanel-bar{transform:scaleX(1)}
+#why{background:var(--panel);padding:100px 60px;content-visibility:auto;contain-intrinsic-size:0 700px}
+.why-layout{display:grid;grid-template-columns:1fr 420px;gap:60px;align-items:start}
+.why-intro-tag{font-family:var(--font-body);font-weight:600;font-size:10px;letter-spacing:4px;color:var(--o);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.why-intro-tag::before{content:'';width:20px;height:1px;background:var(--o)}
+.why-headline{font-family:var(--font-display);font-size:clamp(28px,3.5vw,46px);font-weight:700;line-height:1.05;letter-spacing:-1px;margin-bottom:16px}
+.why-headline em{color:var(--o);font-style:normal}
+.why-subline{font-size:15px;color:var(--text-bright);line-height:1.85;margin-bottom:40px;max-width:480px;font-weight:400}
+.why-points{display:flex;flex-direction:column}
+.why-point{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid var(--border);transition:padding-left .22s;cursor:default}
+.why-point:first-child{border-top:1px solid var(--border)}
+.why-point:hover{padding-left:8px}
+.why-point:hover .why-point-num{color:var(--o)}
+.why-point-num{font-family:var(--font-display);font-size:11px;font-weight:700;color:rgba(255,92,0,.32);flex-shrink:0;width:28px;padding-top:2px;transition:color .22s}
+.why-point-title{font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--w);margin-bottom:6px;line-height:1.3}
+.why-point-desc{font-size:13px;color:var(--text-bright);line-height:1.75;font-weight:400}
+.why-right{display:flex;flex-direction:column;gap:16px;position:sticky;top:88px}
+.why-dash{background:var(--bg);border:1px solid var(--border);overflow:hidden}
+.why-dash-head{background:rgba(255,92,0,.05);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.why-dash-title{font-family:var(--font-body);font-weight:600;font-size:9px;letter-spacing:2px;color:var(--text-bright);text-transform:uppercase}
+.why-dash-live{font-family:var(--font-body);font-weight:600;font-size:9px;color:var(--o);display:flex;align-items:center;gap:6px}
+.why-dash-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--o);animation:dpulse 2.5s ease-in-out infinite}
+@keyframes dpulse{0%,100%{box-shadow:0 0 3px var(--o)}50%{box-shadow:0 0 9px var(--o)}}
+.why-dash-row{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid rgba(17,20,40,.45);transition:background .18s}
+.why-dash-row:last-child{border-bottom:none}
+.why-dash-row:hover{background:rgba(255,92,0,.03)}
+.why-dr-lbl{font-family:var(--font-body);font-size:10px;color:var(--text-bright);font-weight:400}
+.why-dr-val{font-family:var(--font-body);font-weight:600;font-size:10px;color:var(--w);text-align:right}
+.why-dr-val.ok{color:#00d97a}
+.why-dr-val.warn{color:var(--o)}
+.why-dash-bar-row{padding:10px 18px 12px;border-bottom:1px solid rgba(17,20,40,.45)}
+.why-dbr-top{display:flex;justify-content:space-between;margin-bottom:6px}
+.why-dbr-lbl{font-family:var(--font-body);font-size:9px;color:var(--text-bright);font-weight:400}
+.why-dbr-val{font-family:var(--font-body);font-weight:600;font-size:9px;color:var(--o)}
+.why-dbr-track{height:2px;background:var(--border);overflow:hidden}
+.why-dbr-fill{height:100%;background:linear-gradient(90deg,var(--o),var(--o2));width:0;transition:width 1.4s cubic-bezier(0.22,1,0.36,1);will-change:width}
+#process{background:var(--bg);content-visibility:auto;contain-intrinsic-size:0 500px}
+.proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);margin-top:48px}
+.ps{background:var(--panel);padding:36px;transition:background .22s;position:relative;overflow:hidden}
+.ps:hover{background:var(--bg)}
+.ps-ghost{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-display);font-size:90px;font-weight:700;color:rgba(255,92,0,.04);pointer-events:none;user-select:none}
+.ps-num{font-family:var(--font-body);font-weight:600;font-size:10px;letter-spacing:3px;color:var(--o);margin-bottom:14px;text-transform:uppercase}
+.ps-title{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--w);margin-bottom:10px;line-height:1.3}
+.ps-desc{font-size:13px;color:var(--text-bright);line-height:1.75;font-weight:400}
+#cta{text-align:center;position:relative;overflow:hidden;padding:140px 60px;content-visibility:auto;contain-intrinsic-size:0 600px}
+#cta-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
+.cta-video-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(3,4,10,.72) 0%,rgba(3,4,10,.55) 50%,rgba(3,4,10,.72) 100%);pointer-events:none}
+.cta-content{position:relative;z-index:2}
+.cta-tag{font-family:var(--font-body);font-weight:600;font-size:11px;letter-spacing:4px;color:var(--o);text-transform:uppercase;margin-bottom:20px}
+.cta-h2{font-family:var(--font-display);font-size:clamp(40px,6vw,80px);font-weight:700;line-height:.95;letter-spacing:-2px;margin-bottom:20px;color:#f0f0ff}
+.cta-h2 em{color:var(--o);font-style:normal}
+.cta-p{font-size:17px;color:#dcdcf0;max-width:440px;margin:0 auto 40px;line-height:1.8;font-weight:400}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.cta-contact-line{margin-top:28px;font-family:var(--font-body);font-size:13px;letter-spacing:.5px;color:#c2c2d8}
+.cta-contact-line a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,92,0,.5);transition:color .2s,border-color .2s}
+.cta-contact-line a:hover{color:var(--o);border-color:var(--o)}
+/* Next steps micro-section */
+.next-steps{background:var(--panel);padding:80px 60px}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);margin-top:44px}
+.next-step{background:var(--bg);padding:32px 30px;position:relative;display:flex;flex-direction:column;gap:14px}
+.next-num{width:32px;height:32px;border-radius:50%;background:var(--o);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:13px;flex-shrink:0}
+.next-text{font-family:var(--font-body);font-size:13.5px;color:var(--text-bright);line-height:1.7}
+.next-text strong{color:var(--w);font-weight:600}
+.next-arrow{position:absolute;top:32px;right:-17px;font-size:16px;color:rgba(255,92,0,.4);z-index:2}
+.next-step:last-child .next-arrow{display:none}
+
+/* Primary CTAs are plain anchors linking to the contact section on services.html */
+.cta-btns,.hero-btns{align-items:center}
+/* Reset UA button defaults so any leftover form buttons match .btn-prime anchor styling */
+button.btn-prime{border:none;-webkit-appearance:none;appearance:none;background-color:var(--o);font-family:var(--font-body);cursor:pointer}
+
+/* Three-column footer */
+footer{padding:32px 60px 0;background:rgba(3,4,10,.96);border-top:1px solid #111428;contain:layout;display:block}
+.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:48px;padding-bottom:28px}
+.footer-col-title{font-family:var(--font-body);font-weight:600;font-size:10px;letter-spacing:2.5px;color:var(--o);text-transform:uppercase;margin-bottom:18px}
+.fl{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.fl-text{font-family:var(--font-display);font-size:15px;font-weight:700;letter-spacing:2px;color:#f0f0ff}
+.fl-text em{color:var(--o);font-style:normal}
+.fl-orbit{position:relative;width:32px;height:32px;flex-shrink:0}
+.fl-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,92,0,.22);will-change:transform}
+.fl-ring.r1{width:13px;height:13px;top:9.5px;left:9.5px;animation:spin 4s linear infinite}
+.fl-ring.r2{width:21px;height:21px;top:5.5px;left:5.5px;animation:spin 7s linear infinite reverse}
+.fl-ring.r3{width:30px;height:30px;top:1px;left:1px;animation:spin 12s linear infinite;border-style:dashed;border-color:rgba(255,92,0,.1)}
+.fl-dot{position:absolute;top:-3px;left:50%;width:5px;height:5px;border-radius:50%;background:#ff5c00;transform:translateX(-50%)}
+.fl-dot.sm{width:4px;height:4px;top:-2px;background:#ff8800}
+.fl-dot.dim{width:3px;height:3px;top:-1.5px;background:rgba(255,92,0,.42);box-shadow:none}
+.fl-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:5px;height:5px;border-radius:50%;background:#ff5c00;z-index:2}
+.footer-tagline{font-family:var(--font-body);font-size:12.5px;color:#c2c2d8;line-height:1.75;max-width:280px;margin-bottom:16px}
+.footer-location{display:flex;align-items:center;gap:8px;font-family:var(--font-body);font-size:11px;color:#8f8fa8;letter-spacing:.3px}
+.footer-location i{color:var(--o);font-size:13px}
+.footer-col .flinks{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.flinks a{font-family:var(--font-body);font-weight:500;font-size:11px;letter-spacing:1px;color:#c2c2d8;text-decoration:none;transition:color .2s}
+.flinks a:hover{color:var(--o)}
+.footer-contact-list{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.fl-email{font-family:var(--font-body);font-weight:600;font-size:11px;letter-spacing:.5px;color:var(--o)!important;text-decoration:none}
+.fl-linkedin{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-body);font-weight:500;font-size:11px;letter-spacing:.5px;color:#c2c2d8;text-decoration:none;transition:color .2s}
+.fl-linkedin:hover{color:var(--o)}
+.fl-linkedin i{font-size:13px}
+.trust-chips{display:flex;flex-wrap:wrap;gap:8px}
+.trust-chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-body);font-weight:600;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#dcdcf0;border:1px solid rgba(255,92,0,.3);background:rgba(255,92,0,.06);padding:6px 11px}
+.trust-chip::before{content:'';width:5px;height:5px;border-radius:50%;background:#00d97a;flex-shrink:0}
+.footer-bottom{border-top:1px solid #111428;padding:14px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.fc{font-family:var(--font-body);font-size:10px;color:#c2c2d8}
+.rv{opacity:0;transform:translateY(20px);transition:opacity .62s,transform .62s;will-change:opacity,transform}
+.rv.vis{opacity:1;transform:none;will-change:auto}
+body.day-mode nav{background:rgba(3,4,10,.92)!important;border-bottom-color:#111428!important}
+body.day-mode .hstat{background:rgba(8,11,22,.8)!important;border-color:#111428!important}
+body.day-mode .hstat-n{color:#f0f0ff!important}
+body.day-mode .cta-tag{color:var(--o)!important}
+body.day-mode .cta-h2{color:#f0f0ff!important}
+body.day-mode .cta-p{color:#dcdcf0!important}
+body.day-mode .marquee{background:var(--panel);border-color:#111428}
+body.day-mode .ps{background:var(--panel)}
+body.day-mode .ps:hover{background:var(--bg)}
+body.day-mode .why-dash{background:var(--panel)}
+body.day-mode nav .logo-text,body.day-mode nav .nav-links a{color:#e0e0f4}
+body.day-mode nav .nav-links a:hover{color:var(--o)}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .lo-ring,.lo-pulse,.spanel-bg,.fl-ring{animation:none!important;transform:none!important}
+}
+@media(max-width:1100px){.why-layout{grid-template-columns:1fr}.why-right{position:static}}
+@media(max-width:900px){
+  nav{padding:0 20px}.nav-links{display:none}.hero-side{display:none}
+  .hero-content{padding:0 20px}section{padding:60px 20px}
+  .proc-grid{grid-template-columns:1fr 1fr}
+  .partners-layout{padding:0 20px;flex-direction:column}
+  .next-grid{grid-template-columns:1fr}
+  .next-arrow{display:none}
+  footer{padding:24px 20px 0}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+}
+@media(max-width:800px){
+  .serve-strip{flex-direction:column;height:auto;gap:2px}
+  .serve-panel{flex:none!important;min-width:unset;height:auto;min-height:280px}
+  .spanel-vtitle,.spanel-badge,.spanel-peek{display:none}
+  .spanel-content{opacity:1;transform:none;pointer-events:all;position:relative;inset:auto}
+  .spanel-bg{position:absolute;inset:0;filter:brightness(.28) saturate(.55)}
+  .spanel-services{grid-template-columns:1fr;column-gap:0}
+  .spanel-watermark{display:none}
+  #partners{padding:60px 0}.partners-intro{padding:0 20px}
+}
+@media(max-width:600px){.proc-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="cursor"><div id="cur-ring"></div><div id="cur-dot"></div></div>
+
+<div id="loader">
+  <div class="load-logo">OMNI<em>PULSE</em></div>
+  <div class="load-bar-wrap"><div class="load-bar"></div></div>
+  <div class="load-pct">INITIALIZING SYSTEMS...</div>
+</div>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-orbit-wrap">
+      <div class="lo-pulse"></div><div class="lo-pulse"></div>
+      <div class="lo-ring r1"><div class="lo-dot"></div></div>
+      <div class="lo-ring r2"><div class="lo-dot sm"></div></div>
+      <div class="lo-ring r3"><div class="lo-dot dim"></div></div>
+      <div class="lo-center"></div>
+    </div>
+    <div class="logo-text">OMNI<em>PULSE</em></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="#partners">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="services.html#cta">Contact</a></li>
+  </ul>
+  <button id="theme-btn" aria-label="Toggle day/night mode">🌙</button>
+  <a href="services.html#cta" class="nav-cta">Get Started</a>
+</nav>
+
+<section id="hero">
+  <video id="hero-video" src="images/video.mp4" autoplay loop muted playsinline preload="metadata"></video>
+  <div class="hero-video-overlay"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Specialist Data &amp; AI Services · Est. 2025</div>
+    <h1 class="hero-h1">
+      <span class="h1-we">WE HANDLE</span>
+      <span class="h1-are">THE WORK</span>
+      <span class="h1-conn">THAT DEMANDS PRECISION.</span>
+    </h1>
+    <p class="hero-p">OmniPulse is a specialist data intelligence and BPO firm. We handle the research, data, and communications work that high stakes industries cannot afford to get wrong — wherever that takes us.</p>
+    <div class="hero-btns">
+      <a href="services.html#cta" class="btn-prime">Start A Conversation →</a>
+      <a href="#partners" class="btn-ghost">Explore Services →</a>
+    </div>
+  </div>
+  <div class="hero-side">
+    <div class="hstat"><div class="hstat-n"><span class="count" data-target="5" data-suffix="">0</span><em>+</em></div><div class="hstat-l">Industry Verticals</div></div>
+    <div class="hstat"><div class="hstat-n"><span class="count" data-target="24" data-suffix="">0</span><em>/7</em></div><div class="hstat-l">Always On</div></div>
+    <div class="hstat"><div class="hstat-n"><span class="count" data-target="48" data-suffix="">0</span><em>h</em></div><div class="hstat-l">Onboarding</div></div>
+    <div class="hstat"><div class="hstat-n">AI<em>-native</em></div><div class="hstat-l">Built for modern orgs</div></div>
+  </div>
+  <button class="hero-mute" id="muteBtn" aria-label="Toggle video sound">&#x1F507;</button>
+  <div class="scroll-hint"><div class="scroll-line"></div><span class="scroll-txt">Scroll to explore</span></div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="mq-item"><em>✦</em>Maritime</span><span class="mq-item"><em>✦</em>Aviation</span><span class="mq-item"><em>✦</em>Healthcare</span><span class="mq-item"><em>✦</em>Logistics</span><span class="mq-item"><em>✦</em>AI &amp; Visual</span><span class="mq-item"><em>✦</em>DOT Compliance</span><span class="mq-item"><em>✦</em>Dental Billing</span><span class="mq-item"><em>✦</em>n8n Workflows</span><span class="mq-item"><em>✦</em>Fleet Management</span><span class="mq-item"><em>✦</em>AI Agents</span>
+    <span class="mq-item"><em>✦</em>Maritime</span><span class="mq-item"><em>✦</em>Aviation</span><span class="mq-item"><em>✦</em>Healthcare</span><span class="mq-item"><em>✦</em>Logistics</span><span class="mq-item"><em>✦</em>AI &amp; Visual</span><span class="mq-item"><em>✦</em>DOT Compliance</span><span class="mq-item"><em>✦</em>Dental Billing</span><span class="mq-item"><em>✦</em>n8n Workflows</span><span class="mq-item"><em>✦</em>Fleet Management</span><span class="mq-item"><em>✦</em>AI Agents</span>
+  </div>
+</div>
+
+<section id="partners" class="rv">
+  <div class="partners-intro">
+    <div class="sec-tag">Services</div>
+    <h2 class="sec-h2">Data and intelligence <em>services built for precision</em></h2>
+    <p>We handle the research, data operations, and intelligence work that high-stakes industries cannot afford to get wrong. Every deliverable is human-verified, domain-specific, and decision-ready.</p>
+    <p class="hint">// Hover each panel to explore · click the button to go deeper</p>
+  </div>
+  <div class="partners-layout">
+    <div class="partners-strip-wrap">
+  <div class="serve-strip">
+    <!-- PANEL 1: MARITIME -->
+    <div class="serve-panel" id="maritime">
+      <div class="spanel-bg" style="background-image:url('images/maritime2.avif');background-color:#060c14;background-position:center top"></div>
+      <div class="spanel-tint"></div>
+      <div class="spanel-peek"><div class="spanel-peek-title">Maritime Intelligence</div><div class="spanel-peek-sub">05 Services</div></div>
+      <div class="spanel-badge"><span class="spanel-badge-icon"><i class="ti ti-anchor"></i></span><span class="spanel-badge-num">05</span></div>
+      <div class="spanel-vtitle">Maritime Intelligence</div>
+      <div class="spanel-content">
+        <div class="spanel-watermark"><i class="ti ti-anchor"></i></div>
+        <div class="spanel-head"><div><div class="spanel-label">Flagship · 05 services</div><div class="spanel-head-left" style="margin-top:5px"><span class="spanel-icon"><i class="ti ti-anchor"></i></span><span class="spanel-title">Maritime Intelligence</span></div><div class="spanel-subtitle">Ownership · Sanctions · Dark fleet · Ocean freight</div></div></div>
+        <div class="spanel-blurb">We map the full ownership and operational structure of any vessel across all seven principal roles — turning the most opaque asset class in global trade into clean, decision-ready intelligence.</div>
+        <div class="spanel-services">
+          <div class="ss-row"><span class="ss-index">01</span><span class="ss-name">Vessel Ownership &amp; Registry Tracing</span><span class="ss-arrow">→</span></div>
+          <div class="ss-row"><span class="ss-index">02</span><span class="ss-name">Sanctions &amp; Compliance Screening</span><span class="ss-arrow">→</span></div>
+          <div class="ss-row"><span class="ss-index">03</span><span class="ss-name">Dark Fleet &amp; Zombie Vessel Detection</span><span class="ss-arrow">→</span></div>
+          <div class="ss-row"><span class="ss-index">04</span><span class="ss-name">AIS Movement &amp; Freight Visibility</span><span class="ss-arrow">→</span></div>
+          <div class="ss-row"><span class="ss-index">05</span><span class="ss-name">Maritime Data Readiness for AI Platforms</span><span class="ss-arrow">→</span></div>
+        </div>
+        <div class="spanel-foot"><div class="spanel-foot-note">Trusted by <strong>compliance teams, ship financiers &amp; maritime AI companies</strong></div><a href="services.html#maritime" class="spanel-cta"><span class="spanel-cta-icon">→</span>View Maritime</a></div>
+      </div>
+      <div class="spanel-bar"></div>
+    </div>
+    <!-- PANEL 2: AVIATION -->
+    <div class="serve-panel" id="aviation">
+      <div class="spanel-bg" style="background-image:url('images/aviation.avif');background-color:#0a0c18;background-position:center"></div>
+      <div class="spanel-tint"></div>
+      <div class="spanel-peek"><div class="spanel-peek-title">Aviation Asset Intelligence</div><div class="spanel-peek-sub">04 Services</div></div>
+      <div class="spanel-badge"><span class="spanel-badge-icon"><i class="ti ti-plane"></i></span><span class="spanel-badge-num">04</span></div>
+      <div class="spanel-vtitle">Aviation Asset Intelligence</div>
+      <div class="spanel-content">
+        <div class="spanel-head"><div><div class="spanel-label">Flagship · 04 services</div><div class="spanel-head-left" style="margin-top:5px"><span class="spanel-icon"><i class="ti ti-plane"></i></span><span class="spanel-title">Aviation Asset Intelligence</span></div><div class="spanel-subtitle">Ownership · ADS-B · Registry tracing · Compliance</div></div></div>
+        <div class="spanel-blurb">The same ownership-tracing methodology we apply to vessels, applied to aircraft. Beneficial ownership mapped through FAA, EASA, ICAO and national registries — fused with movement and compliance signals.</div>
+        <div class="spanel-services">
+          <div class="ss-row"><span class="ss-index">01</span><span class="ss-name">Aircraft Ownership &amp; Registry Tracing</span><span class="ss-arrow">→</span></div>
+          <div class="ss-row"><span class="ss-index">02</span><span class="ss-name">ADS-B Movement Intelligence</span><span class="ss-arrow">→</span></div>
+          <div class="ss-row"><span class="ss-index">03</span><span class="ss-name">Aviation Sanctions &amp; Compliance Screening</span><span class="ss-arrow">→</span></div>
+          <div class="ss-row"><span class="ss-index">04</span><span class="ss-name">Applied AI &amp; Data Readiness — Aviation</span><span class="ss-arrow">→</span></div>
+        </div>
+        <div class="spanel-foot"><div class="spanel-foot-note">For <strong>aviation lessors, insurers &amp; fleet analytics platforms</strong></div><a href="services.html#aviation" class="spanel-cta"><span class="spanel-cta-icon">→</span>View Aviation</a></div>
+      </div>
+      <div class="spanel-bar"></div>
+    </div>
+    <!-- PANEL 3: HEALTHCARE -->
+    <div class="serve-panel" id="healthcare">
+      <div class="spanel-bg" style="background-image:url('images/ambu.webp');background-color:#070810;background-position:center"></div>
+      <div class="spanel-tint"></div>
+      <div class="spanel-peek"><div class="spanel-peek-title">Healthcare Data</div><div class="spanel-peek-sub">02 Modules</div></div>
+      <div class="spanel-badge"><span class="spanel-badge-icon"><i class="ti ti-heart-rate-monitor"></i></span><span class="spanel-badge-num">03</span></div>
+      <div class="spanel-vtitle">Healthcare Data</div>
+      <div class="spanel-content">
+        <div class="spanel-head"><div><div class="spanel-label">Service · 02 modules</div><div class="spanel-head-left" style="margin-top:5px"><span class="spanel-icon"><i class="ti ti-heart-rate-monitor"></i></span><span class="spanel-title">Healthcare Data</span></div><div class="spanel-subtitle">Billing records · RCM · Clinical · Medical AI</div></div></div>
+        <div class="spanel-blurb">End-to-end healthcare data management for providers, insurers, and medical AI platforms — from billing records and revenue cycle support to clinical dataset preparation.</div>
+        <div class="spanel-services">
+          <div class="ss-row"><span class="ss-index">01</span><span class="ss-name">Medical Billing Data</span><span class="ss-arrow">→</span></div>
+          <div class="ss-row"><span class="ss-index">02</span><span class="ss-name">Clinical &amp; Research Data</span><span class="ss-arrow">→</span></div>
+        </div>
+        <div class="spanel-extra">Built for medical practices, dental offices &amp; health startups</div>
+        <div class="spanel-foot"><div class="spanel-foot-note">For <strong>practices, dental offices &amp; health startups</strong></div><a href="services.html#healthcare" class="spanel-cta"><span class="spanel-cta-icon">→</span>View Healthcare</a></div>
+      </div>
+      <div class="spanel-bar"></div>
+    </div>
+    <!-- PANEL 4: LOGISTICS -->
+    <div class="serve-panel" id="logistics">
+      <div class="spanel-bg" style="background-image:url('images/logistics.jpg');background-color:#061008;background-position:center"></div>
+      <div class="spanel-tint"></div>
+      <div class="spanel-peek"><div class="spanel-peek-title">Logistics Data</div><div class="spanel-peek-sub">02 Modules</div></div>
+      <div class="spanel-badge"><span class="spanel-badge-icon"><i class="ti ti-truck"></i></span><span class="spanel-badge-num">02</span></div>
+      <div class="spanel-vtitle">Logistics Data</div>
+      <div class="spanel-content">
+        <div class="spanel-head"><div><div class="spanel-label">Service · 02 modules</div><div class="spanel-head-left" style="margin-top:5px"><span class="spanel-icon"><i class="ti ti-truck"></i></span><span class="spanel-title">Logistics Data</span></div><div class="spanel-subtitle">Freight billing · Supply chain · Route data</div></div></div>
+        <div class="spanel-blurb">Structured data operations for logistics companies, freight operators, and supply chain platforms — turning raw logistics data into audit-ready records and actionable intelligence.</div>
+        <div class="spanel-services">
+          <div class="ss-row"><span class="ss-index">01</span><span class="ss-name">Freight &amp; Trucking Billing Data</span><span class="ss-arrow">→</span></div>
+          <div class="ss-row"><span class="ss-index">02</span><span class="ss-name">Supply Chain Data Intelligence</span><span class="ss-arrow">→</span></div>
+        </div>
+        <div class="spanel-extra">Covering USA &amp; Canada — owner-operators to enterprise fleets</div>
+        <div class="spanel-foot"><div class="spanel-foot-note">For <strong>freight operators, owner-operators &amp; logistics AI platforms</strong></div><a href="services.html#logistics" class="spanel-cta"><span class="spanel-cta-icon">→</span>View Logistics</a></div>
+      </div>
+      <div class="spanel-bar"></div>
+    </div>
+    <!-- PANEL 5: AI & VISUAL -->
+    <div class="serve-panel" id="ai-visual">
+      <div class="spanel-bg" style="background-image:url('images/ai.avif');background-color:#08080f;background-position:center"></div>
+      <div class="spanel-tint"></div>
+      <div class="spanel-peek"><div class="spanel-peek-title">AI &amp; Visual Data</div><div class="spanel-peek-sub">04 Modules</div></div>
+      <div class="spanel-badge"><span class="spanel-badge-icon"><i class="ti ti-cpu"></i></span><span class="spanel-badge-num">04</span></div>
+      <div class="spanel-vtitle">AI &amp; Visual Data</div>
+      <div class="spanel-content">
+        <div class="spanel-head"><div><div class="spanel-label">Service · 04 modules</div><div class="spanel-head-left" style="margin-top:5px"><span class="spanel-icon"><i class="ti ti-cpu"></i></span><span class="spanel-title">AI &amp; Visual Data</span></div><div class="spanel-subtitle">Annotation · NLP · RLHF · Model QA</div></div></div>
+        <div class="spanel-blurb">High-precision annotation and model evaluation — with particular strength in African languages, faces, and landscapes. Training data that is globally scarce and that we sit at the source of.</div>
+        <div class="spanel-services">
+          <div class="ss-row"><span class="ss-index">01</span><span class="ss-name">Image Annotation</span><span class="ss-arrow">→</span></div>
+          <div class="ss-row"><span class="ss-index">02</span><span class="ss-name">Video Annotation</span><span class="ss-arrow">→</span></div>
+          <div class="ss-row"><span class="ss-index">03</span><span class="ss-name">NLP &amp; Language Data</span><span class="ss-arrow">→</span></div>
+          <div class="ss-row"><span class="ss-index">04</span><span class="ss-name">Model QA &amp; Evaluation</span><span class="ss-arrow">→</span></div>
+        </div>
+        <div class="spanel-foot"><div class="spanel-foot-note">Rare African-context data — <strong>at the source</strong></div><a href="services.html#ai-visual" class="spanel-cta"><span class="spanel-cta-icon">→</span>View AI &amp; Visual</a></div>
+      </div>
+      <div class="spanel-bar"></div>
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why" class="rv">
+  <div class="why-layout">
+    <div class="why-left">
+      <div class="why-intro-tag">Why OmniPulse</div>
+      <h2 class="why-headline">A partner who knows<br><em>your data.</em></h2>
+      <p class="why-subline">We're not a call centre. We're a specialist data bureau built from the ground up around domain expertise — operating from one of the world's most data-centric and underserved regions.</p>
+      <div class="why-points">
+        <div class="why-point"><div class="why-point-num">01</div><div class="why-point-body"><div class="why-point-title">We sit inside your vertical not outside it</div><div class="why-point-desc">Our teams are trained in maritime, healthcare, logistics, and AI data — not just general data entry. When you send us vessel ownership records, we know what they mean.</div></div></div>
+        <div class="why-point"><div class="why-point-num">02</div><div class="why-point-body"><div class="why-point-title">African data expertise is genuinely scarce</div><div class="why-point-desc">African language NLP datasets, African context image annotations, and East Africa logistics data are in global demand and short supply. We are positioned at the source.</div></div></div>
+        <div class="why-point"><div class="why-point-num">03</div><div class="why-point-body"><div class="why-point-title">60–70% cost advantage with no quality compromise</div><div class="why-point-desc">Your data budget stretches significantly further when your operations team is in Nairobi. We hold ourselves to international quality standards and price competitively.</div></div></div>
+        <div class="why-point"><div class="why-point-num">04</div><div class="why-point-body"><div class="why-point-title">One partner, full accountability</div><div class="why-point-desc">One account manager, one team. No handoffs between vendors, no finger pointing. We own the outcome end to end.</div></div></div>
+      </div>
+    </div>
+    <div class="why-right">
+      <div class="why-dash">
+        <div class="why-dash-head"><span class="why-dash-title">Maritime Pipeline Sample</span><span class="why-dash-live">LIVE</span></div>
+        <div class="why-dash-row"><span class="why-dr-lbl">AIS vessel records ingested</span><span class="why-dr-val">48,200 records</span></div>
+        <div class="why-dash-row"><span class="why-dr-lbl">Duplicate IMO entries removed</span><span class="why-dr-val warn">−2.1% flagged</span></div>
+        <div class="why-dash-row"><span class="why-dr-lbl">Ownership chains structured</span><span class="why-dr-val">6,140 vessels</span></div>
+        <div class="why-dash-row"><span class="why-dr-lbl">Sanctions flags cross-referenced</span><span class="why-dr-val warn">312 matches</span></div>
+        <div class="why-dash-row"><span class="why-dr-lbl">Compliance dataset delivered</span><span class="why-dr-val ok">✓ Complete</span></div>
+      </div>
+      <div class="why-dash">
+        <div class="why-dash-head"><span class="why-dash-title">Annotation Project Sample</span><span class="why-dash-live">LIVE</span></div>
+        <div class="why-dash-row"><span class="why-dr-lbl">Images received for annotation</span><span class="why-dr-val">24,000 frames</span></div>
+        <div class="why-dash-row"><span class="why-dr-lbl">Bounding boxes applied</span><span class="why-dr-val">143,800 labels</span></div>
+        <div class="why-dash-bar-row"><div class="why-dbr-top"><span class="why-dbr-lbl">QA Review Pass Rate</span><span class="why-dbr-val">96.3%</span></div><div class="why-dbr-track"><div class="why-dbr-fill" data-w="96.3%"></div></div></div>
+        <div class="why-dash-bar-row"><div class="why-dbr-top"><span class="why-dbr-lbl">Labeller Accuracy Score</span><span class="why-dbr-val">98.1%</span></div><div class="why-dbr-track"><div class="why-dbr-fill" data-w="98.1%"></div></div></div>
+        <div class="why-dash-row"><span class="why-dr-lbl">Dataset exported to client</span><span class="why-dr-val ok">✓ Delivered</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="rv">
+  <div class="sec-tag">How It Works</div>
+  <h2 class="sec-h2">From Inquiry to <em>Fully Operational</em></h2>
+  <div class="proc-grid">
+    <div class="ps"><div class="ps-ghost">01</div><div class="ps-num">STEP 01</div><div class="ps-title">Discovery Call</div><div class="ps-desc">We learn what you need, what's breaking, and what success looks like. No generic forms.</div></div>
+    <div class="ps"><div class="ps-ghost">02</div><div class="ps-num">STEP 02</div><div class="ps-title">Custom Proposal</div><div class="ps-desc">A tailored plan with clear deliverables, timelines and pricing, built for your business.</div></div>
+    <div class="ps"><div class="ps-ghost">03</div><div class="ps-num">STEP 03</div><div class="ps-title">48h Onboarding</div><div class="ps-desc">Within 48 hours of signing: systems connected, workflows live, communication running.</div></div>
+    <div class="ps"><div class="ps-ghost">04</div><div class="ps-num">STEP 04</div><div class="ps-title">Ongoing Growth</div><div class="ps-desc">Monthly reviews, performance reports and continuous optimisation to maximise your ROI.</div></div>
+  </div>
+</section>
+
+<!-- WHAT HAPPENS NEXT -->
+<section id="next-steps" class="next-steps rv">
+  <div class="sec-tag">What Happens Next</div>
+  <h2 class="sec-h2">No guesswork <em>after you reach out</em></h2>
+  <div class="next-grid">
+    <div class="next-step">
+      <div class="next-num">1</div>
+      <div class="next-text">We review your <strong>enquiry within 24 hours</strong> and route it to the right vertical lead.</div>
+      <span class="next-arrow">→</span>
+    </div>
+    <div class="next-step">
+      <div class="next-num">2</div>
+      <div class="next-text">We send a <strong>tailored capability brief</strong> for your vertical — no generic deck.</div>
+      <span class="next-arrow">→</span>
+    </div>
+    <div class="next-step">
+      <div class="next-num">3</div>
+      <div class="next-text">We schedule a <strong>30-minute discovery call</strong> to scope the work and next steps.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="rv">
+  <video id="cta-video" src="images/d.mp4" loop muted playsinline preload="none"></video>
+  <div class="cta-video-overlay"></div>
+  <div class="cta-content">
+    <div class="cta-tag">// Let's Talk</div>
+    <h2 class="cta-h2">Every Industry<br><em>One Standard.</em></h2>
+    <p class="cta-p">We don't guess. We verify. Every deliverable is researched, cross-checked, and ready to action.</p>
+    <div class="cta-btns">
+      <a href="services.html#cta" class="btn-prime">Send Us Your Enquiry →</a>
+    </div>
+    <div class="cta-contact-line">Or reach us directly at <a href="mailto:info@support.omnipulseagency.com">info@support.omnipulseagency.com</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="fl">
+        <div class="fl-orbit">
+          <div class="fl-ring r1"><div class="fl-dot"></div></div>
+          <div class="fl-ring r2"><div class="fl-dot sm"></div></div>
+          <div class="fl-ring r3"><div class="fl-dot dim"></div></div>
+          <div class="fl-center"></div>
+        </div>
+        <div class="fl-text">OMNI<em>PULSE</em></div>
+      </div>
+      <p class="footer-tagline">Specialist data intelligence and BPO services for industries that can't afford to get it wrong.</p>
+      <div class="footer-location"><i class="ti ti-map-pin"></i> Nairobi, Kenya — serving clients globally</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Quick Links</div>
+      <div class="flinks">
+        <a href="index.html">Home</a>
+        <a href="#partners">Services</a>
+        <a href="#why">Why Us</a>
+        <a href="blog.html">Blog</a>
+        <a href="services.html#cta">Contact</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Get In Touch</div>
+      <div class="footer-contact-list">
+        <a href="mailto:info@support.omnipulseagency.com" class="fl-email">info@support.omnipulseagency.com</a>
+        <!-- Replace with your real LinkedIn company page URL -->
+        <a href="https://www.linkedin.com/company/omnipulse" target="_blank" rel="noopener" class="fl-linkedin"><i class="ti ti-brand-linkedin"></i>Connect on LinkedIn →</a>
+      </div>
+      <div class="trust-chips">
+        <span class="trust-chip">NDA</span>
+        <span class="trust-chip">HIPAA-aware</span>
+        <span class="trust-chip">Data secure</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="fc">© 2025 OmniPulse Agency · All Rights Reserved</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const ring=document.getElementById('cur-ring'),dot=document.getElementById('cur-dot');
+  let mx=0,my=0,rx=0,ry=0,ticking=false;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    dot.style.transform='translate('+mx+'px,'+my+'px) translate(-50%,-50%)';
+    if(!ticking){ticking=true;requestAnimationFrame(step);}
+  },{passive:true});
+  function step(){
+    rx+=(mx-rx)*.13;ry+=(my-ry)*.13;
+    ring.style.transform='translate('+rx+'px,'+ry+'px) translate(-50%,-50%)';
+    if(Math.abs(mx-rx)>.4||Math.abs(my-ry)>.4){requestAnimationFrame(step);}
+    else{ticking=false;}
+  }
+  document.querySelectorAll('a,button,.hstat,.serve-panel,.ss-row,.spanel-cta').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';ring.style.borderColor='rgba(255,255,255,.65)';},{passive:true});
+    el.addEventListener('mouseleave',()=>{ring.style.width='40px';ring.style.height='40px';ring.style.borderColor='var(--o)';},{passive:true});
+  });
+})();
+
+setTimeout(()=>document.getElementById('loader').classList.add('done'),2000);
+
+document.getElementById('theme-btn').addEventListener('click',()=>{
+  const d=document.body.classList.toggle('day-mode');
+  const btn=document.getElementById('theme-btn');
+  btn.textContent=d?'☀️':'🌙';
+  btn.setAttribute('aria-label',d?'Switch to night mode':'Switch to day mode');
+});
+
+const vid=document.getElementById('hero-video');
+const muteBtn=document.getElementById('muteBtn');
+if(muteBtn&&vid){
+  muteBtn.addEventListener('click',()=>{
+    vid.muted=!vid.muted;
+    muteBtn.textContent=vid.muted?'🔇':'🔊';
+  });
+}
+
+['hero-video','cta-video'].forEach(id=>{
+  const v=document.getElementById(id);
+  if(!v)return;
+  const vo=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){v.play().catch(()=>{});}
+      else{v.pause();}
+    });
+  },{threshold:0.1});
+  vo.observe(v);
+});
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.classList.add('vis');
+    e.target.querySelectorAll('.why-dbr-fill').forEach((b,i)=>{
+      setTimeout(()=>{b.style.width=b.dataset.w||'0%';},280+i*180);
+    });
+    obs.unobserve(e.target);
+  });
+},{threshold:0.05,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach((el,i)=>{
+  el.style.transitionDelay=(i%4)*.06+'s';
+  obs.observe(el);
+});
+
+/* Animated counters for hero stat chips */
+(function(){
+  const counters=document.querySelectorAll('.count');
+  if(!counters.length)return;
+  function animateCounter(el){
+    const target=parseInt(el.dataset.target,10)||0;
+    const dur=1400;
+    const start=performance.now();
+    function tick(now){
+      const p=Math.min((now-start)/dur,1);
+      const eased=1-Math.pow(1-p,3);
+      el.textContent=Math.round(eased*target);
+      if(p<1){requestAnimationFrame(tick);}
+      else{el.textContent=target;}
+    }
+    requestAnimationFrame(tick);
+  }
+  let played=false;
+  function playAll(){
+    if(played)return;
+    played=true;
+    counters.forEach(el=>animateCounter(el));
+  }
+  const heroStats=document.querySelector('.hero-side');
+  if(heroStats){
+    const cObs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){playAll();cObs.disconnect();}
+      });
+    },{threshold:0.3});
+    cObs.observe(heroStats);
+  }
+  // Fallback: also trigger once the loader finishes, in case hero is already in view
+  setTimeout(playAll,2200);
+})();
+
+if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+  document.querySelectorAll('*').forEach(el=>{
+    el.style.animationDuration='.01ms';
+    el.style.transitionDuration='.01ms';
+  });
+}
+</script>
+</body>
+</html>
