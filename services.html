@@ -68,116 +68,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 60px;d
 .nav-cta{font-family:'IBM Plex Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;background:var(--o);color:#f0f0ff!important;padding:10px 22px;text-decoration:none;transition:all .3s;box-shadow:0 0 20px var(--glow);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
 .nav-cta:hover{background:var(--o2);box-shadow:0 0 30px rgba(255,92,0,.5);transform:translateY(-2px)}
 
-/* ═══════════════════════════════════════════════
-   PAGE HERO — full-bleed background image
-   ═══════════════════════════════════════════════ */
-#page-hero{
-  position:relative;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  overflow:hidden;
-  padding:140px 60px 100px;
-}
-
-.ph-bg-img{
-  position:absolute;
-  inset:0;
-  background-image:url('images/ship.jpg');
-  background-size:cover;
-  background-position:center 40%;
-  background-repeat:no-repeat;
-  transform:scale(1.05);
-  animation:hero-zoom 20s ease-in-out infinite alternate;
-  z-index:0;
-}
-@keyframes hero-zoom{
-  from{transform:scale(1.05) translate(0,0)}
-  to{transform:scale(1.09) translate(-10px,-5px)}
-}
-
-.ph-overlay{
-  position:absolute;inset:0;z-index:1;
-  background:
-    linear-gradient(105deg,
-      rgba(3,4,10,0.94) 0%,
-      rgba(3,4,10,0.80) 35%,
-      rgba(3,4,10,0.48) 65%,
-      rgba(3,4,10,0.68) 100%
-    ),
-    radial-gradient(ellipse 55% 70% at 12% 65%,
-      rgba(255,92,0,0.09) 0%,
-      transparent 60%
-    );
-}
-
-.ph-grid{
-  position:absolute;inset:0;z-index:2;
-  background-image:
-    linear-gradient(rgba(255,92,0,0.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,92,0,0.035) 1px,transparent 1px);
-  background-size:60px 60px;
-  mask-image:radial-gradient(ellipse 55% 80% at 18% 50%,black 0%,transparent 80%);
-}
-
-.ph-accent-rule{
-  position:absolute;left:60px;top:18%;bottom:18%;width:1px;
-  background:linear-gradient(to bottom,transparent,rgba(255,92,0,0.55) 25%,rgba(255,92,0,0.55) 75%,transparent);
-  z-index:3;opacity:0;animation:slideUp .8s ease forwards 2.1s;
-}
-
-.ph-corner{position:absolute;width:16px;height:16px;z-index:4}
-.ph-corner.tl{top:72px;left:60px;border-top:1.5px solid var(--o);border-left:1.5px solid var(--o);opacity:0;animation:loadIn .5s ease forwards 2.2s}
-.ph-corner.tr{top:72px;right:60px;border-top:1.5px solid var(--o);border-right:1.5px solid var(--o);opacity:0;animation:loadIn .5s ease forwards 2.3s}
-
-.ph-inner{position:relative;z-index:4;max-width:620px}
-
-.ph-breadcrumb{display:flex;align-items:center;gap:10px;margin-bottom:28px;opacity:0;animation:slideUp .7s ease forwards 2.0s}
-.ph-bc-home{font-family:'IBM Plex Sans',sans-serif;font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.5);text-transform:uppercase;text-decoration:none;transition:color .3s}
-.ph-bc-home:hover{color:var(--o)}
-.ph-bc-sep{font-size:10px;color:rgba(255,92,0,0.4)}
-.ph-bc-cur{font-family:'IBM Plex Sans',sans-serif;font-size:10px;letter-spacing:3px;color:var(--o);text-transform:uppercase}
-
-.ph-tag{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:10px;letter-spacing:4px;color:var(--o);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px;opacity:0;animation:slideUp .7s ease forwards 2.1s}
-.ph-tag::before{content:'';width:20px;height:1px;background:var(--o)}
-
-.ph-h1{font-family:'Spectral',serif;font-size:clamp(42px,6.5vw,84px);font-weight:700;line-height:.91;letter-spacing:-2.5px;color:#ffffff;margin-bottom:26px;opacity:0;animation:slideUp .7s ease forwards 2.25s}
-.ph-h1 em{color:var(--o);font-style:normal;text-shadow:0 0 50px rgba(255,92,0,0.35)}
-
-.ph-sub{font-size:16px;color:rgba(255,255,255,0.68);line-height:1.85;max-width:480px;margin-bottom:44px;font-weight:400;opacity:0;animation:slideUp .7s ease forwards 2.4s}
-
-.ph-stats{display:flex;gap:52px;flex-wrap:wrap;margin-bottom:48px;opacity:0;animation:slideUp .7s ease forwards 2.55s}
-.ph-stat-n{font-family:'Spectral',serif;font-size:34px;font-weight:700;color:#fff;line-height:1}
-.ph-stat-n em{color:var(--o);font-style:normal}
-.ph-stat-l{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-top:5px}
-
-.ph-ctas{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:slideUp .7s ease forwards 2.7s}
-.ph-btn-prime{font-family:'IBM Plex Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;background:var(--o);color:#fff!important;padding:14px 30px;text-decoration:none;transition:all .3s;box-shadow:0 0 24px rgba(255,92,0,0.35);clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);display:inline-block;position:relative;overflow:hidden}
-.ph-btn-prime::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);transform:translateX(-100%);transition:transform .5s}
-.ph-btn-prime:hover::after{transform:translateX(100%)}
-.ph-btn-prime:hover{background:var(--o2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,92,0,.45)}
-.ph-btn-ghost{font-family:'IBM Plex Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.7)!important;padding:14px 28px;text-decoration:none;border:1px solid rgba(255,255,255,0.22);transition:all .3s;display:inline-block}
-.ph-btn-ghost:hover{border-color:var(--o);color:var(--o)!important}
-
-.ph-badges-row{
-  position:absolute;bottom:0;left:0;right:0;z-index:5;
-  border-top:1px solid rgba(255,92,0,0.14);
-  background:rgba(3,4,10,0.78);
-  backdrop-filter:blur(16px);
-  display:flex;padding:0 60px;
-  opacity:0;animation:slideUp .7s ease forwards 2.85s;
-}
-.ph-badge-cell{flex:1;display:flex;align-items:center;gap:12px;padding:18px 0;border-right:1px solid rgba(255,92,0,0.1);padding-right:32px;margin-right:32px}
-.ph-badge-cell:last-child{border-right:none;padding-right:0;margin-right:0}
-.ph-badge-icon{font-size:20px;flex-shrink:0;opacity:.88;color:rgba(255,145,80,.9)}
-.ph-badge-title{font-family:'IBM Plex Sans',sans-serif;font-size:8px;font-weight:500;letter-spacing:2px;color:rgba(255,255,255,0.38);text-transform:uppercase;line-height:1;margin-bottom:4px}
-.ph-badge-val{font-family:'Spectral',serif;font-size:13px;font-weight:700;color:#fff;line-height:1.1}
-.ph-badge-sub{font-family:'IBM Plex Sans',sans-serif;font-size:7.5px;letter-spacing:1.5px;color:rgba(255,92,0,0.65);margin-top:3px;text-transform:uppercase}
-
-.ph-divider{position:absolute;bottom:65px;left:0;right:0;height:1px;background:linear-gradient(90deg,rgba(255,92,0,0.4),rgba(255,92,0,0.12) 50%,transparent 80%);opacity:0.3;z-index:4}
-
-@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-
 /* SECTION COMMONS */
 .sec-tag{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:10px;letter-spacing:4px;color:var(--o);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .sec-tag::before{content:'';width:20px;height:1px;background:var(--o)}
@@ -186,7 +76,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 60px;d
 .sec-p{font-size:15px;color:var(--text-bright);line-height:1.85;font-weight:400}
 
 /* SERVICES */
-#services{background:var(--bg);padding:80px 60px 100px;position:relative;overflow:hidden}
+#services{background:var(--bg);padding:140px 60px 100px;position:relative;overflow:hidden}
 
 /* Background image layer — subtle, sits behind the accordion/image panel.
    SWAP the url below to your chosen image. Suggested searches (all free, no attribution needed):
@@ -435,17 +325,10 @@ footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #11
 }
 @media(max-width:900px){
   nav{padding:0 20px}.nav-links{display:none}
-  #page-hero{padding:120px 20px 90px}
-  .ph-accent-rule,.ph-corner.tl{left:20px}.ph-corner.tr{right:20px}
-  .ph-badges-row{padding:0 20px;flex-wrap:wrap}
-  .ph-badge-cell{flex:0 0 calc(50% - 16px);border-right:none}
-  .ph-badge-cell:nth-child(odd){border-right:1px solid rgba(255,92,0,0.1);padding-right:16px;margin-right:16px}
   #services,#coredata,#capabilities{padding:60px 20px}
   .cap-grid{grid-template-columns:1fr 1fr}.cds-grid{grid-template-columns:1fr}
-  .ph-stats{gap:24px}
 }
 @media(max-width:600px){
-  .ph-badges-row{display:none}
   .srv-cat-hd{padding:16px 14px}.srv-item{padding:12px 14px 12px 20px}
   .srv-item:hover,.srv-item.active{padding-left:26px}
   .srv-img-frame{padding-bottom:62%}.cap-grid{grid-template-columns:1fr}
@@ -485,88 +368,6 @@ footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #11
   <button id="theme-btn" aria-label="Toggle day/night mode">🌙</button>
   <a href="#cta" class="nav-cta">Get Started</a>
 </nav>
-
-<!-- PAGE HERO -->
-<section id="page-hero">
-
-  <div class="ph-bg-img"></div>
-  <div class="ph-overlay"></div>
-  <div class="ph-grid"></div>
-  <div class="ph-accent-rule"></div>
-  <div class="ph-corner tl"></div>
-  <div class="ph-corner tr"></div>
-  <div class="ph-divider"></div>
-
-  <div class="ph-inner">
-    <div class="ph-breadcrumb">
-      <a href="index.html" class="ph-bc-home">Home</a>
-      <span class="ph-bc-sep">›</span>
-      <span class="ph-bc-cur">Services</span>
-    </div>
-    <div class="ph-tag">What We Do</div>
-    <h1 class="ph-h1">We handle the work that<br><em>demands precision.</em></h1>
-    <p class="ph-sub">We handle the research, data, and operational work that high-stakes industries cannot afford to get wrong. Every service is designed around your vertical — not adapted from a generic template.</p>
-    <div class="ph-stats">
-      <div class="ph-stat">
-        <div class="ph-stat-n">5<em>+</em></div>
-        <div class="ph-stat-l">Verticals Served</div>
-      </div>
-      <div class="ph-stat">
-        <div class="ph-stat-n">20<em>+</em></div>
-        <div class="ph-stat-l">Service Modules</div>
-      </div>
-      <div class="ph-stat">
-        <div class="ph-stat-n">48<em>h</em></div>
-        <div class="ph-stat-l">Onboarding SLA</div>
-      </div>
-      <div class="ph-stat">
-        <div class="ph-stat-n">AI<em>-native</em></div>
-        <div class="ph-stat-l">Operations Stack</div>
-      </div>
-    </div>
-    <div class="ph-ctas">
-      <a href="#services" class="ph-btn-prime">Explore Services →</a>
-      <a href="#cta" class="ph-btn-ghost">Start A Conversation</a>
-    </div>
-  </div>
-
-  <!-- Bottom data badge strip -->
-  <div class="ph-badges-row">
-    <div class="ph-badge-cell">
-      <span class="ph-badge-icon"><i class="ti ti-anchor"></i></span>
-      <div>
-        <div class="ph-badge-title">Maritime</div>
-        <div class="ph-badge-val">AIS · IMO</div>
-        <div class="ph-badge-sub">Vessel Intelligence</div>
-      </div>
-    </div>
-    <div class="ph-badge-cell">
-      <span class="ph-badge-icon"><i class="ti ti-plane"></i></span>
-      <div>
-        <div class="ph-badge-title">Aviation</div>
-        <div class="ph-badge-val">ADS-B · ICAO</div>
-        <div class="ph-badge-sub">Aircraft Tracking</div>
-      </div>
-    </div>
-    <div class="ph-badge-cell">
-      <span class="ph-badge-icon"><i class="ti ti-cpu"></i></span>
-      <div>
-        <div class="ph-badge-title">AI &amp; NLP</div>
-        <div class="ph-badge-val">RLHF · Labels</div>
-        <div class="ph-badge-sub">Model Training Data</div>
-      </div>
-    </div>
-    <div class="ph-badge-cell">
-      <span class="ph-badge-icon"><i class="ti ti-heart-rate-monitor"></i></span>
-      <div>
-        <div class="ph-badge-title">Healthcare</div>
-        <div class="ph-badge-val">RCM · Clinical</div>
-        <div class="ph-badge-sub">Billing &amp; Records</div>
-      </div>
-    </div>
-  </div>
-
-</section>
 
 <!-- SERVICES ACCORDION -->
 <section id="services" class="rv">
