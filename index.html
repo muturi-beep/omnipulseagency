@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OmniPulse — AI-Powered Operations Agency</title>
+<link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
+<link rel="alternate icon" href="favicon.ico?v=2">
+<link rel="icon" href="favicon-32.png?v=2" sizes="32x32" type="image/png">
+<link rel="icon" href="favicon-16.png?v=2" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Spectral:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,21 +17,20 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --bg:#f0f0e8;--o:#ff5c00;--panel:#ffffff;--border:#d4d4c8;
-  --o2:#ff8800;--w:#1a1a2e;--dim:#e8e8e0;--glow:rgba(255,92,0,.20);
+  --o2:#ff8800;--w:#1a1a2e;--dim:#e8e8e0;
   --text:#5a5a72;--text-bright:#2e2e44;
-  --font-head:'Inter',system-ui,sans-serif;
   --font-body:'Inter',system-ui,sans-serif;
   --font-display:'Spectral',Georgia,serif;
 }
 body.day-mode{
   --bg:#03040a;--panel:#080b16;--border:#111428;--w:#f0f0ff;
-  --dim:#1e2040;--glow:rgba(255,92,0,.25);--text:#c2c2d8;--text-bright:#dcdcf0;
+  --dim:#1e2040;--text:#c2c2d8;--text-bright:#dcdcf0;
 }
 body,section,footer,.ps,.marquee{transition:background .35s,color .35s,border-color .35s}
 nav{transition:none}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--w);font-family:var(--font-body);overflow-x:hidden;cursor:none;-webkit-font-smoothing:antialiased}
-#cursor{position:fixed;pointer-events:none;z-index:9999;contain:strict}
+#cursor{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;contain:layout style}
 #cur-ring{width:40px;height:40px;border:1.5px solid var(--o);border-radius:50%;position:absolute;transform:translate(-50%,-50%);transition:width .22s,height .22s,border-color .22s;will-change:transform}
 #cur-dot{width:6px;height:6px;background:var(--o);border-radius:50%;position:absolute;transform:translate(-50%,-50%);will-change:transform}
 #loader{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;contain:layout}
@@ -65,7 +69,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 60px;d
 .nav-cta{font-family:var(--font-body);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;background:var(--o);color:#f0f0ff!important;padding:10px 22px;text-decoration:none;transition:background .2s,box-shadow .2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
 .nav-cta:hover{background:var(--o2);box-shadow:0 0 20px rgba(255,92,0,.35)}
 #hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;contain:layout}
-#hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
+.hero-video-stage{position:absolute;inset:0;z-index:0;background:#03040a;overflow:hidden}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;opacity:0;transition:opacity 1.1s ease}
+.hero-video.active{opacity:1}
 .hero-video-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(105deg,rgba(3,4,10,.72) 0%,rgba(3,4,10,.45) 50%,rgba(3,4,10,.18) 100%),linear-gradient(to top,rgba(255,92,0,.09) 0%,transparent 40%);pointer-events:none}
 .hero-grid{position:absolute;inset:0;z-index:2;background-image:linear-gradient(rgba(255,92,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,92,0,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%);pointer-events:none}
 .hero-content{position:relative;z-index:3;padding:0 60px;max-width:800px}
@@ -96,6 +102,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 60px;d
 .scroll-txt{font-family:var(--font-body);font-weight:500;font-size:10px;letter-spacing:3px;color:#c2c2d8;text-transform:uppercase}
 .hero-mute{position:absolute;bottom:88px;right:60px;z-index:4;width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(255,255,255,.22);background:rgba(3,4,10,.6);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s,background .2s;opacity:0;animation:loadIn .5s ease forwards 4.2s}
 .hero-mute:hover{border-color:var(--o);background:rgba(255,92,0,.14)}
+.hero-carousel-dots{position:absolute;bottom:88px;left:60px;z-index:4;display:flex;gap:8px;opacity:0;animation:loadIn .5s ease forwards 4.2s}
+.hc-dot{width:22px;height:3px;background:rgba(255,255,255,.25);border:none;padding:0;cursor:pointer;transition:background .3s}
+.hc-dot.active{background:var(--o)}
 .marquee{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--panel);padding:12px 0;overflow:hidden;contain:layout}
 .marquee-track{display:flex;width:max-content;animation:mq 28s linear infinite}
 .marquee:hover .marquee-track{animation-play-state:paused}
@@ -123,8 +132,6 @@ section{padding:100px 60px;position:relative}
 .serve-panel:hover .spanel-peek{opacity:0;transform:translateY(-6px);pointer-events:none}
 .spanel-peek-title{font-family:var(--font-display);font-size:14px;font-weight:700;letter-spacing:.5px;color:#fff;line-height:1.25;text-shadow:0 2px 10px rgba(0,0,0,.6)}
 .spanel-peek-sub{font-family:var(--font-body);font-weight:600;font-size:9px;letter-spacing:2px;color:rgba(255,150,80,.9);text-transform:uppercase;margin-top:6px}
-.spanel-vtitle{position:absolute;bottom:32px;left:50%;transform:translateX(-50%) rotate(-90deg);transform-origin:center;white-space:nowrap;font-family:var(--font-display);font-size:10px;font-weight:600;letter-spacing:3px;color:rgba(255,255,255,.36);text-transform:uppercase;z-index:3;transition:opacity .2s;display:none}
-.serve-panel:hover .spanel-vtitle{opacity:0;pointer-events:none}
 .spanel-badge{position:absolute;top:50%;left:50%;transform:translate(-50%,-42%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;transition:opacity .2s .04s}
 .serve-panel:hover .spanel-badge{opacity:0;pointer-events:none}
 .spanel-badge-icon{font-size:26px;line-height:1;color:rgba(255,145,80,.85);display:inline-flex}
@@ -203,7 +210,7 @@ section{padding:100px 60px;position:relative}
 .ps-title{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--w);margin-bottom:10px;line-height:1.3}
 .ps-desc{font-size:13px;color:var(--text-bright);line-height:1.75;font-weight:400}
 #cta{text-align:center;position:relative;overflow:hidden;padding:140px 60px;content-visibility:auto;contain-intrinsic-size:0 600px}
-#cta-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
+.cta-image{position:absolute;inset:0;background-image:url('images/ship.jpg');background-size:cover;background-position:center;z-index:0;background-color:#03040a}
 .cta-video-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(3,4,10,.72) 0%,rgba(3,4,10,.55) 50%,rgba(3,4,10,.72) 100%);pointer-events:none}
 .cta-content{position:relative;z-index:2}
 .cta-tag{font-family:var(--font-body);font-weight:600;font-size:11px;letter-spacing:4px;color:var(--o);text-transform:uppercase;margin-bottom:20px}
@@ -224,10 +231,7 @@ section{padding:100px 60px;position:relative}
 .next-arrow{position:absolute;top:32px;right:-17px;font-size:16px;color:rgba(255,92,0,.4);z-index:2}
 .next-step:last-child .next-arrow{display:none}
 
-/* Primary CTAs are plain anchors linking to the contact section on services.html */
 .cta-btns,.hero-btns{align-items:center}
-/* Reset UA button defaults so any leftover form buttons match .btn-prime anchor styling */
-button.btn-prime{border:none;-webkit-appearance:none;appearance:none;background-color:var(--o);font-family:var(--font-body);cursor:pointer}
 
 /* Three-column footer */
 footer{padding:32px 60px 0;background:rgba(3,4,10,.96);border-top:1px solid #111428;contain:layout;display:block}
@@ -293,7 +297,7 @@ body.day-mode nav .nav-links a:hover{color:var(--o)}
 @media(max-width:800px){
   .serve-strip{flex-direction:column;height:auto;gap:2px}
   .serve-panel{flex:none!important;min-width:unset;height:auto;min-height:280px}
-  .spanel-vtitle,.spanel-badge,.spanel-peek{display:none}
+  .spanel-badge,.spanel-peek{display:none}
   .spanel-content{opacity:1;transform:none;pointer-events:all;position:relative;inset:auto}
   .spanel-bg{position:absolute;inset:0;filter:brightness(.28) saturate(.55)}
   .spanel-services{grid-template-columns:1fr;column-gap:0}
@@ -336,7 +340,10 @@ body.day-mode nav .nav-links a:hover{color:var(--o)}
 </nav>
 
 <section id="hero">
-  <video id="hero-video" src="images/video.mp4" autoplay loop muted playsinline preload="metadata"></video>
+  <div class="hero-video-stage">
+    <video id="hero-video-a" class="hero-video" muted playsinline preload="auto"></video>
+    <video id="hero-video-b" class="hero-video" muted playsinline preload="none"></video>
+  </div>
   <div class="hero-video-overlay"></div>
   <div class="hero-grid"></div>
   <div class="hero-content">
@@ -347,10 +354,7 @@ body.day-mode nav .nav-links a:hover{color:var(--o)}
       <span class="h1-conn">THAT DEMANDS PRECISION.</span>
     </h1>
     <p class="hero-p">OmniPulse is a specialist data intelligence and BPO firm. We handle the research, data, and communications work that high stakes industries cannot afford to get wrong — wherever that takes us.</p>
-    <div class="hero-btns">
-      <a href="services.html#cta" class="btn-prime">Start A Conversation →</a>
-      <a href="#partners" class="btn-ghost">Explore Services →</a>
-    </div>
+    
   </div>
   <div class="hero-side">
     <div class="hstat"><div class="hstat-n"><span class="count" data-target="5" data-suffix="">0</span><em>+</em></div><div class="hstat-l">Industry Verticals</div></div>
@@ -358,7 +362,29 @@ body.day-mode nav .nav-links a:hover{color:var(--o)}
     <div class="hstat"><div class="hstat-n"><span class="count" data-target="48" data-suffix="">0</span><em>h</em></div><div class="hstat-l">Onboarding</div></div>
     <div class="hstat"><div class="hstat-n">AI<em>-native</em></div><div class="hstat-l">Built for modern orgs</div></div>
   </div>
+  <script>
+  /* Self-contained: runs the instant this markup is parsed, no waiting on load/observers/other scripts */
+  (function(){
+    document.querySelectorAll('.hero-side .count').forEach(function(el){
+      if(el.dataset.animated)return;
+      el.dataset.animated='1';
+      var target=parseInt(el.dataset.target,10)||0;
+      if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent=target;return;}
+      var dur=1400,start=null;
+      function step(ts){
+        if(!start)start=ts;
+        var p=Math.min((ts-start)/dur,1);
+        var eased=1-Math.pow(1-p,3);
+        el.textContent=Math.round(eased*target);
+        if(p<1)requestAnimationFrame(step);
+        else el.textContent=target;
+      }
+      requestAnimationFrame(step);
+    });
+  })();
+  </script>
   <button class="hero-mute" id="muteBtn" aria-label="Toggle video sound">&#x1F507;</button>
+  <div class="hero-carousel-dots" id="heroCarouselDots"></div>
   <div class="scroll-hint"><div class="scroll-line"></div><span class="scroll-txt">Scroll to explore</span></div>
 </section>
 
@@ -385,7 +411,6 @@ body.day-mode nav .nav-links a:hover{color:var(--o)}
       <div class="spanel-tint"></div>
       <div class="spanel-peek"><div class="spanel-peek-title">Maritime Intelligence</div><div class="spanel-peek-sub">05 Services</div></div>
       <div class="spanel-badge"><span class="spanel-badge-icon"><i class="ti ti-anchor"></i></span><span class="spanel-badge-num">05</span></div>
-      <div class="spanel-vtitle">Maritime Intelligence</div>
       <div class="spanel-content">
         <div class="spanel-watermark"><i class="ti ti-anchor"></i></div>
         <div class="spanel-head"><div><div class="spanel-label">Flagship · 05 services</div><div class="spanel-head-left" style="margin-top:5px"><span class="spanel-icon"><i class="ti ti-anchor"></i></span><span class="spanel-title">Maritime Intelligence</span></div><div class="spanel-subtitle">Ownership · Sanctions · Dark fleet · Ocean freight</div></div></div>
@@ -407,7 +432,6 @@ body.day-mode nav .nav-links a:hover{color:var(--o)}
       <div class="spanel-tint"></div>
       <div class="spanel-peek"><div class="spanel-peek-title">Aviation Asset Intelligence</div><div class="spanel-peek-sub">04 Services</div></div>
       <div class="spanel-badge"><span class="spanel-badge-icon"><i class="ti ti-plane"></i></span><span class="spanel-badge-num">04</span></div>
-      <div class="spanel-vtitle">Aviation Asset Intelligence</div>
       <div class="spanel-content">
         <div class="spanel-head"><div><div class="spanel-label">Flagship · 04 services</div><div class="spanel-head-left" style="margin-top:5px"><span class="spanel-icon"><i class="ti ti-plane"></i></span><span class="spanel-title">Aviation Asset Intelligence</span></div><div class="spanel-subtitle">Ownership · ADS-B · Registry tracing · Compliance</div></div></div>
         <div class="spanel-blurb">The same ownership-tracing methodology we apply to vessels, applied to aircraft. Beneficial ownership mapped through FAA, EASA, ICAO and national registries — fused with movement and compliance signals.</div>
@@ -427,7 +451,6 @@ body.day-mode nav .nav-links a:hover{color:var(--o)}
       <div class="spanel-tint"></div>
       <div class="spanel-peek"><div class="spanel-peek-title">Healthcare Data</div><div class="spanel-peek-sub">02 Modules</div></div>
       <div class="spanel-badge"><span class="spanel-badge-icon"><i class="ti ti-heart-rate-monitor"></i></span><span class="spanel-badge-num">03</span></div>
-      <div class="spanel-vtitle">Healthcare Data</div>
       <div class="spanel-content">
         <div class="spanel-head"><div><div class="spanel-label">Service · 02 modules</div><div class="spanel-head-left" style="margin-top:5px"><span class="spanel-icon"><i class="ti ti-heart-rate-monitor"></i></span><span class="spanel-title">Healthcare Data</span></div><div class="spanel-subtitle">Billing records · RCM · Clinical · Medical AI</div></div></div>
         <div class="spanel-blurb">End-to-end healthcare data management for providers, insurers, and medical AI platforms — from billing records and revenue cycle support to clinical dataset preparation.</div>
@@ -446,7 +469,6 @@ body.day-mode nav .nav-links a:hover{color:var(--o)}
       <div class="spanel-tint"></div>
       <div class="spanel-peek"><div class="spanel-peek-title">Logistics Data</div><div class="spanel-peek-sub">02 Modules</div></div>
       <div class="spanel-badge"><span class="spanel-badge-icon"><i class="ti ti-truck"></i></span><span class="spanel-badge-num">02</span></div>
-      <div class="spanel-vtitle">Logistics Data</div>
       <div class="spanel-content">
         <div class="spanel-head"><div><div class="spanel-label">Service · 02 modules</div><div class="spanel-head-left" style="margin-top:5px"><span class="spanel-icon"><i class="ti ti-truck"></i></span><span class="spanel-title">Logistics Data</span></div><div class="spanel-subtitle">Freight billing · Supply chain · Route data</div></div></div>
         <div class="spanel-blurb">Structured data operations for logistics companies, freight operators, and supply chain platforms — turning raw logistics data into audit-ready records and actionable intelligence.</div>
@@ -465,7 +487,6 @@ body.day-mode nav .nav-links a:hover{color:var(--o)}
       <div class="spanel-tint"></div>
       <div class="spanel-peek"><div class="spanel-peek-title">AI &amp; Visual Data</div><div class="spanel-peek-sub">04 Modules</div></div>
       <div class="spanel-badge"><span class="spanel-badge-icon"><i class="ti ti-cpu"></i></span><span class="spanel-badge-num">04</span></div>
-      <div class="spanel-vtitle">AI &amp; Visual Data</div>
       <div class="spanel-content">
         <div class="spanel-head"><div><div class="spanel-label">Service · 04 modules</div><div class="spanel-head-left" style="margin-top:5px"><span class="spanel-icon"><i class="ti ti-cpu"></i></span><span class="spanel-title">AI &amp; Visual Data</span></div><div class="spanel-subtitle">Annotation · NLP · RLHF · Model QA</div></div></div>
         <div class="spanel-blurb">High-precision annotation and model evaluation — with particular strength in African languages, faces, and landscapes. Training data that is globally scarce and that we sit at the source of.</div>
@@ -555,7 +576,7 @@ body.day-mode nav .nav-links a:hover{color:var(--o)}
 
 <!-- CTA -->
 <section id="cta" class="rv">
-  <video id="cta-video" src="images/d.mp4" loop muted playsinline preload="none"></video>
+  <div class="cta-image"></div>
   <div class="cta-video-overlay"></div>
   <div class="cta-content">
     <div class="cta-tag">// Let's Talk</div>
@@ -589,7 +610,6 @@ body.day-mode nav .nav-links a:hover{color:var(--o)}
         <a href="index.html">Home</a>
         <a href="#partners">Services</a>
         <a href="#why">Why Us</a>
-        <a href="blog.html">Blog</a>
         <a href="services.html#cta">Contact</a>
       </div>
     </div>
@@ -633,36 +653,147 @@ body.day-mode nav .nav-links a:hover{color:var(--o)}
   });
 })();
 
-setTimeout(()=>document.getElementById('loader').classList.add('done'),2000);
+setTimeout(()=>{const l=document.getElementById('loader');if(l)l.classList.add('done');},2000);
+</script>
 
-document.getElementById('theme-btn').addEventListener('click',()=>{
-  const d=document.body.classList.toggle('day-mode');
-  const btn=document.getElementById('theme-btn');
-  btn.textContent=d?'☀️':'🌙';
-  btn.setAttribute('aria-label',d?'Switch to night mode':'Switch to day mode');
-});
-
-const vid=document.getElementById('hero-video');
-const muteBtn=document.getElementById('muteBtn');
-if(muteBtn&&vid){
-  muteBtn.addEventListener('click',()=>{
-    vid.muted=!vid.muted;
-    muteBtn.textContent=vid.muted?'🔇':'🔊';
+<script>
+/* Isolated in its own <script> tag so a failure here can never block the counters below */
+const themeBtn=document.getElementById('theme-btn');
+if(themeBtn){
+  themeBtn.addEventListener('click',()=>{
+    const d=document.body.classList.toggle('day-mode');
+    themeBtn.textContent=d?'☀️':'🌙';
+    themeBtn.setAttribute('aria-label',d?'Switch to night mode':'Switch to day mode');
   });
 }
+</script>
 
-['hero-video','cta-video'].forEach(id=>{
-  const v=document.getElementById(id);
-  if(!v)return;
+<script>
+/* Hero video carousel — two stacked <video> elements crossfade between clips.
+   Drop your files in as: images/hero-maritime.mp4, hero-aviation.mp4, hero-healthcare.mp4,
+   hero-logistics.mp4, hero-ai.mp4 (plus matching .jpg posters) — or edit the array below
+   to point at whatever filenames you actually use. Keep each clip ~8-15s, muted, no audio
+   track, encoded with +faststart (see chat for the exact ffmpeg command) so the next clip
+   is always fully buffered before it's needed — that's what keeps the loop lag-free. */
+(function(){
+  const stage=document.querySelector('.hero-video-stage');
+  if(!stage)return;
+
+  const playlist=[
+    {src:'images/shiphero.mp4',   poster:'images/hero-maritime.jpg',   label:'Maritime'},
+    {src:'images/aviationhero.mp4',   poster:'images/hero-aviation.jpg',   label:'Aviation'},
+    {src:'images/healthhero.mp4', poster:'images/hero-healthcare.jpg', label:'Healthcare'},
+    {src:'images/logisticshero.mp4',  poster:'images/hero-logistics.jpg',  label:'Logistics'},
+    {src:'images/AIhero.mp4',         poster:'images/hero-ai.jpg',         label:'AI & Visual'}
+  ];
+
+  const videos=[document.getElementById('hero-video-a'),document.getElementById('hero-video-b')];
+  const dotsWrap=document.getElementById('heroCarouselDots');
+  let front=0;          // index into videos[] currently visible
+  let idx=0;             // index into playlist currently showing
+  let inView=true;
+  let dots=[];
+
+  if(dotsWrap){
+    dots=playlist.map((item,i)=>{
+      const b=document.createElement('button');
+      b.className='hc-dot'+(i===0?' active':'');
+      b.setAttribute('aria-label','Show '+item.label+' clip');
+      b.addEventListener('click',()=>{ if(i!==idx) jumpTo(i); });
+      dotsWrap.appendChild(b);
+      return b;
+    });
+  }
+
+  function updateDots(){
+    dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
+  }
+
+  function loadInto(videoEl,item){
+    videoEl.src=item.src;
+    if(item.poster)videoEl.poster=item.poster;
+    videoEl.load();
+  }
+
+  function showFront(){
+    videos[front].classList.add('active');
+    videos[1-front].classList.remove('active');
+  }
+
+  function preloadNext(){
+    const nextItem=playlist[(idx+1)%playlist.length];
+    loadInto(videos[1-front],nextItem);
+  }
+
+  function playFront(){
+    if(!inView)return;
+    videos[front].currentTime=0;
+    videos[front].play().catch(()=>{});
+  }
+
+  function advance(){
+    idx=(idx+1)%playlist.length;
+    front=1-front;
+    showFront();
+    playFront();
+    updateDots();
+    preloadNext();
+  }
+
+  function jumpTo(targetIdx){
+    idx=targetIdx;
+    front=1-front;
+    loadInto(videos[front],playlist[idx]);
+    videos[front].addEventListener('canplay',function once(){
+      videos[front].removeEventListener('canplay',once);
+      showFront();
+      playFront();
+    });
+    updateDots();
+    preloadNext();
+  }
+
+  // init: load first clip into both slots' "front", preload the second into the back
+  loadInto(videos[front],playlist[idx]);
+  showFront();
+  videos[front].addEventListener('canplay',playFront,{once:true});
+  preloadNext();
+
+  videos.forEach(v=>{
+    v.addEventListener('ended',()=>{ if(v===videos[front])advance(); });
+  });
+
+  // Pause the visible clip when the hero scrolls out of view; resume when it's back
   const vo=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
-      if(e.isIntersecting){v.play().catch(()=>{});}
-      else{v.pause();}
+      inView=e.isIntersecting;
+      if(inView)videos[front].play().catch(()=>{});
+      else videos[front].pause();
     });
   },{threshold:0.1});
-  vo.observe(v);
-});
+  vo.observe(stage);
 
+  window.__heroMuteToggle=function(){
+    const nowMuted=!videos[front].muted;
+    videos.forEach(v=>v.muted=nowMuted);
+    return nowMuted;
+  };
+})();
+</script>
+
+<script>
+/* Mute toggle for hero video carousel */
+const muteBtn=document.getElementById('muteBtn');
+if(muteBtn){
+  muteBtn.addEventListener('click',()=>{
+    const nowMuted=window.__heroMuteToggle?window.__heroMuteToggle():true;
+    muteBtn.textContent=nowMuted?'🔇':'🔊';
+  });
+}
+</script>
+
+<script>
+/* Scroll reveal */
 const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(!e.isIntersecting)return;
@@ -677,49 +808,7 @@ document.querySelectorAll('.rv').forEach((el,i)=>{
   el.style.transitionDelay=(i%4)*.06+'s';
   obs.observe(el);
 });
-
-/* Animated counters for hero stat chips */
-(function(){
-  const counters=document.querySelectorAll('.count');
-  if(!counters.length)return;
-  function animateCounter(el){
-    const target=parseInt(el.dataset.target,10)||0;
-    const dur=1400;
-    const start=performance.now();
-    function tick(now){
-      const p=Math.min((now-start)/dur,1);
-      const eased=1-Math.pow(1-p,3);
-      el.textContent=Math.round(eased*target);
-      if(p<1){requestAnimationFrame(tick);}
-      else{el.textContent=target;}
-    }
-    requestAnimationFrame(tick);
-  }
-  let played=false;
-  function playAll(){
-    if(played)return;
-    played=true;
-    counters.forEach(el=>animateCounter(el));
-  }
-  const heroStats=document.querySelector('.hero-side');
-  if(heroStats){
-    const cObs=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){playAll();cObs.disconnect();}
-      });
-    },{threshold:0.3});
-    cObs.observe(heroStats);
-  }
-  // Fallback: also trigger once the loader finishes, in case hero is already in view
-  setTimeout(playAll,2200);
-})();
-
-if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){
-  document.querySelectorAll('*').forEach(el=>{
-    el.style.animationDuration='.01ms';
-    el.style.transitionDuration='.01ms';
-  });
-}
 </script>
+
 </body>
 </html>
