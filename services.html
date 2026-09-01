@@ -1,1172 +1,2622 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OmniPulse — Services</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#f0f0e8;--o:#ff5c00;--panel:#ffffff;--border:#d4d4c8;--o2:#ff8800;--w:#1a1a2e;--dim:#e8e8e0;--glow:rgba(255,92,0,0.20);--text:#5a5a72;--text-bright:#2e2e44;
-}
-body.day-mode{
-  --bg:#03040a;--panel:#080b16;--border:#111428;--w:#f0f0ff;--dim:#1e2040;--glow:rgba(255,92,0,0.25);--text:#c2c2d8;--text-bright:#dcdcf0;
-}
-body.day-mode nav{background:rgba(3,4,10,0.85)!important;border-bottom-color:#111428!important}
-body.day-mode nav .logo-text,body.day-mode nav .nav-links a,body.day-mode nav #theme-btn{color:#e0e0f4}
-body.day-mode nav .nav-links a:hover{color:var(--o)}
-body.day-mode nav #theme-btn{border-color:rgba(255,255,255,0.20);color:#e0e0f4}
-body,section,footer{transition:background 0.35s ease,color 0.35s ease,border-color 0.35s ease}
-nav{transition:none}
-#theme-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.20);background:transparent;color:var(--w);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;line-height:1;padding:0}
-#theme-btn:hover{border-color:var(--o);background:rgba(255,92,0,0.12);transform:scale(1.1) rotate(15deg)}
-html{scroll-behavior:smooth}
-/* Standard/default browser cursor is used throughout this page (no custom cursor). */
-body{background:var(--bg);color:var(--w);font-family:'IBM Plex Sans',sans-serif;overflow-x:hidden;cursor:auto}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OmniPulse — Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" />
+    <style>
+        /* ===== RESET & ROOT ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg: #f0f0e8;
+            --o: #ff5c00;
+            --panel: #ffffff;
+            --border: #d4d4c8;
+            --o2: #ff8800;
+            --w: #1a1a2e;
+            --dim: #e8e8e0;
+            --glow: rgba(255, 92, 0, 0.20);
+            --text: #5a5a72;
+            --text-bright: #2e2e44;
+        }
+        body.day-mode {
+            --bg: #03040a;
+            --panel: #080b16;
+            --border: #111428;
+            --w: #f0f0ff;
+            --dim: #1e2040;
+            --glow: rgba(255, 92, 0, 0.25);
+            --text: #c2c2d8;
+            --text-bright: #dcdcf0;
+        }
+        body.day-mode nav {
+            background: rgba(3, 4, 10, 0.85) !important;
+            border-bottom-color: #111428 !important;
+        }
+        body.day-mode nav .logo-text,
+        body.day-mode nav .nav-links a,
+        body.day-mode nav #theme-btn {
+            color: #e0e0f4;
+        }
+        body.day-mode nav .nav-links a:hover {
+            color: var(--o);
+        }
+        body.day-mode nav #theme-btn {
+            border-color: rgba(255, 255, 255, 0.20);
+            color: #e0e0f4;
+        }
+        body,
+        section,
+        footer {
+            transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+        }
+        nav {
+            transition: none;
+        }
+        #theme-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.20);
+            background: transparent;
+            color: var(--w);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all .3s;
+            line-height: 1;
+            padding: 0;
+        }
+        #theme-btn:hover {
+            border-color: var(--o);
+            background: rgba(255, 92, 0, 0.12);
+            transform: scale(1.1) rotate(15deg);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
 
-/* LOADER */
-#loader{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px}
-.load-logo{font-family:'IBM Plex Sans',sans-serif;font-size:32px;font-weight:800;letter-spacing:6px;color:var(--w);opacity:0;animation:loadIn 0.6s ease forwards 0.3s}
-.load-logo em{color:var(--o);font-style:normal}
-.load-bar-wrap{width:280px;height:2px;background:var(--dim);overflow:hidden}
-.load-bar{height:100%;width:0;background:linear-gradient(90deg,var(--o),var(--o2));animation:loadBar 1.4s ease-out forwards 0.5s;box-shadow:0 0 10px var(--o)}
-.load-pct{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:11px;letter-spacing:3px;color:var(--text);margin-top:8px;opacity:0;animation:loadIn 0.4s ease forwards 0.8s}
-@keyframes loadIn{to{opacity:1}}
-@keyframes loadBar{to{width:100%}}
-#loader.done{animation:fadeOut 0.5s ease forwards;pointer-events:none}
-@keyframes fadeOut{to{opacity:0;visibility:hidden}}
+        /* --- BASE TYPOGRAPHY (12px body, 100% line-height, 70ch) --- */
+        body {
+            background: var(--bg);
+            color: var(--w);
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 12px;
+            line-height: 1.0;
+            overflow-x: hidden;
+            cursor: auto;
+        }
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(3,4,10,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transform:translateY(-100%);animation:navDrop 0.6s ease forwards 1.8s;gap:16px}
-@keyframes navDrop{to{transform:translateY(0)}}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.logo-orbit-wrap{position:relative;width:38px;height:38px;flex-shrink:0}
-.lo-ring{position:absolute;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid rgba(255,92,0,0.28)}
-.lo-ring.r1{width:16px;height:16px;animation:spin-logo 4s linear infinite}
-.lo-ring.r2{width:26px;height:26px;animation:spin-logo 7s linear infinite reverse}
-.lo-ring.r3{width:36px;height:36px;animation:spin-logo 12s linear infinite;border-style:dashed;border-color:rgba(255,92,0,0.15)}
-.lo-dot{position:absolute;top:-4px;left:50%;width:7px;height:7px;border-radius:50%;background:#ff5c00;transform:translate(-50%,-50%);box-shadow:0 0 10px #ff5c00,0 0 20px rgba(255,92,0,0.4)}
-.lo-dot.sm{width:5px;height:5px;top:-2.5px;background:#ff8800;box-shadow:0 0 7px #ff8800}
-.lo-dot.dim{width:4px;height:4px;top:-2px;background:rgba(255,92,0,0.5);box-shadow:none}
-.lo-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:6px;height:6px;border-radius:50%;background:#ff5c00;box-shadow:0 0 10px #ff5c00,0 0 20px rgba(255,92,0,0.5);z-index:2}
-.lo-pulse{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;border:1px solid rgba(255,92,0,0.5);animation:lo-pulse-out 2.5s ease-out infinite;pointer-events:none}
-.lo-pulse:nth-child(2){animation-delay:.9s}
-@keyframes spin-logo{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
-@keyframes lo-pulse-out{0%{width:12px;height:12px;opacity:.7}100%{width:38px;height:38px;opacity:0}}
-.logo-text{font-family:'IBM Plex Sans',sans-serif;font-size:16px;font-weight:700;letter-spacing:3px;color:#f0f0ff}
-.logo-text em{color:var(--o);font-style:normal}
-.logo-suffix{font-family:'IBM Plex Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:3px;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-left:2px;align-self:flex-end;padding-bottom:2px}
-.nav-links{display:flex;gap:32px;list-style:none}
-.nav-links a{font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:2px;color:#e0e0f4;text-decoration:none;transition:color .3s;text-transform:uppercase}
-.nav-links a:hover,.nav-links a.active{color:var(--o)}
-.nav-cta{font-family:'IBM Plex Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;background:var(--o);color:#f0f0ff!important;padding:10px 22px;text-decoration:none;transition:all .3s;box-shadow:0 0 20px var(--glow);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
-.nav-cta:hover{background:var(--o2);box-shadow:0 0 30px rgba(255,92,0,.5);transform:translateY(-2px)}
+        /* Main headlines: 24px */
+        .sec-h2,
+        .cta-hero-band .sec-h2 {
+            font-size: 24px !important;
+            line-height: 1.0 !important;
+            letter-spacing: -0.5px;
+        }
 
-/* SECTION COMMONS */
-.sec-tag{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:10px;letter-spacing:4px;color:var(--o);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.sec-tag::before{content:'';width:20px;height:1px;background:var(--o)}
-.sec-h2{font-family:'IBM Plex Sans',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:700;line-height:1.05;letter-spacing:-1px;margin-bottom:16px}
-.sec-h2 em{color:var(--o);font-style:normal}
-.sec-p{font-size:15px;color:var(--text-bright);line-height:1.85;font-weight:400}
+        /* Subheadings (card titles, section titles, etc.): 20px */
+        .wwd-title,
+        .cds-title,
+        .cap-title,
+        .srv-cat-name,
+        .srv-item-title,
+        .methodology-toggle-title {
+            font-size: 20px !important;
+            line-height: 1.0 !important;
+            letter-spacing: -0.2px;
+        }
 
-/* WHAT WE DO — capability-first section (new), shown before the industry accordion.
-   Reuses the same card language as #capabilities further down the page. */
-#what-we-do{background:var(--panel);padding:140px 60px 90px}
-.wwd-intro{max-width:700px;margin-bottom:48px}
-.wwd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border)}
-.wwd-card{background:var(--bg);padding:28px 24px;transition:all .3s;position:relative;display:flex;flex-direction:column;gap:10px}
-.wwd-card:hover{background:rgba(255,92,0,0.05)}
-.wwd-num{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;letter-spacing:2px;color:var(--o);font-weight:500}
-.wwd-title{font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:700;color:var(--w);line-height:1.3}
-.wwd-desc{font-size:12px;color:var(--text-bright);line-height:1.7;font-weight:400}
-.wwd-link{font-family:'IBM Plex Sans',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--o);text-decoration:none;margin-top:4px}
-.wwd-link:hover{color:var(--o2)}
-body.day-mode .wwd-card{background:var(--panel)}
-body.day-mode .wwd-card:hover{background:rgba(255,92,0,0.06)}
-@media(max-width:900px){.wwd-grid{grid-template-columns:1fr}#what-we-do{padding:120px 20px 60px}}
+        /* Body text: 12px, line-height 1.0, max-width 70ch */
+        .sec-p,
+        .wwd-desc,
+        .cds-desc,
+        .cap-desc,
+        .srv-item-desc,
+        .srv-cat-intro,
+        .contact-response-text,
+        .footer-tagline,
+        .contact-alt,
+        .cf-status,
+        .srv-img-info-desc,
+        .srv-panel-cat,
+        .srv-cat-sub,
+        .cds-pill,
+        .sit,
+        .cap-stat-l,
+        .trust-chip,
+        .fc,
+        .srv-cat-count,
+        .srv-cat-arrow,
+        .logo-suffix,
+        .nav-links a,
+        .nav-cta,
+        .sec-tag,
+        .cds-num,
+        .wwd-num,
+        .cap-num,
+        .srv-item-num,
+        .srv-img-tag,
+        .srv-img-caption,
+        .methodology-toggle-sub,
+        .fl-text,
+        .footer-location,
+        .flinks a,
+        .fl-email,
+        .fl-linkedin,
+        .cf-label,
+        .cf-input,
+        .cf-submit,
+        .contact-response-title {
+            font-size: 12px !important;
+            line-height: 1.0 !important;
+        }
 
-/* SERVICES (industry deep-dives) */
-#services{background:var(--bg);padding:80px 60px 100px;position:relative;overflow:hidden}
+        /* Limit text blocks to 70 characters per line */
+        .sec-p,
+        .wwd-desc,
+        .cds-desc,
+        .cap-desc,
+        .srv-item-desc,
+        .srv-cat-intro,
+        .contact-response-text,
+        .footer-tagline,
+        .contact-alt,
+        .srv-img-info-desc,
+        .hero-p,
+        .cta-p,
+        .why-subline,
+        .partners-intro p,
+        .why-point-desc,
+        .cta-contact-line {
+            max-width: 70ch !important;
+        }
 
-/* Hero video background classes — same implementation as the homepage hero (index.html):
-   autoplay, muted, looped, inline video with a dark gradient overlay for legibility.
-   Used on the CTA/contact section below (#cta), not here — kept as shared, reusable
-   classes so both pages/sections stay in sync if the clip ever changes. */
-.hero-video-stage{position:absolute;inset:0;z-index:0;background:#03040a;overflow:hidden}
-.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;opacity:0;transition:opacity 1.1s ease}
-.hero-video.active{opacity:1}
-.hero-video-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(105deg,rgba(3,4,10,.72) 0%,rgba(3,4,10,.45) 50%,rgba(3,4,10,.18) 100%),linear-gradient(to top,rgba(255,92,0,.09) 0%,transparent 40%);pointer-events:none}
-.services-bg-overlay{
-  position:absolute;inset:0;z-index:0;
-  background:
-    linear-gradient(180deg,var(--bg) 0%,transparent 14%,transparent 78%,var(--bg) 100%),
-    radial-gradient(ellipse 60% 45% at 85% 8%,rgba(255,92,0,0.12) 0%,transparent 65%);
-  pointer-events:none;
-}
-#services > .sec-tag,#services > .sec-h2,#services > .sec-p,#services > .srv-layout{position:relative;z-index:1}
+        /* Adjust hero/cta bands to accommodate 70ch comfortably */
+        .cta-hero-band {
+            padding: 0 60px;
+        }
+        .cta-hero-band .sec-h2 {
+            max-width: 80ch;
+        }
 
-.srv-layout{display:grid;grid-template-columns:1fr 380px;gap:2px;background:var(--border);margin-top:48px;align-items:start}
-.srv-accordion{background:var(--bg);display:flex;flex-direction:column}
-.srv-cat{border-bottom:1px solid var(--border);scroll-margin-top:100px}
-.srv-cat:last-child{border-bottom:none}
-.srv-cat-hd{display:flex;align-items:center;gap:16px;padding:20px 24px;cursor:pointer;background:transparent;border:none;width:100%;text-align:left;transition:background .25s;position:relative;overflow:hidden}
-.srv-cat-hd::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--o);transform:scaleY(0);transform-origin:top;transition:transform .35s}
-.srv-cat.open .srv-cat-hd::after,.srv-cat-hd:hover::after{transform:scaleY(1)}
-.srv-cat-hd:hover{background:rgba(255,92,0,0.04)}
-.srv-cat.open .srv-cat-hd{background:rgba(255,92,0,0.06)}
-.srv-cat-icon{font-size:19px;flex-shrink:0;width:32px;text-align:center;color:var(--o)}
-.srv-cat-label{flex:1}
-.srv-cat-name{font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;color:var(--w);letter-spacing:.5px;line-height:1}
-.srv-cat-sub{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:9px;letter-spacing:2px;color:var(--text);text-transform:uppercase;margin-top:4px}
-.srv-cat-count{font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:500;font-size:10px;letter-spacing:1px;color:var(--text);margin-right:4px}
-.srv-cat-arrow{width:18px;height:18px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .35s;color:var(--text);font-size:9px}
-.srv-cat.open .srv-cat-arrow{background:var(--o);border-color:var(--o);color:#fff;transform:rotate(180deg)}
-.srv-items{max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(0.22,1,0.36,1)}
-.srv-cat.open .srv-items{max-height:3000px}
-.srv-item{display:flex;align-items:flex-start;gap:12px;padding:14px 24px 14px 32px;border-top:1px solid rgba(17,20,40,0.6);cursor:pointer;transition:background .2s,padding .2s;position:relative}
-.srv-item:hover{background:rgba(255,92,0,0.04);padding-left:40px}
-.srv-item.active{background:rgba(255,92,0,0.08);padding-left:40px;border-left:2px solid var(--o)}
-.srv-item-num{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:9px;letter-spacing:2px;color:var(--o);flex-shrink:0;margin-top:2px;width:24px}
-.srv-item-body{flex:1}
-.srv-item-icon{font-size:15px;margin-bottom:3px;color:rgba(255,92,0,.65)}
-.srv-item-title{font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;color:var(--w);margin-bottom:4px;line-height:1.3}
-.srv-item-desc{font-size:12px;color:var(--text-bright);line-height:1.6;font-weight:400}
-.srv-item-chevron{font-size:10px;color:var(--text);flex-shrink:0;margin-top:2px;transition:color .2s,transform .2s}
-.srv-item:hover .srv-item-chevron,.srv-item.active .srv-item-chevron{color:var(--o);transform:translateX(3px)}
-.srv-img-panel{background:var(--panel);display:flex;flex-direction:column;position:sticky;top:120px;align-self:start}
-.srv-img-frame{position:relative;width:100%;padding-bottom:72%;overflow:hidden;background:#07090f;flex-shrink:0}
-.srv-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;opacity:0;transition:opacity .5s ease,transform .55s ease;transform:scale(1.03);filter:brightness(0.88) saturate(1.1)}
-.srv-img.visible{opacity:1;transform:scale(1)}
-.srv-img-bg{position:absolute;inset:0;opacity:0;transition:opacity .5s ease}
-.srv-img-bg.visible{opacity:1}
-.srv-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(3,4,10,0.35) 0%,transparent 28%,transparent 68%,rgba(3,4,10,0.55) 100%);pointer-events:none;z-index:2}
-.srv-img-meta{position:absolute;bottom:0;left:0;right:0;z-index:3;padding:16px 18px}
-.srv-img-tag{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:8px;letter-spacing:3px;color:var(--o);text-transform:uppercase;margin-bottom:5px;opacity:0;transform:translateY(6px);transition:opacity .35s .1s,transform .35s .1s}
-.srv-img-tag.show{opacity:1;transform:translateY(0)}
-.srv-img-caption{font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;color:#fff;line-height:1.2;opacity:0;transform:translateY(8px);transition:opacity .35s .18s,transform .35s .18s}
-.srv-img-caption.show{opacity:1;transform:translateY(0)}
-.srv-img-info{padding:16px 18px;border-top:1px solid var(--border);flex:1}
-.srv-img-info-desc{font-size:12px;color:var(--text-bright);line-height:1.7;font-weight:400;min-height:56px;transition:opacity .3s}
-.srv-panel-bar{background:rgba(255,92,0,0.06);border-top:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.srv-panel-cat{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:9px;letter-spacing:2px;color:var(--text-bright);text-transform:uppercase}
-.srv-panel-dot{width:6px;height:6px;border-radius:50%;background:var(--o);box-shadow:0 0 8px var(--o);animation:pulse 2s ease-in-out infinite}
-body.day-mode .srv-accordion,body.day-mode .srv-img-panel{background:var(--panel)}
-body.day-mode .srv-cat-hd:hover,body.day-mode .srv-cat.open .srv-cat-hd{background:rgba(255,92,0,0.06)}
-body.day-mode .srv-item:hover,body.day-mode .srv-item.active{background:rgba(255,92,0,0.06)}
-body.day-mode .srv-panel-bar,body.day-mode .srv-img-info{background:var(--panel)}
-body.day-mode .srv-img-frame{background:#e8e8e0}
+        /* --- END TYPOGRAPHY TWEAKS --- */
 
-/* ACCORDION INTRO TEXT */
-.srv-cat-intro{
-  font-family:'IBM Plex Sans',sans-serif;font-size:12px;color:var(--text-bright);
-  line-height:1.75;font-weight:400;
-  padding:14px 24px 10px;
-  border-top:1px solid rgba(17,20,40,0.5);
-  border-left:2px solid rgba(255,92,0,0.25);
-  background:rgba(255,92,0,0.025);
-}
-body.day-mode .srv-cat-intro{
-  border-top-color:rgba(255,255,255,0.06);
-  background:rgba(255,92,0,0.04);
-}
-.cross-link{color:var(--o);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(255,92,0,0.4);transition:border-color .2s,opacity .2s}
-.cross-link:hover{border-color:var(--o);opacity:.85}
+        /* ===== LOADER ===== */
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+        .load-logo {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 6px;
+            color: var(--w);
+            opacity: 0;
+            animation: loadIn 0.6s ease forwards 0.3s;
+        }
+        .load-logo em {
+            color: var(--o);
+            font-style: normal;
+        }
+        .load-bar-wrap {
+            width: 280px;
+            height: 2px;
+            background: var(--dim);
+            overflow: hidden;
+        }
+        .load-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--o), var(--o2));
+            animation: loadBar 1.4s ease-out forwards 0.5s;
+            box-shadow: 0 0 10px var(--o);
+        }
+        .load-pct {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: var(--text);
+            margin-top: 8px;
+            opacity: 0;
+            animation: loadIn 0.4s ease forwards 0.8s;
+        }
+        @keyframes loadIn {
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes loadBar {
+            to {
+                width: 100%;
+            }
+        }
+        #loader.done {
+            animation: fadeOut 0.5s ease forwards;
+            pointer-events: none;
+        }
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
 
-/* ACCORDION ITEM TAGS / PILLS */
-.srv-item-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-.sit{
-  font-family:'IBM Plex Sans',sans-serif;font-size:8px;letter-spacing:1px;
-  color:var(--text-bright);border:1px solid var(--border);
-  padding:3px 8px;font-weight:500;
-}
-body.day-mode .sit{border-color:#111428;color:#c2c2d8}
+        /* ===== NAV ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            height: 64px;
+            padding: 0 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(3, 4, 10, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transform: translateY(-100%);
+            animation: navDrop 0.6s ease forwards 1.8s;
+            gap: 16px;
+        }
+        @keyframes navDrop {
+            to {
+                transform: translateY(0);
+            }
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .logo-orbit-wrap {
+            position: relative;
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+        }
+        .lo-ring {
+            position: absolute;
+            border-radius: 50%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255, 92, 0, 0.28);
+        }
+        .lo-ring.r1 {
+            width: 16px;
+            height: 16px;
+            animation: spin-logo 4s linear infinite;
+        }
+        .lo-ring.r2 {
+            width: 26px;
+            height: 26px;
+            animation: spin-logo 7s linear infinite reverse;
+        }
+        .lo-ring.r3 {
+            width: 36px;
+            height: 36px;
+            animation: spin-logo 12s linear infinite;
+            border-style: dashed;
+            border-color: rgba(255, 92, 0, 0.15);
+        }
+        .lo-dot {
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #ff5c00;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px #ff5c00, 0 0 20px rgba(255, 92, 0, 0.4);
+        }
+        .lo-dot.sm {
+            width: 5px;
+            height: 5px;
+            top: -2.5px;
+            background: #ff8800;
+            box-shadow: 0 0 7px #ff8800;
+        }
+        .lo-dot.dim {
+            width: 4px;
+            height: 4px;
+            top: -2px;
+            background: rgba(255, 92, 0, 0.5);
+            box-shadow: none;
+        }
+        .lo-center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ff5c00;
+            box-shadow: 0 0 10px #ff5c00, 0 0 20px rgba(255, 92, 0, 0.5);
+            z-index: 2;
+        }
+        .lo-pulse {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 92, 0, 0.5);
+            animation: lo-pulse-out 2.5s ease-out infinite;
+            pointer-events: none;
+        }
+        .lo-pulse:nth-child(2) {
+            animation-delay: .9s;
+        }
+        @keyframes spin-logo {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+        @keyframes lo-pulse-out {
+            0% {
+                width: 12px;
+                height: 12px;
+                opacity: .7;
+            }
+            100% {
+                width: 38px;
+                height: 38px;
+                opacity: 0;
+            }
+        }
+        .logo-text {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #f0f0ff;
+        }
+        .logo-text em {
+            color: var(--o);
+            font-style: normal;
+        }
+        .logo-suffix {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            margin-left: 2px;
+            align-self: flex-end;
+            padding-bottom: 2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            color: #e0e0f4;
+            text-decoration: none;
+            transition: color .3s;
+            text-transform: uppercase;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--o);
+        }
+        .nav-cta {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: var(--o);
+            color: #f0f0ff !important;
+            padding: 10px 22px;
+            text-decoration: none;
+            transition: all .3s;
+            box-shadow: 0 0 20px var(--glow);
+            clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+        }
+        .nav-cta:hover {
+            background: var(--o2);
+            box-shadow: 0 0 30px rgba(255, 92, 0, .5);
+            transform: translateY(-2px);
+        }
 
-/* METHODOLOGY (formerly Core Data Services) — collapsible wrapper */
-#coredata{background:var(--panel);padding:80px 60px}
-.cds-intro{max-width:680px;margin-bottom:0}
-.methodology-toggle{display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%;background:transparent;border:none;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:22px 0;margin-top:32px;cursor:pointer;text-align:left}
-.methodology-toggle-left{display:flex;align-items:center;gap:14px}
-.methodology-toggle-icon{width:34px;height:34px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--o);font-size:15px;transition:all .3s}
-.methodology-toggle:hover .methodology-toggle-icon{border-color:var(--o);background:rgba(255,92,0,0.06)}
-.methodology-toggle-title{font-family:'IBM Plex Sans',sans-serif;font-size:17px;font-weight:700;color:var(--w)}
-.methodology-toggle-sub{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:10px;letter-spacing:2px;color:var(--text);text-transform:uppercase;margin-top:3px}
-.methodology-toggle-arrow{width:26px;height:26px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text);font-size:11px;transition:all .35s}
-.methodology-toggle.open .methodology-toggle-arrow{background:var(--o);border-color:var(--o);color:#fff;transform:rotate(180deg)}
-.methodology-body{max-height:0;overflow:hidden;transition:max-height .6s cubic-bezier(0.22,1,0.36,1)}
-.methodology-body.open{max-height:4000px}
-.methodology-body-inner{padding-top:40px}
-.cds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border)}
-.cds-card{background:var(--bg);padding:32px;position:relative;overflow:hidden;transition:all .3s;cursor:default}
-.cds-card:hover{background:rgba(255,92,0,0.04)}
-.cds-card:hover .cds-ghost{opacity:.07}
-.cds-ghost{position:absolute;right:-10px;bottom:-20px;font-family:'IBM Plex Sans',sans-serif;font-size:110px;font-weight:800;color:rgba(255,92,0,0);opacity:.03;line-height:1;pointer-events:none;transition:opacity .35s}
-.cds-num{font-family:'IBM Plex Sans',sans-serif;font-size:9px;letter-spacing:3px;color:var(--o);margin-bottom:12px;font-weight:500}
+        /* ===== SECTION COMMONS ===== */
+        .sec-tag {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: var(--o);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sec-tag::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--o);
+        }
+        .sec-h2 {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            line-height: 1.0;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+        }
+        .sec-h2 em {
+            color: var(--o);
+            font-style: normal;
+        }
+        .sec-p {
+            font-weight: 400;
+            color: var(--text-bright);
+        }
 
-.cds-img-wrap{
-  position:relative;width:calc(100% + 64px);margin:-32px -32px 20px;
-  height:140px;overflow:hidden;flex-shrink:0;
-}
-.cds-img-wrap img{
-  width:100%;height:100%;object-fit:cover;object-position:center;
-  display:block;filter:brightness(0.7) saturate(1.15);
-  transition:transform .55s ease,filter .4s ease;
-}
-.cds-card:hover .cds-img-wrap img{transform:scale(1.06);filter:brightness(0.82) saturate(1.3)}
-.cds-img-wrap::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,
-    rgba(3,4,10,0.18) 0%,
-    rgba(3,4,10,0.42) 70%,
-    rgba(255,92,0,0.08) 100%
-  );
-  pointer-events:none;
-}
-.cds-img-wrap .cds-img-fallback{
-  position:absolute;inset:0;
-  display:none;
-}
-.cds-img-wrap img.broken + .cds-img-fallback{display:block}
+        /* ===== WHAT WE DO ===== */
+        #what-we-do {
+            background: var(--panel);
+            padding: 140px 60px 90px;
+        }
+        .wwd-intro {
+            max-width: 700px;
+            margin-bottom: 48px;
+        }
+        .wwd-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: var(--border);
+        }
+        .wwd-card {
+            background: var(--bg);
+            padding: 28px 24px;
+            transition: all .3s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .wwd-card:hover {
+            background: rgba(255, 92, 0, 0.05);
+        }
+        .wwd-num {
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--o);
+            font-weight: 500;
+        }
+        .wwd-title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            color: var(--w);
+            line-height: 1.0;
+        }
+        .wwd-desc {
+            font-weight: 400;
+            color: var(--text-bright);
+        }
+        .wwd-link {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--o);
+            text-decoration: none;
+            margin-top: 4px;
+        }
+        .wwd-link:hover {
+            color: var(--o2);
+        }
+        body.day-mode .wwd-card {
+            background: var(--panel);
+        }
+        body.day-mode .wwd-card:hover {
+            background: rgba(255, 92, 0, 0.06);
+        }
+        @media (max-width:900px) {
+            .wwd-grid {
+                grid-template-columns: 1fr;
+            }
+            #what-we-do {
+                padding: 120px 20px 60px;
+            }
+        }
 
-.cds-title{font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:700;color:var(--w);margin-bottom:10px;line-height:1.2}
-.cds-desc{font-size:13px;color:var(--text-bright);line-height:1.75;font-weight:400;margin-bottom:18px}
-.cds-pills{display:flex;flex-wrap:wrap;gap:5px}
-.cds-pill{font-family:'IBM Plex Sans',sans-serif;font-size:8px;letter-spacing:1px;color:var(--text-bright);border:1px solid var(--border);padding:3px 8px;font-weight:500}
-body.day-mode .cds-card{background:var(--panel)}
-body.day-mode .cds-card:hover{background:rgba(255,92,0,0.05)}
+        /* ===== SERVICES ACCORDION ===== */
+        #services {
+            background: var(--bg);
+            padding: 80px 60px 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        .services-bg-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background:
+                linear-gradient(180deg, var(--bg) 0%, transparent 14%, transparent 78%, var(--bg) 100%),
+                radial-gradient(ellipse 60% 45% at 85% 8%, rgba(255, 92, 0, 0.12) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        #services>.sec-tag,
+        #services>.sec-h2,
+        #services>.sec-p,
+        #services>.srv-layout {
+            position: relative;
+            z-index: 1;
+        }
+        .srv-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2px;
+            background: var(--border);
+            margin-top: 48px;
+            align-items: start;
+        }
+        .srv-accordion {
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+        }
+        .srv-cat {
+            border-bottom: 1px solid var(--border);
+            scroll-margin-top: 100px;
+        }
+        .srv-cat:last-child {
+            border-bottom: none;
+        }
+        .srv-cat-hd {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            transition: background .25s;
+            position: relative;
+            overflow: hidden;
+        }
+        .srv-cat-hd::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--o);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform .35s;
+        }
+        .srv-cat.open .srv-cat-hd::after,
+        .srv-cat-hd:hover::after {
+            transform: scaleY(1);
+        }
+        .srv-cat-hd:hover {
+            background: rgba(255, 92, 0, 0.04);
+        }
+        .srv-cat.open .srv-cat-hd {
+            background: rgba(255, 92, 0, 0.06);
+        }
+        .srv-cat-icon {
+            font-size: 19px;
+            flex-shrink: 0;
+            width: 32px;
+            text-align: center;
+            color: var(--o);
+        }
+        .srv-cat-label {
+            flex: 1;
+        }
+        .srv-cat-name {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            color: var(--w);
+            letter-spacing: .5px;
+            line-height: 1.0;
+        }
+        .srv-cat-sub {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: var(--text);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+        .srv-cat-count {
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-weight: 500;
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: var(--text);
+            margin-right: 4px;
+        }
+        .srv-cat-arrow {
+            width: 18px;
+            height: 18px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all .35s;
+            color: var(--text);
+            font-size: 9px;
+        }
+        .srv-cat.open .srv-cat-arrow {
+            background: var(--o);
+            border-color: var(--o);
+            color: #fff;
+            transform: rotate(180deg);
+        }
+        .srv-items {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .55s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .srv-cat.open .srv-items {
+            max-height: 3000px;
+        }
+        .srv-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 24px 14px 32px;
+            border-top: 1px solid rgba(17, 20, 40, 0.6);
+            cursor: pointer;
+            transition: background .2s, padding .2s;
+            position: relative;
+        }
+        .srv-item:hover {
+            background: rgba(255, 92, 0, 0.04);
+            padding-left: 40px;
+        }
+        .srv-item.active {
+            background: rgba(255, 92, 0, 0.08);
+            padding-left: 40px;
+            border-left: 2px solid var(--o);
+        }
+        .srv-item-num {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: var(--o);
+            flex-shrink: 0;
+            margin-top: 2px;
+            width: 24px;
+        }
+        .srv-item-body {
+            flex: 1;
+        }
+        .srv-item-icon {
+            font-size: 15px;
+            margin-bottom: 3px;
+            color: rgba(255, 92, 0, .65);
+        }
+        .srv-item-title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            color: var(--w);
+            margin-bottom: 4px;
+            line-height: 1.0;
+        }
+        .srv-item-desc {
+            font-weight: 400;
+            color: var(--text-bright);
+            line-height: 1.0;
+        }
+        .srv-item-chevron {
+            font-size: 10px;
+            color: var(--text);
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: color .2s, transform .2s;
+        }
+        .srv-item:hover .srv-item-chevron,
+        .srv-item.active .srv-item-chevron {
+            color: var(--o);
+            transform: translateX(3px);
+        }
+        .srv-img-panel {
+            background: var(--panel);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 120px;
+            align-self: start;
+        }
+        .srv-img-frame {
+            position: relative;
+            width: 100%;
+            padding-bottom: 72%;
+            overflow: hidden;
+            background: #07090f;
+            flex-shrink: 0;
+        }
+        .srv-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            opacity: 0;
+            transition: opacity .5s ease, transform .55s ease;
+            transform: scale(1.03);
+            filter: brightness(0.88) saturate(1.1);
+        }
+        .srv-img.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .srv-img-bg {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity .5s ease;
+        }
+        .srv-img-bg.visible {
+            opacity: 1;
+        }
+        .srv-img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(3, 4, 10, 0.35) 0%, transparent 28%, transparent 68%, rgba(3, 4, 10, 0.55) 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .srv-img-meta {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 3;
+            padding: 16px 18px;
+        }
+        .srv-img-tag {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 8px;
+            letter-spacing: 3px;
+            color: var(--o);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity .35s .1s, transform .35s .1s;
+        }
+        .srv-img-tag.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .srv-img-caption {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.0;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity .35s .18s, transform .35s .18s;
+        }
+        .srv-img-caption.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .srv-img-info {
+            padding: 16px 18px;
+            border-top: 1px solid var(--border);
+            flex: 1;
+        }
+        .srv-img-info-desc {
+            font-weight: 400;
+            color: var(--text-bright);
+            line-height: 1.0;
+            min-height: 56px;
+            transition: opacity .3s;
+        }
+        .srv-panel-bar {
+            background: rgba(255, 92, 0, 0.06);
+            border-top: 1px solid var(--border);
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+        .srv-panel-cat {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: var(--text-bright);
+            text-transform: uppercase;
+        }
+        .srv-panel-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--o);
+            box-shadow: 0 0 8px var(--o);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        body.day-mode .srv-accordion,
+        body.day-mode .srv-img-panel {
+            background: var(--panel);
+        }
+        body.day-mode .srv-cat-hd:hover,
+        body.day-mode .srv-cat.open .srv-cat-hd {
+            background: rgba(255, 92, 0, 0.06);
+        }
+        body.day-mode .srv-item:hover,
+        body.day-mode .srv-item.active {
+            background: rgba(255, 92, 0, 0.06);
+        }
+        body.day-mode .srv-panel-bar,
+        body.day-mode .srv-img-info {
+            background: var(--panel);
+        }
+        body.day-mode .srv-img-frame {
+            background: #e8e8e0;
+        }
 
-/* CAPABILITIES */
-#capabilities{background:var(--bg);padding:80px 60px}
-.cap-intro{max-width:680px;margin-bottom:52px}
-.cap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
-.cap-item{position:relative;padding:28px 24px;border:1px solid var(--border);transition:all .3s;overflow:hidden;display:flex;flex-direction:column}
-.cap-item::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,92,0,0.05),transparent);opacity:0;transition:opacity .35s}
-.cap-item:hover::before{opacity:1}
-.cap-item:hover{border-color:rgba(255,92,0,0.35);transform:translateY(-4px);box-shadow:0 12px 36px rgba(255,92,0,0.08)}
-.cap-item-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.cap-icon{font-size:22px}
-.cap-num{font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;color:rgba(255,92,0,0.25);letter-spacing:1px}
-.cap-title{font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;color:var(--w);margin-bottom:8px;line-height:1.25}
-.cap-desc{font-size:12px;color:var(--text-bright);line-height:1.7;font-weight:400}
-.cap-stat{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);position:relative;z-index:1}
-.cap-stat-n{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:19px;font-weight:600;color:var(--o);line-height:1}
-.cap-stat-l{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:9px;letter-spacing:1.5px;color:var(--text);text-transform:uppercase;margin-top:4px}
+        .srv-cat-intro {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 400;
+            color: var(--text-bright);
+            line-height: 1.0;
+            padding: 14px 24px 10px;
+            border-top: 1px solid rgba(17, 20, 40, 0.5);
+            border-left: 2px solid rgba(255, 92, 0, 0.25);
+            background: rgba(255, 92, 0, 0.025);
+        }
+        body.day-mode .srv-cat-intro {
+            border-top-color: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 92, 0, 0.04);
+        }
+        .cross-link {
+            color: var(--o);
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 92, 0, 0.4);
+            transition: border-color .2s, opacity .2s;
+        }
+        .cross-link:hover {
+            border-color: var(--o);
+            opacity: .85;
+        }
 
-/* CONTACT / CTA — restructured into two parts:
-   1) .cta-hero-band — a fixed-height banner that hosts the video (reuses the shared
-      .hero-video-stage / .hero-video / .hero-video-overlay classes). Giving the video its
-      own bounded-height container (instead of stretching behind the full, content-driven
-      height of the form grid) is what stops it looking stretched/blown-up — object-fit:cover
-      only ever has to fill a predictable banner aspect ratio, not an arbitrarily tall section.
-   2) .cta-form-section — a normal solid-background section below it holding the actual
-      contact form, matching the rest of the page's card styling. */
-#cta{padding:0;overflow:hidden}
-.cta-hero-band{position:relative;overflow:hidden;height:clamp(260px,32vw,420px);display:flex;flex-direction:column;justify-content:center;padding:0 60px;background:#03040a}
-.cta-hero-band > .sec-tag,.cta-hero-band > .sec-h2{position:relative;z-index:2;max-width:760px}
-.cta-hero-band > .sec-tag{color:var(--o)}
-.cta-hero-band > .sec-h2{color:#f0f0ff;margin-bottom:0}
-.cta-hero-band > .sec-h2 em{color:var(--o)}
-.cta-form-section{background:var(--panel);padding:70px 60px 100px}
-.contact-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:start}
-.contact-form-wrap{background:var(--bg);border:1px solid var(--border);padding:28px}
-.contact-side{display:flex;flex-direction:column;gap:20px}
-.cf-row{margin-bottom:16px;position:relative}
-.cf-label{display:block;font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text);margin-bottom:6px}
-.cf-input{width:100%;padding:11px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:var(--w);background:var(--panel);border:1px solid var(--border);transition:border-color .2s}
-.cf-input:focus{outline:none;border-color:var(--o)}
-textarea.cf-input{resize:vertical;min-height:90px;font-family:inherit}
-select.cf-input{cursor:pointer}
-.cf-hp{position:absolute;left:-9999px;top:-9999px;height:0;overflow:hidden}
-.cf-submit{margin-top:6px;width:100%;display:flex;justify-content:center;text-align:center;font-family:'IBM Plex Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;background:var(--o);color:#fff;border:none;padding:15px 34px;cursor:pointer;transition:all .3s;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%)}
-.cf-submit:hover{background:var(--o2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,92,0,.35)}
-.cf-submit:disabled{opacity:.6;cursor:default;transform:none}
-.cf-status{margin-top:14px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;line-height:1.6;min-height:16px}
-.cf-status.cf-status-ok{color:#00d97a}
-.cf-status.cf-status-err{color:var(--o)}
-.contact-response{background:var(--bg);border:1px solid var(--border);border-left:2px solid var(--o);padding:22px 24px}
-.contact-response-title{font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:10px;letter-spacing:2.5px;color:var(--o);text-transform:uppercase;margin-bottom:10px}
-.contact-response-text{font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:var(--text-bright);line-height:1.8}
-.contact-response-text b{color:var(--w)}
-.contact-alt{font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;color:var(--text);line-height:1.8}
-.contact-alt a{color:var(--o);text-decoration:none;border-bottom:1px solid rgba(255,92,0,.4)}
-.contact-alt a:hover{border-color:var(--o)}
-body.day-mode .cf-input{background:var(--panel)}
-@media(max-width:1000px){.contact-layout{grid-template-columns:1fr}}
-@media(max-width:600px){.cta-hero-band{height:clamp(220px,50vw,320px);padding:0 20px}.cta-form-section{padding:50px 20px 70px}}
+        .srv-item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 8px;
+        }
+        .sit {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 8px;
+            letter-spacing: 1px;
+            color: var(--text-bright);
+            border: 1px solid var(--border);
+            padding: 3px 8px;
+            font-weight: 500;
+        }
+        body.day-mode .sit {
+            border-color: #111428;
+            color: #c2c2d8;
+        }
 
-/* FOOTER — three column */
-footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #111428}
-.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:48px;padding-bottom:28px}
-.footer-col-title{font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:10px;letter-spacing:2.5px;color:var(--o);text-transform:uppercase;margin-bottom:18px}
-.fl{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-.fl-orbit{position:relative;width:32px;height:32px;flex-shrink:0}
-.fl-ring{position:absolute;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid rgba(255,92,0,0.25)}
-.fl-ring.r1{width:13px;height:13px;animation:spin-logo 4s linear infinite}
-.fl-ring.r2{width:21px;height:21px;animation:spin-logo 7s linear infinite reverse}
-.fl-ring.r3{width:30px;height:30px;animation:spin-logo 12s linear infinite;border-style:dashed;border-color:rgba(255,92,0,0.12)}
-.fl-dot{position:absolute;top:-3px;left:50%;width:5px;height:5px;border-radius:50%;background:#ff5c00;transform:translate(-50%,-50%);box-shadow:0 0 7px #ff5c00}
-.fl-dot.sm{width:4px;height:4px;top:-2px;background:#ff8800}
-.fl-dot.dim{width:3px;height:3px;top:-1.5px;background:rgba(255,92,0,0.45);box-shadow:none}
-.fl-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:5px;height:5px;border-radius:50%;background:#ff5c00;box-shadow:0 0 8px #ff5c00;z-index:2}
-.fl-text{font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#f0f0ff}
-.fl-text em{color:var(--o);font-style:normal}
-.footer-tagline{font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;color:#c2c2d8;line-height:1.75;max-width:280px;margin-bottom:16px}
-.footer-location{display:flex;align-items:center;gap:8px;font-family:'IBM Plex Sans',sans-serif;font-size:11px;color:#8f8fa8;letter-spacing:.3px}
-.footer-location i{color:var(--o);font-size:13px}
-.footer-col .flinks{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
-.flinks a{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:11px;letter-spacing:1px;color:#c2c2d8;text-decoration:none;transition:color .3s}
-.flinks a:hover{color:var(--o)}
-.footer-contact-list{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
-.fl-email{font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:11px;letter-spacing:.5px;color:var(--o)!important;text-decoration:none}
-.fl-linkedin{display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:11px;letter-spacing:.5px;color:#c2c2d8;text-decoration:none;transition:color .2s}
-.fl-linkedin:hover{color:var(--o)}
-.fl-linkedin i{font-size:13px}
-.trust-chips{display:flex;flex-wrap:wrap;gap:8px}
-.trust-chip{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#dcdcf0;border:1px solid rgba(255,92,0,0.3);background:rgba(255,92,0,0.06);padding:6px 11px}
-.trust-chip::before{content:'';width:5px;height:5px;border-radius:50%;background:#00d97a;flex-shrink:0}
-.footer-bottom{border-top:1px solid #111428;padding:14px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-.fc{font-family:'IBM Plex Sans',sans-serif;font-weight:400;font-size:10px;color:#c2c2d8}
-@media(max-width:900px){.footer-grid{grid-template-columns:1fr;gap:32px}footer{padding:24px 20px 0}}
+        /* ===== METHODOLOGY ===== */
+        #coredata {
+            background: var(--panel);
+            padding: 80px 60px;
+        }
+        .cds-intro {
+            max-width: 680px;
+            margin-bottom: 0;
+        }
+        .methodology-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 22px 0;
+            margin-top: 32px;
+            cursor: pointer;
+            text-align: left;
+        }
+        .methodology-toggle-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .methodology-toggle-icon {
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--o);
+            font-size: 15px;
+            transition: all .3s;
+        }
+        .methodology-toggle:hover .methodology-toggle-icon {
+            border-color: var(--o);
+            background: rgba(255, 92, 0, 0.06);
+        }
+        .methodology-toggle-title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            color: var(--w);
+            line-height: 1.0;
+        }
+        .methodology-toggle-sub {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--text);
+            text-transform: uppercase;
+            margin-top: 3px;
+        }
+        .methodology-toggle-arrow {
+            width: 26px;
+            height: 26px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--text);
+            font-size: 11px;
+            transition: all .35s;
+        }
+        .methodology-toggle.open .methodology-toggle-arrow {
+            background: var(--o);
+            border-color: var(--o);
+            color: #fff;
+            transform: rotate(180deg);
+        }
+        .methodology-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .methodology-body.open {
+            max-height: 4000px;
+        }
+        .methodology-body-inner {
+            padding-top: 40px;
+        }
+        .cds-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: var(--border);
+        }
+        .cds-card {
+            background: var(--bg);
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: all .3s;
+            cursor: default;
+        }
+        .cds-card:hover {
+            background: rgba(255, 92, 0, 0.04);
+        }
+        .cds-card:hover .cds-ghost {
+            opacity: .07;
+        }
+        .cds-ghost {
+            position: absolute;
+            right: -10px;
+            bottom: -20px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 110px;
+            font-weight: 800;
+            color: rgba(255, 92, 0, 0);
+            opacity: .03;
+            line-height: 1;
+            pointer-events: none;
+            transition: opacity .35s;
+        }
+        .cds-num {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 9px;
+            letter-spacing: 3px;
+            color: var(--o);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        .cds-img-wrap {
+            position: relative;
+            width: calc(100% + 64px);
+            margin: -32px -32px 20px;
+            height: 140px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .cds-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            filter: brightness(0.7) saturate(1.15);
+            transition: transform .55s ease, filter .4s ease;
+        }
+        .cds-card:hover .cds-img-wrap img {
+            transform: scale(1.06);
+            filter: brightness(0.82) saturate(1.3);
+        }
+        .cds-img-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg,
+                    rgba(3, 4, 10, 0.18) 0%,
+                    rgba(3, 4, 10, 0.42) 70%,
+                    rgba(255, 92, 0, 0.08) 100%);
+            pointer-events: none;
+        }
+        .cds-img-wrap .cds-img-fallback {
+            position: absolute;
+            inset: 0;
+            display: none;
+        }
+        .cds-img-wrap img.broken+.cds-img-fallback {
+            display: block;
+        }
+        .cds-title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            color: var(--w);
+            margin-bottom: 10px;
+            line-height: 1.0;
+        }
+        .cds-desc {
+            font-weight: 400;
+            color: var(--text-bright);
+            line-height: 1.0;
+            margin-bottom: 18px;
+        }
+        .cds-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .cds-pill {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 8px;
+            letter-spacing: 1px;
+            color: var(--text-bright);
+            border: 1px solid var(--border);
+            padding: 3px 8px;
+            font-weight: 500;
+        }
+        body.day-mode .cds-card {
+            background: var(--panel);
+        }
+        body.day-mode .cds-card:hover {
+            background: rgba(255, 92, 0, 0.05);
+        }
 
-/* REVEAL */
-.rv{opacity:0;transform:translateY(28px);transition:opacity .7s,transform .7s}
-.rv.vis{opacity:1;transform:none}
-@keyframes pulse{0%,100%{box-shadow:0 0 4px var(--o)}50%{box-shadow:0 0 14px var(--o)}}
+        /* ===== CAPABILITIES ===== */
+        #capabilities {
+            background: var(--bg);
+            padding: 80px 60px;
+        }
+        .cap-intro {
+            max-width: 680px;
+            margin-bottom: 52px;
+        }
+        .cap-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .cap-item {
+            position: relative;
+            padding: 28px 24px;
+            border: 1px solid var(--border);
+            transition: all .3s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .cap-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 92, 0, 0.05), transparent);
+            opacity: 0;
+            transition: opacity .35s;
+        }
+        .cap-item:hover::before {
+            opacity: 1;
+        }
+        .cap-item:hover {
+            border-color: rgba(255, 92, 0, 0.35);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 36px rgba(255, 92, 0, 0.08);
+        }
+        .cap-item-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+        .cap-icon {
+            font-size: 22px;
+        }
+        .cap-num {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(255, 92, 0, 0.25);
+            letter-spacing: 1px;
+        }
+        .cap-title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            color: var(--w);
+            margin-bottom: 8px;
+            line-height: 1.0;
+        }
+        .cap-desc {
+            font-weight: 400;
+            color: var(--text-bright);
+            line-height: 1.0;
+        }
+        .cap-stat {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+        .cap-stat-n {
+            font-family: 'IBM Plex Mono', ui-monospace, monospace;
+            font-size: 19px;
+            font-weight: 600;
+            color: var(--o);
+            line-height: 1;
+        }
+        .cap-stat-l {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            color: var(--text);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
 
-/* RESPONSIVE */
-@media(max-width:1000px){
-  .srv-layout{grid-template-columns:1fr}.srv-img-panel{position:static;order:-1}.srv-img-frame{padding-bottom:52%}
-  .cap-grid{grid-template-columns:repeat(2,1fr)}.cds-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:900px){
-  nav{padding:0 20px}.nav-links{display:none}
-  #services,#coredata,#capabilities{padding:60px 20px}
-  .cap-grid{grid-template-columns:1fr 1fr}.cds-grid{grid-template-columns:1fr}
-}
-@media(max-width:600px){
-  .srv-cat-hd{padding:16px 14px}.srv-item{padding:12px 14px 12px 20px}
-  .srv-item:hover,.srv-item.active{padding-left:26px}
-  .srv-img-frame{padding-bottom:62%}.cap-grid{grid-template-columns:1fr}
-}
-</style>
+        /* ===== CONTACT ===== */
+        #cta {
+            padding: 0;
+            overflow: hidden;
+        }
+        .cta-hero-band {
+            position: relative;
+            overflow: hidden;
+            height: clamp(260px, 32vw, 420px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 60px;
+            background: #03040a;
+        }
+        .cta-hero-band>.sec-tag,
+        .cta-hero-band>.sec-h2 {
+            position: relative;
+            z-index: 2;
+            max-width: 760px;
+        }
+        .cta-hero-band>.sec-tag {
+            color: var(--o);
+        }
+        .cta-hero-band>.sec-h2 {
+            color: #f0f0ff;
+            margin-bottom: 0;
+        }
+        .cta-hero-band>.sec-h2 em {
+            color: var(--o);
+        }
+        .cta-form-section {
+            background: var(--panel);
+            padding: 70px 60px 100px;
+        }
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 56px;
+            align-items: start;
+        }
+        .contact-form-wrap {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 28px;
+        }
+        .contact-side {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .cf-row {
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .cf-label {
+            display: block;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .cf-input {
+            width: 100%;
+            padding: 11px 14px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 13px;
+            color: var(--w);
+            background: var(--panel);
+            border: 1px solid var(--border);
+            transition: border-color .2s;
+        }
+        .cf-input:focus {
+            outline: none;
+            border-color: var(--o);
+        }
+        textarea.cf-input {
+            resize: vertical;
+            min-height: 90px;
+            font-family: inherit;
+        }
+        select.cf-input {
+            cursor: pointer;
+        }
+        .cf-hp {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+            height: 0;
+            overflow: hidden;
+        }
+        .cf-submit {
+            margin-top: 6px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: var(--o);
+            color: #fff;
+            border: none;
+            padding: 15px 34px;
+            cursor: pointer;
+            transition: all .3s;
+            clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+        }
+        .cf-submit:hover {
+            background: var(--o2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 92, 0, .35);
+        }
+        .cf-submit:disabled {
+            opacity: .6;
+            cursor: default;
+            transform: none;
+        }
+        .cf-status {
+            margin-top: 14px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 12px;
+            line-height: 1.0;
+            min-height: 16px;
+        }
+        .cf-status.cf-status-ok {
+            color: #00d97a;
+        }
+        .cf-status.cf-status-err {
+            color: var(--o);
+        }
+        .contact-response {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-left: 2px solid var(--o);
+            padding: 22px 24px;
+        }
+        .contact-response-title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: 2.5px;
+            color: var(--o);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .contact-response-text {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 400;
+            color: var(--text-bright);
+            line-height: 1.0;
+        }
+        .contact-response-text b {
+            color: var(--w);
+        }
+        .contact-alt {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 400;
+            color: var(--text);
+            line-height: 1.0;
+        }
+        .contact-alt a {
+            color: var(--o);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 92, 0, .4);
+        }
+        .contact-alt a:hover {
+            border-color: var(--o);
+        }
+        body.day-mode .cf-input {
+            background: var(--panel);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 32px 60px 0;
+            background: rgba(3, 4, 10, 0.96);
+            border-top: 1px solid #111428;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            gap: 48px;
+            padding-bottom: 28px;
+        }
+        .footer-col-title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: 2.5px;
+            color: var(--o);
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+        .fl {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .fl-orbit {
+            position: relative;
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+        }
+        .fl-ring {
+            position: absolute;
+            border-radius: 50%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255, 92, 0, 0.25);
+        }
+        .fl-ring.r1 {
+            width: 13px;
+            height: 13px;
+            animation: spin-logo 4s linear infinite;
+        }
+        .fl-ring.r2 {
+            width: 21px;
+            height: 21px;
+            animation: spin-logo 7s linear infinite reverse;
+        }
+        .fl-ring.r3 {
+            width: 30px;
+            height: 30px;
+            animation: spin-logo 12s linear infinite;
+            border-style: dashed;
+            border-color: rgba(255, 92, 0, 0.12);
+        }
+        .fl-dot {
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #ff5c00;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 7px #ff5c00;
+        }
+        .fl-dot.sm {
+            width: 4px;
+            height: 4px;
+            top: -2px;
+            background: #ff8800;
+        }
+        .fl-dot.dim {
+            width: 3px;
+            height: 3px;
+            top: -1.5px;
+            background: rgba(255, 92, 0, 0.45);
+            box-shadow: none;
+        }
+        .fl-center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #ff5c00;
+            box-shadow: 0 0 8px #ff5c00;
+            z-index: 2;
+        }
+        .fl-text {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #f0f0ff;
+        }
+        .fl-text em {
+            color: var(--o);
+            font-style: normal;
+        }
+        .footer-tagline {
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: #c2c2d8;
+            line-height: 1.0;
+            max-width: 70ch;
+            margin-bottom: 16px;
+        }
+        .footer-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 11px;
+            color: #8f8fa8;
+            letter-spacing: .3px;
+        }
+        .footer-location i {
+            color: var(--o);
+            font-size: 13px;
+        }
+        .footer-col .flinks {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .flinks a {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: #c2c2d8;
+            text-decoration: none;
+            transition: color .3s;
+        }
+        .flinks a:hover {
+            color: var(--o);
+        }
+        .footer-contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .fl-email {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: .5px;
+            color: var(--o) !important;
+            text-decoration: none;
+        }
+        .fl-linkedin {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 11px;
+            letter-spacing: .5px;
+            color: #c2c2d8;
+            text-decoration: none;
+            transition: color .2s;
+        }
+        .fl-linkedin:hover {
+            color: var(--o);
+        }
+        .fl-linkedin i {
+            font-size: 13px;
+        }
+        .trust-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .trust-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #dcdcf0;
+            border: 1px solid rgba(255, 92, 0, 0.3);
+            background: rgba(255, 92, 0, 0.06);
+            padding: 6px 11px;
+        }
+        .trust-chip::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #00d97a;
+            flex-shrink: 0;
+        }
+        .footer-bottom {
+            border-top: 1px solid #111428;
+            padding: 14px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .fc {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 400;
+            font-size: 10px;
+            color: #c2c2d8;
+        }
+
+        /* ===== REVEAL ===== */
+        .rv {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .7s, transform .7s;
+        }
+        .rv.vis {
+            opacity: 1;
+            transform: none;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                box-shadow: 0 0 4px var(--o);
+            }
+            50% {
+                box-shadow: 0 0 14px var(--o);
+            }
+        }
+
+        /* ===== HERO VIDEO (CTA) ===== */
+        .hero-video-stage {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background: #03040a;
+            overflow: hidden;
+        }
+        .hero-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1.1s ease;
+        }
+        .hero-video.active {
+            opacity: 1;
+        }
+        .hero-video-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: linear-gradient(105deg, rgba(3, 4, 10, .72) 0%, rgba(3, 4, 10, .45) 50%, rgba(3, 4, 10, .18) 100%),
+                linear-gradient(to top, rgba(255, 92, 0, .09) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width:1000px) {
+            .srv-layout {
+                grid-template-columns: 1fr;
+            }
+            .srv-img-panel {
+                position: static;
+                order: -1;
+            }
+            .srv-img-frame {
+                padding-bottom: 52%;
+            }
+            .cap-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .cds-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width:900px) {
+            nav {
+                padding: 0 20px;
+            }
+            .nav-links {
+                display: none;
+            }
+            #services,
+            #coredata,
+            #capabilities {
+                padding: 60px 20px;
+            }
+            .cap-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .cds-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            footer {
+                padding: 24px 20px 0;
+            }
+            .cta-hero-band {
+                padding: 0 20px;
+            }
+            .cta-form-section {
+                padding: 50px 20px 70px;
+            }
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+            .sec-h2 {
+                font-size: 22px !important;
+            }
+            .wwd-title,
+            .cds-title,
+            .cap-title,
+            .srv-cat-name,
+            .srv-item-title,
+            .methodology-toggle-title {
+                font-size: 18px !important;
+            }
+        }
+        @media (max-width:600px) {
+            .srv-cat-hd {
+                padding: 16px 14px;
+            }
+            .srv-item {
+                padding: 12px 14px 12px 20px;
+            }
+            .srv-item:hover,
+            .srv-item.active {
+                padding-left: 26px;
+            }
+            .srv-img-frame {
+                padding-bottom: 62%;
+            }
+            .cap-grid {
+                grid-template-columns: 1fr;
+            }
+            .sec-h2 {
+                font-size: 20px !important;
+            }
+            .wwd-title,
+            .cds-title,
+            .cap-title,
+            .srv-cat-name,
+            .srv-item-title,
+            .methodology-toggle-title {
+                font-size: 16px !important;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div id="loader">
-  <div class="load-logo">OMNI<em>PULSE</em></div>
-  <div class="load-bar-wrap"><div class="load-bar"></div></div>
-  <div class="load-pct">LOADING SERVICES...</div>
-</div>
+    <!-- ===== LOADER ===== -->
+    <div id="loader">
+        <div class="load-logo">OMNI<em>PULSE</em></div>
+        <div class="load-bar-wrap"><div class="load-bar"></div></div>
+        <div class="load-pct">LOADING SERVICES...</div>
+    </div>
 
-<!-- NAV -->
-<nav>
-  <a href="index.html" class="logo">
-    <div class="logo-orbit-wrap">
-      <div class="lo-pulse"></div><div class="lo-pulse"></div>
-      <div class="lo-ring r1"><div class="lo-dot"></div></div>
-      <div class="lo-ring r2"><div class="lo-dot sm"></div></div>
-      <div class="lo-ring r3"><div class="lo-dot dim"></div></div>
-      <div class="lo-center"></div>
-    </div>
-    <div class="logo-text">OMNI<em>PULSE</em></div>
-    <span class="logo-suffix">/ Services</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="#what-we-do" class="active">What We Do</a></li>
-    <li><a href="#services">Industries</a></li>
-    <li><a href="#coredata">Methodology</a></li>
-    <li><a href="#capabilities">Why Us</a></li>
-    <li><a href="#cta">Contact</a></li>
-  </ul>
-  <button id="theme-btn" aria-label="Toggle day/night mode">🌙</button>
-  <a href="#cta" class="nav-cta">Get Started</a>
-</nav>
+    <!-- ===== NAV ===== -->
+    <nav>
+        <a href="index.html" class="logo">
+            <div class="logo-orbit-wrap">
+                <div class="lo-pulse"></div><div class="lo-pulse"></div>
+                <div class="lo-ring r1"><div class="lo-dot"></div></div>
+                <div class="lo-ring r2"><div class="lo-dot sm"></div></div>
+                <div class="lo-ring r3"><div class="lo-dot dim"></div></div>
+                <div class="lo-center"></div>
+            </div>
+            <div class="logo-text">OMNI<em>PULSE</em></div>
+            <span class="logo-suffix">/ Services</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#what-we-do" class="active">What We Do</a></li>
+            <li><a href="#services">Industries</a></li>
+            <li><a href="#coredata">Methodology</a></li>
+            <li><a href="#capabilities">Why Us</a></li>
+            <li><a href="#cta">Contact</a></li>
+        </ul>
+        <button id="theme-btn" aria-label="Toggle day/night mode">🌙</button>
+        <a href="#cta" class="nav-cta">Get Started</a>
+    </nav>
 
-<!-- WHAT WE DO — capability-first section (new). This is the primary answer to
-     "what does OmniPulse do", shown before the industry-specific deep dives below. -->
-<section id="what-we-do" class="rv">
-  <div class="wwd-intro">
-    <div class="sec-tag">What We Do</div>
-    <h2 class="sec-h2">Six operational capabilities. <em>One accountable partner.</em></h2>
-    <p class="sec-p">Services describe what OmniPulse does. Industries describe where that capability gets applied — see the industry-specific deep dives further down this page.</p>
-  </div>
-  <div class="wwd-grid">
-    <div class="wwd-card">
-      <div class="wwd-num">01</div>
-      <div class="wwd-title">Back-Office &amp; Administrative Operations</div>
-      <div class="wwd-desc">Data entry, document management, CRM administration, records management, virtual assistance, and workflow coordination.</div>
-    </div>
-    <div class="wwd-card">
-      <div class="wwd-num">02</div>
-      <div class="wwd-title">Data &amp; Intelligence Operations</div>
-      <div class="wwd-desc">Research, data collection, cleansing, enrichment, and structured reporting — see our full <a href="#coredata" class="cross-link">six-stage methodology</a> below.</div>
-    </div>
-    <div class="wwd-card">
-      <div class="wwd-num">03</div>
-      <div class="wwd-title">AI &amp; Data Operations</div>
-      <div class="wwd-desc">Data annotation, labelling, dataset QA, and human-in-the-loop evaluation — see <a href="#ai-visual" class="cross-link">AI &amp; Visual Data</a> below.</div>
-    </div>
-    <div class="wwd-card">
-      <div class="wwd-num">04</div>
-      <div class="wwd-title">Customer Operations</div>
-      <div class="wwd-desc">Email, chat, and ticket-based support operations, customer onboarding, and customer information management.</div>
-    </div>
-    <div class="wwd-card">
-      <div class="wwd-num">05</div>
-      <div class="wwd-title">Revenue &amp; Business Operations</div>
-      <div class="wwd-desc">CRM management, lead research, pipeline administration, and sales operations support.</div>
-    </div>
-    <div class="wwd-card">
-      <div class="wwd-num">06</div>
-      <div class="wwd-title">Specialist Process Outsourcing</div>
-      <div class="wwd-desc">Compliance workflows and registry research for processes too specific for a standard BPO category — see <a href="#services" class="cross-link">Maritime, Aviation, Healthcare &amp; Logistics</a> below.</div>
-    </div>
-  </div>
-</section>
+    <!-- ===== WHAT WE DO ===== -->
+    <section id="what-we-do" class="rv">
+        <div class="wwd-intro">
+            <div class="sec-tag">What We Do</div>
+            <h2 class="sec-h2">Six operational capabilities. <em>One accountable partner.</em></h2>
+            <p class="sec-p">Services describe what OmniPulse does. Industries describe where that capability gets applied — see the industry-specific deep dives further down this page.</p>
+        </div>
+        <div class="wwd-grid">
+            <div class="wwd-card">
+                <div class="wwd-num">01</div>
+                <div class="wwd-title">Back-Office &amp; Administrative Operations</div>
+                <div class="wwd-desc">Data entry, document management, CRM administration, records management, virtual assistance, and workflow coordination.</div>
+            </div>
+            <div class="wwd-card">
+                <div class="wwd-num">02</div>
+                <div class="wwd-title">Data &amp; Intelligence Operations</div>
+                <div class="wwd-desc">Research, data collection, cleansing, enrichment, and structured reporting — see our full <a href="#coredata" class="cross-link">six-stage methodology</a> below.</div>
+            </div>
+            <div class="wwd-card">
+                <div class="wwd-num">03</div>
+                <div class="wwd-title">AI &amp; Data Operations</div>
+                <div class="wwd-desc">Data annotation, labelling, dataset QA, and human-in-the-loop evaluation — see <a href="#ai-visual" class="cross-link">AI &amp; Visual Data</a> below.</div>
+            </div>
+            <div class="wwd-card">
+                <div class="wwd-num">04</div>
+                <div class="wwd-title">Customer Operations</div>
+                <div class="wwd-desc">Email, chat, and ticket-based support operations, customer onboarding, and customer information management.</div>
+            </div>
+            <div class="wwd-card">
+                <div class="wwd-num">05</div>
+                <div class="wwd-title">Revenue &amp; Business Operations</div>
+                <div class="wwd-desc">CRM management, lead research, pipeline administration, and sales operations support.</div>
+            </div>
+            <div class="wwd-card">
+                <div class="wwd-num">06</div>
+                <div class="wwd-title">Specialist Process Outsourcing</div>
+                <div class="wwd-desc">Compliance workflows and registry research for processes too specific for a standard BPO category — see <a href="#services" class="cross-link">Maritime, Aviation, Healthcare &amp; Logistics</a> below.</div>
+            </div>
+        </div>
+    </section>
 
-<!-- SERVICES ACCORDION (industry-specific deep dives) -->
-<section id="services" class="rv">
-  <div class="services-bg-overlay"></div>
-  <div class="sec-tag">Industries</div>
-  <h2 class="sec-h2">Industry-Specific <em>Deep Dives</em></h2>
-  <p class="sec-p" style="max-width:680px;margin-bottom:8px">Our six capabilities above are built to support businesses across sectors. In the industries below, direct experience has given us real specialist depth.</p>
+    <!-- ===== SERVICES ACCORDION ===== -->
+    <section id="services" class="rv">
+        <div class="services-bg-overlay"></div>
+        <div class="sec-tag">Industries</div>
+        <h2 class="sec-h2">Industry-Specific <em>Deep Dives</em></h2>
+        <p class="sec-p" style="max-width:680px;margin-bottom:8px">Our six capabilities above are built to support businesses across sectors. In the industries below, direct experience has given us real specialist depth.</p>
 
-  <div class="srv-layout">
-    <div class="srv-accordion">
+        <div class="srv-layout">
+            <div class="srv-accordion">
 
-      <!-- MARITIME -->
-      <div class="srv-cat" id="maritime" data-cat="maritime">
-        <button class="srv-cat-hd" onclick="srvToggle(this)">
-          <div class="srv-cat-icon"><i class="ti ti-anchor"></i></div>
-          <div class="srv-cat-label">
-            <div class="srv-cat-name">Maritime Intelligence</div>
-            <div class="srv-cat-sub">Ownership · Sanctions · Dark Fleet · Ocean Freight</div>
-          </div>
-          <span class="srv-cat-count">05</span>
-          <div class="srv-cat-arrow">▾</div>
+                <!-- MARITIME -->
+                <div class="srv-cat" id="maritime" data-cat="maritime">
+                    <button class="srv-cat-hd" onclick="srvToggle(this)">
+                        <div class="srv-cat-icon"><i class="ti ti-anchor"></i></div>
+                        <div class="srv-cat-label">
+                            <div class="srv-cat-name">Maritime Intelligence</div>
+                            <div class="srv-cat-sub">Ownership · Sanctions · Dark Fleet · Ocean Freight</div>
+                        </div>
+                        <span class="srv-cat-count">05</span>
+                        <div class="srv-cat-arrow">▾</div>
+                    </button>
+                    <div class="srv-items">
+                        <div class="srv-cat-intro">Our deepest credential. We map the full ownership and operational structure of any vessel across all seven principal roles — turning the most opaque asset class in global trade into clean, decision-ready intelligence. We work where automated platforms stop. We run this same four-stage framework — ownership tracing, movement intelligence, compliance fusion, AI data readiness — on <a href="#aviation" class="cross-link">Aviation Asset Intelligence →</a>.</div>
+                        <div class="srv-item active" data-img="images/vesselownership.avif" data-bg="linear-gradient(135deg,#060e18,#0a1828)" data-tag="Maritime · Ownership" data-caption="Vessel Ownership &amp; Registry Tracing" onclick="srvActivate(this)">
+                            <span class="srv-item-num">01</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon"><i class="ti ti-anchor"></i></div>
+                                <div class="srv-item-title">Vessel Ownership &amp; Registry Tracing</div>
+                                <div class="srv-item-desc">Full seven-role ownership mapping — beneficial owner, ISM manager, technical manager, commercial manager, commercial controller, registered owner, and DOC holder — through flag-state, IMO registries, and SPV corporate structures.</div>
+                                <div class="srv-item-tags"><span class="sit">Beneficial owner</span><span class="sit">ISM manager</span><span class="sit">Technical manager</span><span class="sit">DOC holder</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                        <div class="srv-item" data-img="images/Fusion.avif" data-bg="linear-gradient(135deg,#050e16,#09161e)" data-tag="Maritime · Compliance" data-caption="Sanctions &amp; Compliance Screening" onclick="srvActivate(this)">
+                            <span class="srv-item-num">02</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon"><i class="ti ti-anchor"></i></div>
+                                <div class="srv-item-title">Sanctions &amp; Compliance Screening</div>
+                                <div class="srv-item-desc">Systematic screening of vessels, operators, and counterparties against OFAC, EU, and UN sanction regimes. Delivered as structured risk profiles, not just list matches.</div>
+                                <div class="srv-item-tags"><span class="sit">OFAC</span><span class="sit">EU sanctions</span><span class="sit">UN regime</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                        <div class="srv-item" data-img="images/OceanFreight.avif" data-bg="linear-gradient(135deg,#04101a,#081828)" data-tag="Maritime · Dark Fleet" data-caption="Dark Fleet &amp; Zombie Vessel Detection" onclick="srvActivate(this)">
+                            <span class="srv-item-num">03</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon"><i class="ti ti-anchor"></i></div>
+                                <div class="srv-item-title">Dark Fleet &amp; Zombie Vessel Detection</div>
+                                <div class="srv-item-desc">Identification of vessels operating with falsified AIS data, obscured ownership, or characteristics consistent with dark fleet activity — including shadow fleet involvement and transponder manipulation.</div>
+                                <div class="srv-item-tags"><span class="sit">Dark fleet</span><span class="sit">Zombie vessels</span><span class="sit">AIS anomalies</span><span class="sit">Shadow fleet</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                        <div class="srv-item" data-img="images/maritime.avif" data-bg="linear-gradient(135deg,#06101a,#0c1e2a)" data-tag="Maritime · Movement" data-caption="AIS Movement &amp; Ocean Freight Visibility" onclick="srvActivate(this)">
+                            <span class="srv-item-num">04</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon"><i class="ti ti-anchor"></i></div>
+                                <div class="srv-item-title">AIS Movement &amp; Ocean Freight Visibility</div>
+                                <div class="srv-item-desc">AIS-driven route, port-call, and freight-lane data structured into decision-ready visibility reports for freight forwarders, importers, and logistics operators.</div>
+                                <div class="srv-item-tags"><span class="sit">Container tracking</span><span class="sit">Port status</span><span class="sit">Carrier feed analysis</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                        <div class="srv-item" data-img="images/AerialPort.jpg" data-bg="linear-gradient(135deg,#040e18,#081828)" data-tag="Maritime · AI Readiness" data-caption="Maritime Data Readiness for AI Platforms" onclick="srvActivate(this)">
+                            <span class="srv-item-num">05</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon"><i class="ti ti-anchor"></i></div>
+                                <div class="srv-item-title">Maritime Data Readiness for AI Platforms</div>
+                                <div class="srv-item-desc">Research, labelling, and validation that turns raw vessel and ownership data into model-ready training sets — for compliance platforms, insurers, and maritime AI companies that need human-verified data behind their models.</div>
+                                <div class="srv-item-tags"><span class="sit">FuelEU platforms</span><span class="sit">P&amp;I clubs</span><span class="sit">Marine insurers</span><span class="sit">Ship financiers</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AVIATION -->
+                <div class="srv-cat" id="aviation" data-cat="aviation">
+                    <button class="srv-cat-hd" onclick="srvToggle(this)">
+                        <div class="srv-cat-icon"><i class="ti ti-plane"></i></div>
+                        <div class="srv-cat-label">
+                            <div class="srv-cat-name">Aviation Asset Intelligence</div>
+                            <div class="srv-cat-sub">Ownership · ADS-B · Registry Tracing · Compliance</div>
+                        </div>
+                        <span class="srv-cat-count">04</span>
+                        <div class="srv-cat-arrow">▾</div>
+                    </button>
+                    <div class="srv-items">
+                        <div class="srv-cat-intro">The same ownership-tracing methodology we apply to vessels, applied to aircraft. We map beneficial ownership through the world's major aviation registries, trace lessor structures and SPVs, and fuse movement intelligence with compliance signals — for a complete picture of who controls an aircraft and where it is going. This mirrors our <a href="#maritime" class="cross-link">Maritime Intelligence →</a> framework, applied to a different asset class.</div>
+                        <div class="srv-item active" data-img="images/aviation2.jpg" data-bg="linear-gradient(135deg,#0e0c06,#1c1a0a)" data-tag="Aviation · Ownership" data-caption="Aircraft Ownership &amp; Registry Tracing" onclick="srvActivate(this)">
+                            <span class="srv-item-num">01</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon"><i class="ti ti-plane"></i></div>
+                                <div class="srv-item-title">Aircraft Ownership &amp; Registry Tracing</div>
+                                <div class="srv-item-desc">Mapping beneficial ownership through FAA, EASA, ICAO, and national registries — including lessor structures, special purpose vehicles, and multi-jurisdiction holding arrangements.</div>
+                                <div class="srv-item-tags"><span class="sit">FAA</span><span class="sit">EASA</span><span class="sit">ICAO</span><span class="sit">SPV tracing</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                        <div class="srv-item" data-img="images/aviation3.webp" data-bg="linear-gradient(135deg,#080c10,#12181e)" data-tag="Aviation · Movement" data-caption="ADS-B Movement Intelligence" onclick="srvActivate(this)">
+                            <span class="srv-item-num">02</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon"><i class="ti ti-plane"></i></div>
+                                <div class="srv-item-title">ADS-B Movement Intelligence</div>
+                                <div class="srv-item-desc">Flight-path, route, and fleet-utilisation data structured into decision-ready movement datasets — for sanctions monitoring, fleet tracking, and utilisation analysis.</div>
+                                <div class="srv-item-tags"><span class="sit">Route intelligence</span><span class="sit">Fleet utilisation</span><span class="sit">Movement datasets</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                        <div class="srv-item" data-img="images/aviation4.avif" data-bg="linear-gradient(135deg,#0c0a08,#1a1610)" data-tag="Aviation · Compliance" data-caption="Aviation Sanctions &amp; Compliance Screening" onclick="srvActivate(this)">
+                            <span class="srv-item-num">03</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon"><i class="ti ti-plane"></i></div>
+                                <div class="srv-item-title">Aviation Sanctions &amp; Compliance Screening</div>
+                                <div class="srv-item-desc">Screening of aircraft, operators, and lessors against OFAC, EU, and UN sanction regimes — including detection of sanctioned-country overflights and obscured operator structures.</div>
+                                <div class="srv-item-tags"><span class="sit">OFAC screening</span><span class="sit">Operator vetting</span><span class="sit">Lessor compliance</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                        <div class="srv-item" data-img="images/aviation5.avif" data-bg="linear-gradient(135deg,#0a0e08,#141a10)" data-tag="Aviation · AI Readiness" data-caption="Applied AI &amp; Data Readiness — Aviation" onclick="srvActivate(this)">
+                            <span class="srv-item-num">04</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon"><i class="ti ti-plane"></i></div>
+                                <div class="srv-item-title">Applied AI &amp; Data Readiness — Aviation</div>
+                                <div class="srv-item-desc">Research, labelling, and validation that turns raw aviation registry and movement data into model-ready training sets for aviation intelligence platforms and insurers.</div>
+                                <div class="srv-item-tags"><span class="sit">Aviation insurers</span><span class="sit">Aviation lessors</span><span class="sit">Fleet analytics platforms</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HEALTHCARE -->
+                <div class="srv-cat" id="healthcare" data-cat="healthcare">
+                    <button class="srv-cat-hd" onclick="srvToggle(this)">
+                        <div class="srv-cat-icon"><i class="ti ti-heart-rate-monitor"></i></div>
+                        <div class="srv-cat-label">
+                            <div class="srv-cat-name">Healthcare Data</div>
+                            <div class="srv-cat-sub">Billing Records · RCM · Clinical · Medical AI</div>
+                        </div>
+                        <span class="srv-cat-count">02</span>
+                        <div class="srv-cat-arrow">▾</div>
+                    </button>
+                    <div class="srv-items">
+                        <div class="srv-cat-intro">End-to-end healthcare data management for providers, insurers, and medical AI platforms — from billing records and revenue cycle support to clinical dataset preparation.</div>
+                        <div class="srv-item" data-img="images/mbd.webp" data-bg="linear-gradient(135deg,#07080f,#0e1020)" data-tag="Healthcare Data" data-caption="Medical Billing Data" onclick="srvActivate(this)">
+                            <span class="srv-item-num">01</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon"><i class="ti ti-heart-rate-monitor"></i></div>
+                                <div class="srv-item-title">Medical Billing Data</div>
+                                <div class="srv-item-desc">Structuring, coding, and processing medical billing records — organising and validating ICD/CPT entries for reporting, denial management, and AI-assisted coding systems.</div>
+                                <div class="srv-item-tags"><span class="sit">ICD / CPT coding</span><span class="sit">Claims processing</span><span class="sit">Denial management</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                        <div class="srv-item" data-img="images/clinical.jpg" data-bg="linear-gradient(135deg,#080a10,#0f1222)" data-tag="Healthcare Data" data-caption="Clinical & Research Data" onclick="srvActivate(this)">
+                            <span class="srv-item-num">02</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon">🔬</div>
+                                <div class="srv-item-title">Clinical &amp; Research Data</div>
+                                <div class="srv-item-desc">Data collection, patient record structuring, and dataset preparation for clinical studies and medical AI training.</div>
+                                <div class="srv-item-tags"><span class="sit">Clinical studies</span><span class="sit">Medical AI training</span><span class="sit">Record structuring</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LOGISTICS -->
+                <div class="srv-cat" id="logistics" data-cat="logistics">
+                    <button class="srv-cat-hd" onclick="srvToggle(this)">
+                        <div class="srv-cat-icon"><i class="ti ti-truck"></i></div>
+                        <div class="srv-cat-label">
+                            <div class="srv-cat-name">Logistics Data</div>
+                            <div class="srv-cat-sub">Freight Billing · Supply Chain · Route Data</div>
+                        </div>
+                        <span class="srv-cat-count">02</span>
+                        <div class="srv-cat-arrow">▾</div>
+                    </button>
+                    <div class="srv-items">
+                        <div class="srv-cat-intro">Structured data operations for logistics companies, freight operators, and supply chain platforms — turning raw logistics data into audit-ready records and actionable intelligence.</div>
+                        <div class="srv-item" data-img="images/Trucking.webp" data-bg="linear-gradient(135deg,#06100f,#0a1a18)" data-tag="Logistics Data" data-caption="Freight & Trucking Billing Data" onclick="srvActivate(this)">
+                            <span class="srv-item-num">01</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon"><i class="ti ti-truck"></i></div>
+                                <div class="srv-item-title">Freight &amp; Trucking Billing Data</div>
+                                <div class="srv-item-desc">Processing and structuring freight invoices, load confirmations, rate data, and compliance documents into audit-ready records.</div>
+                                <div class="srv-item-tags"><span class="sit">Freight invoices</span><span class="sit">Load confirmations</span><span class="sit">Compliance docs</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                        <div class="srv-item" data-img="images/supply.avif" data-bg="linear-gradient(135deg,#050e10,#091418)" data-tag="Logistics Data" data-caption="Supply Chain Data Intelligence" onclick="srvActivate(this)">
+                            <span class="srv-item-num">02</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon">📦</div>
+                                <div class="srv-item-title">Supply Chain Data Intelligence</div>
+                                <div class="srv-item-desc">Transforming raw logistics data into structured intelligence on route performance, carrier data, and delivery metrics.</div>
+                                <div class="srv-item-tags"><span class="sit">Route performance</span><span class="sit">Carrier intelligence</span><span class="sit">Delivery metrics</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI & VISUAL -->
+                <div class="srv-cat" id="ai-visual" data-cat="aivis">
+                    <button class="srv-cat-hd" onclick="srvToggle(this)">
+                        <div class="srv-cat-icon"><i class="ti ti-cpu"></i></div>
+                        <div class="srv-cat-label">
+                            <div class="srv-cat-name">AI &amp; Visual Data</div>
+                            <div class="srv-cat-sub">Annotation · NLP · RLHF · Model QA</div>
+                        </div>
+                        <span class="srv-cat-count">04</span>
+                        <div class="srv-cat-arrow">▾</div>
+                    </button>
+                    <div class="srv-items">
+                        <div class="srv-cat-intro">High-precision annotation and evaluation services for computer vision and language models — with a particular strength in African languages, faces, and landscapes. Training data that is globally scarce and that we sit at the source of.</div>
+                        <div class="srv-item" data-img="images/ia.webp" data-bg="linear-gradient(135deg,#080b16,#10122a)" data-tag="AI &amp; Visual Data" data-caption="Image Annotation" onclick="srvActivate(this)">
+                            <span class="srv-item-num">01</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon">🖼️</div>
+                                <div class="srv-item-title">Image Annotation</div>
+                                <div class="srv-item-desc">Bounding boxes, polygon segmentation, keypoint labelling, and semantic classification for computer vision models.</div>
+                                <div class="srv-item-tags"><span class="sit">Computer vision</span><span class="sit">Semantic classification</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                        <div class="srv-item" data-img="images/vidoann.jpg" data-bg="linear-gradient(135deg,#060914,#0c1024)" data-tag="AI &amp; Visual Data" data-caption="Video Annotation" onclick="srvActivate(this)">
+                            <span class="srv-item-num">02</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon">🎥</div>
+                                <div class="srv-item-title">Video Annotation</div>
+                                <div class="srv-item-desc">Frame-by-frame labelling for object tracking, action recognition, and scene understanding.</div>
+                                <div class="srv-item-tags"><span class="sit">Object tracking</span><span class="sit">Scene understanding</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                        <div class="srv-item" data-img="images/blacklaptop.jpg" data-bg="linear-gradient(135deg,#050810,#0a0e1e)" data-tag="AI &amp; Visual Data" data-caption="NLP & Language Data" onclick="srvActivate(this)">
+                            <span class="srv-item-num">03</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon">💬</div>
+                                <div class="srv-item-title">NLP &amp; Language Data</div>
+                                <div class="srv-item-desc">Text annotation, sentiment labelling, and RLHF feedback in English and African languages including Swahili, Kikuyu, and Luo — training data that global AI companies cannot source elsewhere at this quality.</div>
+                                <div class="srv-item-tags"><span class="sit">Swahili</span><span class="sit">Kikuyu</span><span class="sit">Luo</span><span class="sit">RLHF</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                        <div class="srv-item" data-img="images/modeleva.webp" data-bg="linear-gradient(135deg,#0a0e08,#141a10)" data-tag="AI &amp; Visual Data" data-caption="Model QA & Evaluation" onclick="srvActivate(this)">
+                            <span class="srv-item-num">04</span>
+                            <div class="srv-item-body">
+                                <div class="srv-item-icon">✅</div>
+                                <div class="srv-item-title">Model QA &amp; Evaluation</div>
+                                <div class="srv-item-desc">Human review of model outputs for accuracy, cultural appropriateness, and safety — across both general and domain-specific AI systems.</div>
+                                <div class="srv-item-tags"><span class="sit">Safety review</span><span class="sit">Cultural accuracy</span><span class="sit">Domain QA</span></div>
+                            </div>
+                            <span class="srv-item-chevron">→</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- STICKY IMAGE PANEL -->
+            <div class="srv-img-panel" id="srvImgPanel">
+                <div class="srv-img-frame" id="srvImgFrame">
+                    <img class="srv-img visible" id="srvImg" src="images/Asset.png" alt=""
+                    onerror="this.style.display='none';document.getElementById('srvImgBg').classList.add('visible')">
+                    <div class="srv-img-bg" id="srvImgBg" style="background:linear-gradient(135deg,#060e18,#0a1828)"></div>
+                    <div class="srv-img-overlay"></div>
+                    <div class="srv-img-meta">
+                        <div class="srv-img-tag show" id="srvImgTag">Maritime · Ownership</div>
+                        <div class="srv-img-caption show" id="srvImgCaption">Vessel Ownership &amp; Registry Tracing</div>
+                    </div>
+                </div>
+                <div class="srv-img-info">
+                    <div class="srv-img-info-desc" id="srvImgDesc">Full seven-role ownership mapping — beneficial owner, ISM manager, technical manager, commercial manager, commercial controller, registered owner, and DOC holder — through flag-state, IMO registries, and SPV corporate structures.</div>
+                </div>
+                <div class="srv-panel-bar">
+                    <span class="srv-panel-cat" id="srvPanelCat">// Maritime Intelligence</span>
+                    <div class="srv-panel-dot"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== METHODOLOGY ===== -->
+    <section id="coredata" class="rv">
+        <div class="cds-intro">
+            <div class="sec-tag">Our Methodology</div>
+            <h2 class="sec-h2">The Operations Behind <em>Every Vertical</em></h2>
+            <p class="sec-p">Regardless of your industry, these are the foundational data capabilities we deploy across every engagement.</p>
+        </div>
+
+        <button class="methodology-toggle" id="methodologyToggle" onclick="toggleMethodology()">
+            <div class="methodology-toggle-left">
+                <div class="methodology-toggle-icon"><i class="ti ti-list-details"></i></div>
+                <div>
+                    <div class="methodology-toggle-title">See the six-stage data pipeline</div>
+                    <div class="methodology-toggle-sub">Research → Structuring → Labelling → QA → Automation → Reporting</div>
+                </div>
+            </div>
+            <div class="methodology-toggle-arrow">▾</div>
         </button>
-        <div class="srv-items">
-          <div class="srv-cat-intro">Our deepest credential. We map the full ownership and operational structure of any vessel across all seven principal roles — turning the most opaque asset class in global trade into clean, decision-ready intelligence. We work where automated platforms stop. We run this same four-stage framework — ownership tracing, movement intelligence, compliance fusion, AI data readiness — on <a href="#aviation" class="cross-link">Aviation Asset Intelligence →</a>.</div>
-          <div class="srv-item active" data-img="images/vesselownership.avif" data-bg="linear-gradient(135deg,#060e18,#0a1828)" data-tag="Maritime · Ownership" data-caption="Vessel Ownership &amp; Registry Tracing" onclick="srvActivate(this)">
-            <span class="srv-item-num">01</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon"><i class="ti ti-anchor"></i></div>
-              <div class="srv-item-title">Vessel Ownership &amp; Registry Tracing</div>
-              <div class="srv-item-desc">Full seven-role ownership mapping — beneficial owner, ISM manager, technical manager, commercial manager, commercial controller, registered owner, and DOC holder — through flag-state, IMO registries, and SPV corporate structures.</div>
-              <div class="srv-item-tags"><span class="sit">Beneficial owner</span><span class="sit">ISM manager</span><span class="sit">Technical manager</span><span class="sit">DOC holder</span></div>
+
+        <div class="methodology-body" id="methodologyBody">
+            <div class="methodology-body-inner">
+                <div class="cds-grid">
+                    <div class="cds-card">
+                        <div class="cds-ghost">D</div>
+                        <div class="cds-img-wrap">
+                            <img src="images/research.jpg" alt="Data Research"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <div class="cds-img-fallback" style="background:linear-gradient(135deg,#060e1a 0%,#0e1830 50%,rgba(255,92,0,0.12) 100%)"></div>
+                        </div>
+                        <div class="cds-num">SERVICE 01</div>
+                        <div class="cds-title">Data Research &amp; Sourcing</div>
+                        <div class="cds-desc">We locate, retrieve, and verify data from primary and secondary sources — registries, databases, public records, and proprietary feeds — so your pipeline starts with reliable inputs.</div>
+                        <div class="cds-pills"><span class="cds-pill">Registry research</span><span class="cds-pill">Open-source intelligence</span><span class="cds-pill">Cross-source verification</span></div>
+                    </div>
+                    <div class="cds-card">
+                        <div class="cds-ghost">S</div>
+                        <div class="cds-img-wrap">
+                            <img src="images/structure.jpg" alt="Data Structuring"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <div class="cds-img-fallback" style="background:linear-gradient(135deg,#080a16 0%,#121830 50%,rgba(255,92,0,0.10) 100%)"></div>
+                        </div>
+                        <div class="cds-num">SERVICE 02</div>
+                        <div class="cds-title">Data Structuring &amp; Enrichment</div>
+                        <div class="cds-desc">Raw data organised into schema-compliant, analysis-ready formats. We normalise, deduplicate, and enrich records so your systems receive clean, consistent data at every ingestion point.</div>
+                        <div class="cds-pills"><span class="cds-pill">Schema design</span><span class="cds-pill">Deduplication</span><span class="cds-pill">Field enrichment</span></div>
+                    </div>
+                    <div class="cds-card">
+                        <div class="cds-ghost">L</div>
+                        <div class="cds-img-wrap">
+                            <img src="images/label.jpg" alt="Labelling and Annotation"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <div class="cds-img-fallback" style="background:linear-gradient(135deg,#0a0812 0%,#160e22 50%,rgba(255,92,0,0.12) 100%)"></div>
+                        </div>
+                        <div class="cds-num">SERVICE 03</div>
+                        <div class="cds-title">Labelling &amp; Annotation at Scale</div>
+                        <div class="cds-desc">From image bounding boxes to complex NLP label taxonomies, we run annotation pipelines that produce model-ready training data with measurable quality controls and expert review layers.</div>
+                        <div class="cds-pills"><span class="cds-pill">Bounding boxes</span><span class="cds-pill">NLP classification</span><span class="cds-pill">RLHF feedback</span></div>
+                    </div>
+                    <div class="cds-card">
+                        <div class="cds-ghost">Q</div>
+                        <div class="cds-img-wrap">
+                            <img src="images/qa.jpg" alt="Quality Assurance"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <div class="cds-img-fallback" style="background:linear-gradient(135deg,#060c10 0%,#0e1820 50%,rgba(255,92,0,0.08) 100%)"></div>
+                        </div>
+                        <div class="cds-num">SERVICE 04</div>
+                        <div class="cds-title">Quality Assurance &amp; Validation</div>
+                        <div class="cds-desc">Multi-layer QA built into every workflow. Senior reviewers check outputs against your acceptance criteria before delivery — we don't ship until the numbers hold.</div>
+                        <div class="cds-pills"><span class="cds-pill">Inter-rater agreement</span><span class="cds-pill">Pass-rate benchmarks</span><span class="cds-pill">Client spec sign-off</span></div>
+                    </div>
+                    <div class="cds-card">
+                        <div class="cds-ghost">A</div>
+                        <div class="cds-img-wrap">
+                            <img src="images/automation.avif" alt="Workflow Automation"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <div class="cds-img-fallback" style="background:linear-gradient(135deg,#04100e 0%,#081a16 50%,rgba(255,92,0,0.10) 100%)"></div>
+                        </div>
+                        <div class="cds-num">SERVICE 05</div>
+                        <div class="cds-title">Workflow Automation &amp; Integration</div>
+                        <div class="cds-desc">n8n, Zapier, and custom API integrations that connect your tools and automate repetitive data operations — so your team handles exceptions, not volume.</div>
+                        <div class="cds-pills"><span class="cds-pill">n8n workflows</span><span class="cds-pill">API connectors</span><span class="cds-pill">Zapier automation</span></div>
+                    </div>
+                    <div class="cds-card">
+                        <div class="cds-ghost">R</div>
+                        <div class="cds-img-wrap">
+                            <img src="images/reporting.avif" alt="Reporting and Intelligence"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <div class="cds-img-fallback" style="background:linear-gradient(135deg,#0a0806 0%,#1a1408 50%,rgba(255,92,0,0.14) 100%)"></div>
+                        </div>
+                        <div class="cds-num">SERVICE 06</div>
+                        <div class="cds-title">Reporting &amp; Intelligence Delivery</div>
+                        <div class="cds-desc">Structured reports, dashboards, and data exports delivered on your schedule. We translate operational data into intelligence that drives decisions rather than workloads.</div>
+                        <div class="cds-pills"><span class="cds-pill">Scheduled reporting</span><span class="cds-pill">Dashboard delivery</span><span class="cds-pill">Export-ready datasets</span></div>
+                    </div>
+                </div>
             </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-          <div class="srv-item" data-img="images/Fusion.avif" data-bg="linear-gradient(135deg,#050e16,#09161e)" data-tag="Maritime · Compliance" data-caption="Sanctions &amp; Compliance Screening" onclick="srvActivate(this)">
-            <span class="srv-item-num">02</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon"><i class="ti ti-anchor"></i></div>
-              <div class="srv-item-title">Sanctions &amp; Compliance Screening</div>
-              <div class="srv-item-desc">Systematic screening of vessels, operators, and counterparties against OFAC, EU, and UN sanction regimes. Delivered as structured risk profiles, not just list matches.</div>
-              <div class="srv-item-tags"><span class="sit">OFAC</span><span class="sit">EU sanctions</span><span class="sit">UN regime</span></div>
+        </div>
+    </section>
+
+    <!-- ===== CAPABILITIES ===== -->
+    <section id="capabilities" class="rv">
+        <div class="cap-intro">
+            <div class="sec-tag">Why It Works</div>
+            <h2 class="sec-h2">Built for Precision<br><em>Not Volume</em></h2>
+            <p class="sec-p">Five capabilities that separate OmniPulse from generic BPO providers — and keep our error rates well below industry average.</p>
+        </div>
+        <div class="cap-grid">
+            <div class="cap-item">
+                <div class="cap-item-top"><span class="cap-icon">🌍</span><span class="cap-num">01</span></div>
+                <div class="cap-title">Domain Expertise, Not Generalism</div>
+                <div class="cap-desc">Our operators are trained in their assigned verticals. A maritime analyst understands IMO structures. A healthcare billing specialist knows ICD codes. Context cannot be outsourced — so we build it in.</div>
+                <div class="cap-stat">
+                    <div class="cap-stat-n">6,140</div>
+                    <div class="cap-stat-l">Vessel Ownership Chains Researched</div>
+                </div>
             </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-          <div class="srv-item" data-img="images/OceanFreight.avif" data-bg="linear-gradient(135deg,#04101a,#081828)" data-tag="Maritime · Dark Fleet" data-caption="Dark Fleet &amp; Zombie Vessel Detection" onclick="srvActivate(this)">
-            <span class="srv-item-num">03</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon"><i class="ti ti-anchor"></i></div>
-              <div class="srv-item-title">Dark Fleet &amp; Zombie Vessel Detection</div>
-              <div class="srv-item-desc">Identification of vessels operating with falsified AIS data, obscured ownership, or characteristics consistent with dark fleet activity — including shadow fleet involvement and transponder manipulation.</div>
-              <div class="srv-item-tags"><span class="sit">Dark fleet</span><span class="sit">Zombie vessels</span><span class="sit">AIS anomalies</span><span class="sit">Shadow fleet</span></div>
+            <div class="cap-item">
+                <div class="cap-item-top"><span class="cap-icon">🔬</span><span class="cap-num">02</span></div>
+                <div class="cap-title">African Data at the Source</div>
+                <div class="cap-desc">Based in Nairobi, we have direct access to African language speakers, East Africa logistics routes, and on-the-ground context that remote teams cannot replicate. Rare data. Real access.</div>
+                <div class="cap-stat">
+                    <div class="cap-stat-n">94%</div>
+                    <div class="cap-stat-l">Swahili, Kikuyu &amp; Luo Absent From Global NLP Datasets</div>
+                </div>
             </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-          <div class="srv-item" data-img="images/maritime.avif" data-bg="linear-gradient(135deg,#06101a,#0c1e2a)" data-tag="Maritime · Movement" data-caption="AIS Movement &amp; Ocean Freight Visibility" onclick="srvActivate(this)">
-            <span class="srv-item-num">04</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon"><i class="ti ti-anchor"></i></div>
-              <div class="srv-item-title">AIS Movement &amp; Ocean Freight Visibility</div>
-              <div class="srv-item-desc">AIS-driven route, port-call, and freight-lane data structured into decision-ready visibility reports for freight forwarders, importers, and logistics operators.</div>
-              <div class="srv-item-tags"><span class="sit">Container tracking</span><span class="sit">Port status</span><span class="sit">Carrier feed analysis</span></div>
+            <div class="cap-item">
+                <div class="cap-item-top"><span class="cap-icon">⚡</span><span class="cap-num">03</span></div>
+                <div class="cap-title">48-Hour Operational Start</div>
+                <div class="cap-desc">From signed agreement to live operations in 48 hours. Systems connected, team briefed, first deliverables in queue. No procurement marathons or six-week implementation cycles.</div>
+                <div class="cap-stat">
+                    <div class="cap-stat-n">48h</div>
+                    <div class="cap-stat-l">Agreement To Live Operations</div>
+                </div>
             </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-          <div class="srv-item" data-img="images/AerialPort.jpg" data-bg="linear-gradient(135deg,#040e18,#081828)" data-tag="Maritime · AI Readiness" data-caption="Maritime Data Readiness for AI Platforms" onclick="srvActivate(this)">
-            <span class="srv-item-num">05</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon"><i class="ti ti-anchor"></i></div>
-              <div class="srv-item-title">Maritime Data Readiness for AI Platforms</div>
-              <div class="srv-item-desc">Research, labelling, and validation that turns raw vessel and ownership data into model-ready training sets — for compliance platforms, insurers, and maritime AI companies that need human-verified data behind their models.</div>
-              <div class="srv-item-tags"><span class="sit">FuelEU platforms</span><span class="sit">P&amp;I clubs</span><span class="sit">Marine insurers</span><span class="sit">Ship financiers</span></div>
+            <div class="cap-item">
+                <div class="cap-item-top"><span class="cap-icon">🤝</span><span class="cap-num">04</span></div>
+                <div class="cap-title">Single-Vendor Accountability</div>
+                <div class="cap-desc">One account manager. One team. One P&amp;L. We own the outcome end-to-end — no subcontractor chains, no handoff gaps, no ambiguity about who is responsible when something goes wrong.</div>
+                <div class="cap-stat">
+                    <div class="cap-stat-n">1</div>
+                    <div class="cap-stat-l">Point Of Contact, Zero Subcontractor Chains</div>
+                </div>
             </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- AVIATION -->
-      <div class="srv-cat" id="aviation" data-cat="aviation">
-        <button class="srv-cat-hd" onclick="srvToggle(this)">
-          <div class="srv-cat-icon"><i class="ti ti-plane"></i></div>
-          <div class="srv-cat-label">
-            <div class="srv-cat-name">Aviation Asset Intelligence</div>
-            <div class="srv-cat-sub">Ownership · ADS-B · Registry Tracing · Compliance</div>
-          </div>
-          <span class="srv-cat-count">04</span>
-          <div class="srv-cat-arrow">▾</div>
-        </button>
-        <div class="srv-items">
-          <div class="srv-cat-intro">The same ownership-tracing methodology we apply to vessels, applied to aircraft. We map beneficial ownership through the world's major aviation registries, trace lessor structures and SPVs, and fuse movement intelligence with compliance signals — for a complete picture of who controls an aircraft and where it is going. This mirrors our <a href="#maritime" class="cross-link">Maritime Intelligence →</a> framework, applied to a different asset class.</div>
-          <div class="srv-item active" data-img="images/aviation2.jpg" data-bg="linear-gradient(135deg,#0e0c06,#1c1a0a)" data-tag="Aviation · Ownership" data-caption="Aircraft Ownership &amp; Registry Tracing" onclick="srvActivate(this)">
-            <span class="srv-item-num">01</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon"><i class="ti ti-plane"></i></div>
-              <div class="srv-item-title">Aircraft Ownership &amp; Registry Tracing</div>
-              <div class="srv-item-desc">Mapping beneficial ownership through FAA, EASA, ICAO, and national registries — including lessor structures, special purpose vehicles, and multi-jurisdiction holding arrangements.</div>
-              <div class="srv-item-tags"><span class="sit">FAA</span><span class="sit">EASA</span><span class="sit">ICAO</span><span class="sit">SPV tracing</span></div>
+            <div class="cap-item">
+                <div class="cap-item-top"><span class="cap-icon">🔒</span><span class="cap-num">05</span></div>
+                <div class="cap-title">NDA From Day One</div>
+                <div class="cap-desc">Every client relationship is protected by a mutual NDA from the moment an engagement starts. Maritime compliance data and AI training sets are commercially sensitive — we treat them that way by default, not on request.</div>
+                <div class="cap-stat">
+                    <div class="cap-stat-n">100%</div>
+                    <div class="cap-stat-l">Engagements Under Mutual NDA</div>
+                </div>
             </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-          <div class="srv-item" data-img="images/aviation3.webp" data-bg="linear-gradient(135deg,#080c10,#12181e)" data-tag="Aviation · Movement" data-caption="ADS-B Movement Intelligence" onclick="srvActivate(this)">
-            <span class="srv-item-num">02</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon"><i class="ti ti-plane"></i></div>
-              <div class="srv-item-title">ADS-B Movement Intelligence</div>
-              <div class="srv-item-desc">Flight-path, route, and fleet-utilisation data structured into decision-ready movement datasets — for sanctions monitoring, fleet tracking, and utilisation analysis.</div>
-              <div class="srv-item-tags"><span class="sit">Route intelligence</span><span class="sit">Fleet utilisation</span><span class="sit">Movement datasets</span></div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="cta" class="rv">
+        <div class="cta-hero-band">
+            <div class="hero-video-stage">
+                <video id="cta-hero-video" class="hero-video active" autoplay muted loop playsinline preload="auto" poster="images/hero-poster.jpg" disablePictureInPicture disableRemotePlayback>
+                    <source src="images/AIhero.mp4" type="video/mp4">
+                </video>
             </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-          <div class="srv-item" data-img="images/aviation4.avif" data-bg="linear-gradient(135deg,#0c0a08,#1a1610)" data-tag="Aviation · Compliance" data-caption="Aviation Sanctions &amp; Compliance Screening" onclick="srvActivate(this)">
-            <span class="srv-item-num">03</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon"><i class="ti ti-plane"></i></div>
-              <div class="srv-item-title">Aviation Sanctions &amp; Compliance Screening</div>
-              <div class="srv-item-desc">Screening of aircraft, operators, and lessors against OFAC, EU, and UN sanction regimes — including detection of sanctioned-country overflights and obscured operator structures.</div>
-              <div class="srv-item-tags"><span class="sit">OFAC screening</span><span class="sit">Operator vetting</span><span class="sit">Lessor compliance</span></div>
+            <div class="hero-video-overlay"></div>
+            <div class="sec-tag">Get In Touch</div>
+            <h2 class="sec-h2">Tell us what you need — <em>we'll take it from there.</em></h2>
+        </div>
+        <div class="cta-form-section">
+            <div class="contact-layout">
+                <div class="contact-form-wrap">
+                    <form id="contactForm" action="contact.php" method="POST" novalidate>
+                        <div class="cf-row">
+                            <label class="cf-label" for="cf-name">Name *</label>
+                            <input class="cf-input" type="text" id="cf-name" name="name" required>
+                        </div>
+                        <div class="cf-row">
+                            <label class="cf-label" for="cf-company">Company *</label>
+                            <input class="cf-input" type="text" id="cf-company" name="company" required>
+                        </div>
+                        <div class="cf-row">
+                            <label class="cf-label" for="cf-email">Email *</label>
+                            <input class="cf-input" type="email" id="cf-email" name="email" required>
+                        </div>
+                        <div class="cf-row">
+                            <label class="cf-label" for="cf-industry">What do you need support with? *</label>
+                            <select class="cf-input" id="cf-industry" name="industry" required>
+                                <option value="" disabled selected>Select the closest fit</option>
+                                <option>Back-Office &amp; Administrative Operations</option>
+                                <option>Data &amp; Intelligence Operations</option>
+                                <option>AI &amp; Data Operations</option>
+                                <option>Customer Operations</option>
+                                <option>Revenue &amp; Business Operations</option>
+                                <option>Specialist Process Outsourcing (Maritime/Aviation/Healthcare/Logistics)</option>
+                                <option>Not sure yet</option>
+                            </select>
+                        </div>
+                        <div class="cf-row">
+                            <label class="cf-label" for="cf-need">What do you need? *</label>
+                            <textarea class="cf-input" id="cf-need" name="need" rows="4" required></textarea>
+                        </div>
+                        <div class="cf-row">
+                            <label class="cf-label" for="cf-timeline">Preferred timeline</label>
+                            <select class="cf-input" id="cf-timeline" name="timeline">
+                                <option value="" disabled selected>Select a timeline</option>
+                                <option>Immediately</option>
+                                <option>Within 2 weeks</option>
+                                <option>Within a month</option>
+                                <option>Just exploring</option>
+                            </select>
+                        </div>
+                        <!-- Honeypot spam trap: real visitors never see or fill this field -->
+                        <div class="cf-hp" aria-hidden="true">
+                            <label for="cf-website">Website</label>
+                            <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
+                        </div>
+                        <button type="submit" class="cf-submit">Send Enquiry →</button>
+                        <div class="cf-status" id="cfStatus" role="status" aria-live="polite"></div>
+                    </form>
+                </div>
+                <div class="contact-side">
+                    <div class="contact-response">
+                        <div class="contact-response-title">Response Commitment</div>
+                        <div class="contact-response-text">We respond to every enquiry within <b>24 hours</b>.<br>Discovery calls available <b>Monday–Friday, 08:00–18:00 EAT (UTC+3)</b>.</div>
+                    </div>
+                    <div class="contact-alt">Prefer to skip the form? <a href="mailto:info@support.omnipulseagency.com">Email us directly</a> at info@support.omnipulseagency.com.</div>
+                </div>
             </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-          <div class="srv-item" data-img="images/aviation5.avif" data-bg="linear-gradient(135deg,#0a0e08,#141a10)" data-tag="Aviation · AI Readiness" data-caption="Applied AI &amp; Data Readiness — Aviation" onclick="srvActivate(this)">
-            <span class="srv-item-num">04</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon"><i class="ti ti-plane"></i></div>
-              <div class="srv-item-title">Applied AI &amp; Data Readiness — Aviation</div>
-              <div class="srv-item-desc">Research, labelling, and validation that turns raw aviation registry and movement data into model-ready training sets for aviation intelligence platforms and insurers.</div>
-              <div class="srv-item-tags"><span class="sit">Aviation insurers</span><span class="sit">Aviation lessors</span><span class="sit">Fleet analytics platforms</span></div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="fl">
+                    <div class="fl-orbit">
+                        <div class="fl-ring r1"><div class="fl-dot"></div></div>
+                        <div class="fl-ring r2"><div class="fl-dot sm"></div></div>
+                        <div class="fl-ring r3"><div class="fl-dot dim"></div></div>
+                        <div class="fl-center"></div>
+                    </div>
+                    <div class="fl-text">OMNI<em>PULSE</em></div>
+                </div>
+                <p class="footer-tagline">A global operations partner headquartered in Nairobi — back-office, data, AI, customer, and revenue operations for businesses worldwide.</p>
+                <div class="footer-location"><i class="ti ti-map-pin"></i> Nairobi, Kenya — serving clients globally</div>
             </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- HEALTHCARE -->
-      <div class="srv-cat" id="healthcare" data-cat="healthcare">
-        <button class="srv-cat-hd" onclick="srvToggle(this)">
-          <div class="srv-cat-icon"><i class="ti ti-heart-rate-monitor"></i></div>
-          <div class="srv-cat-label">
-            <div class="srv-cat-name">Healthcare Data</div>
-            <div class="srv-cat-sub">Billing Records · RCM · Clinical · Medical AI</div>
-          </div>
-          <span class="srv-cat-count">02</span>
-          <div class="srv-cat-arrow">▾</div>
-        </button>
-        <div class="srv-items">
-          <div class="srv-cat-intro">End-to-end healthcare data management for providers, insurers, and medical AI platforms — from billing records and revenue cycle support to clinical dataset preparation.</div>
-          <div class="srv-item" data-img="images/mbd.webp" data-bg="linear-gradient(135deg,#07080f,#0e1020)" data-tag="Healthcare Data" data-caption="Medical Billing Data" onclick="srvActivate(this)">
-            <span class="srv-item-num">01</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon"><i class="ti ti-heart-rate-monitor"></i></div>
-              <div class="srv-item-title">Medical Billing Data</div>
-              <div class="srv-item-desc">Structuring, coding, and processing medical billing records — organising and validating ICD/CPT entries for reporting, denial management, and AI-assisted coding systems.</div>
-              <div class="srv-item-tags"><span class="sit">ICD / CPT coding</span><span class="sit">Claims processing</span><span class="sit">Denial management</span></div>
+            <div class="footer-col">
+                <div class="footer-col-title">Quick Links</div>
+                <div class="flinks">
+                    <a href="index.html">Home</a>
+                    <a href="#what-we-do">What We Do</a>
+                    <a href="#services">Industries</a>
+                    <a href="index.html#why">Why Us</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="#cta">Contact</a>
+                </div>
             </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-          <div class="srv-item" data-img="images/clinical.jpg" data-bg="linear-gradient(135deg,#080a10,#0f1222)" data-tag="Healthcare Data" data-caption="Clinical & Research Data" onclick="srvActivate(this)">
-            <span class="srv-item-num">02</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon">🔬</div>
-              <div class="srv-item-title">Clinical &amp; Research Data</div>
-              <div class="srv-item-desc">Data collection, patient record structuring, and dataset preparation for clinical studies and medical AI training.</div>
-              <div class="srv-item-tags"><span class="sit">Clinical studies</span><span class="sit">Medical AI training</span><span class="sit">Record structuring</span></div>
+            <div class="footer-col">
+                <div class="footer-col-title">Get In Touch</div>
+                <div class="footer-contact-list">
+                    <a href="mailto:info@support.omnipulseagency.com" class="fl-email">info@support.omnipulseagency.com</a>
+                    <a href="https://www.linkedin.com/company/omnipulse" target="_blank" rel="noopener" class="fl-linkedin"><i class="ti ti-brand-linkedin"></i>Connect on LinkedIn →</a>
+                </div>
+                <div class="trust-chips">
+                    <span class="trust-chip">NDA on request</span>
+                    <span class="trust-chip">Access-controlled data handling</span>
+                </div>
             </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
         </div>
-      </div>
-
-      <!-- LOGISTICS -->
-      <div class="srv-cat" id="logistics" data-cat="logistics">
-        <button class="srv-cat-hd" onclick="srvToggle(this)">
-          <div class="srv-cat-icon"><i class="ti ti-truck"></i></div>
-          <div class="srv-cat-label">
-            <div class="srv-cat-name">Logistics Data</div>
-            <div class="srv-cat-sub">Freight Billing · Supply Chain · Route Data</div>
-          </div>
-          <span class="srv-cat-count">02</span>
-          <div class="srv-cat-arrow">▾</div>
-        </button>
-        <div class="srv-items">
-          <div class="srv-cat-intro">Structured data operations for logistics companies, freight operators, and supply chain platforms — turning raw logistics data into audit-ready records and actionable intelligence.</div>
-          <div class="srv-item" data-img="images/Trucking.webp" data-bg="linear-gradient(135deg,#06100f,#0a1a18)" data-tag="Logistics Data" data-caption="Freight & Trucking Billing Data" onclick="srvActivate(this)">
-            <span class="srv-item-num">01</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon"><i class="ti ti-truck"></i></div>
-              <div class="srv-item-title">Freight &amp; Trucking Billing Data</div>
-              <div class="srv-item-desc">Processing and structuring freight invoices, load confirmations, rate data, and compliance documents into audit-ready records.</div>
-              <div class="srv-item-tags"><span class="sit">Freight invoices</span><span class="sit">Load confirmations</span><span class="sit">Compliance docs</span></div>
-            </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-          <div class="srv-item" data-img="images/supply.avif" data-bg="linear-gradient(135deg,#050e10,#091418)" data-tag="Logistics Data" data-caption="Supply Chain Data Intelligence" onclick="srvActivate(this)">
-            <span class="srv-item-num">02</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon">📦</div>
-              <div class="srv-item-title">Supply Chain Data Intelligence</div>
-              <div class="srv-item-desc">Transforming raw logistics data into structured intelligence on route performance, carrier data, and delivery metrics.</div>
-              <div class="srv-item-tags"><span class="sit">Route performance</span><span class="sit">Carrier intelligence</span><span class="sit">Delivery metrics</span></div>
-            </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
+        <div class="footer-bottom">
+            <div class="fc">© 2025 OmniPulse Agency · All Rights Reserved</div>
         </div>
-      </div>
+    </footer>
 
-      <!-- AI & VISUAL -->
-      <div class="srv-cat" id="ai-visual" data-cat="aivis">
-        <button class="srv-cat-hd" onclick="srvToggle(this)">
-          <div class="srv-cat-icon"><i class="ti ti-cpu"></i></div>
-          <div class="srv-cat-label">
-            <div class="srv-cat-name">AI &amp; Visual Data</div>
-            <div class="srv-cat-sub">Annotation · NLP · RLHF · Model QA</div>
-          </div>
-          <span class="srv-cat-count">04</span>
-          <div class="srv-cat-arrow">▾</div>
-        </button>
-        <div class="srv-items">
-          <div class="srv-cat-intro">High-precision annotation and evaluation services for computer vision and language models — with a particular strength in African languages, faces, and landscapes. Training data that is globally scarce and that we sit at the source of.</div>
-          <div class="srv-item" data-img="images/ia.webp" data-bg="linear-gradient(135deg,#080b16,#10122a)" data-tag="AI &amp; Visual Data" data-caption="Image Annotation" onclick="srvActivate(this)">
-            <span class="srv-item-num">01</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon">🖼️</div>
-              <div class="srv-item-title">Image Annotation</div>
-              <div class="srv-item-desc">Bounding boxes, polygon segmentation, keypoint labelling, and semantic classification for computer vision models.</div>
-              <div class="srv-item-tags"><span class="sit">Computer vision</span><span class="sit">Semantic classification</span></div>
-            </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-          <div class="srv-item" data-img="images/vidoann.jpg" data-bg="linear-gradient(135deg,#060914,#0c1024)" data-tag="AI &amp; Visual Data" data-caption="Video Annotation" onclick="srvActivate(this)">
-            <span class="srv-item-num">02</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon">🎥</div>
-              <div class="srv-item-title">Video Annotation</div>
-              <div class="srv-item-desc">Frame-by-frame labelling for object tracking, action recognition, and scene understanding.</div>
-              <div class="srv-item-tags"><span class="sit">Object tracking</span><span class="sit">Scene understanding</span></div>
-            </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-          <div class="srv-item" data-img="images/blacklaptop.jpg" data-bg="linear-gradient(135deg,#050810,#0a0e1e)" data-tag="AI &amp; Visual Data" data-caption="NLP & Language Data" onclick="srvActivate(this)">
-            <span class="srv-item-num">03</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon">💬</div>
-              <div class="srv-item-title">NLP &amp; Language Data</div>
-              <div class="srv-item-desc">Text annotation, sentiment labelling, and RLHF feedback in English and African languages including Swahili, Kikuyu, and Luo — training data that global AI companies cannot source elsewhere at this quality.</div>
-              <div class="srv-item-tags"><span class="sit">Swahili</span><span class="sit">Kikuyu</span><span class="sit">Luo</span><span class="sit">RLHF</span></div>
-            </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-          <div class="srv-item" data-img="images/modeleva.webp" data-bg="linear-gradient(135deg,#0a0e08,#141a10)" data-tag="AI &amp; Visual Data" data-caption="Model QA & Evaluation" onclick="srvActivate(this)">
-            <span class="srv-item-num">04</span>
-            <div class="srv-item-body">
-              <div class="srv-item-icon">✅</div>
-              <div class="srv-item-title">Model QA &amp; Evaluation</div>
-              <div class="srv-item-desc">Human review of model outputs for accuracy, cultural appropriateness, and safety — across both general and domain-specific AI systems.</div>
-              <div class="srv-item-tags"><span class="sit">Safety review</span><span class="sit">Cultural accuracy</span><span class="sit">Domain QA</span></div>
-            </div>
-            <span class="srv-item-chevron">→</span>
-          </div>
-        </div>
-      </div>
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        /* LOADER */
+        setTimeout(() => { document.getElementById('loader').classList.add('done') }, 1600);
 
-    </div>
+        /* DAY/NIGHT */
+        const themeBtn = document.getElementById('theme-btn');
+        themeBtn.addEventListener('click', () => {
+            const isDay = document.body.classList.toggle('day-mode');
+            themeBtn.textContent = isDay ? '☀️' : '🌙';
+            themeBtn.setAttribute('aria-label', isDay ? 'Switch to night mode' : 'Switch to day mode');
+        });
 
-    <!-- STICKY IMAGE PANEL -->
-    <div class="srv-img-panel" id="srvImgPanel">
-      <div class="srv-img-frame" id="srvImgFrame">
-        <img class="srv-img visible" id="srvImg" src="images/Asset.png" alt=""
-             onerror="this.style.display='none';document.getElementById('srvImgBg').classList.add('visible')">
-        <div class="srv-img-bg" id="srvImgBg" style="background:linear-gradient(135deg,#060e18,#0a1828)"></div>
-        <div class="srv-img-overlay"></div>
-        <div class="srv-img-meta">
-          <div class="srv-img-tag show" id="srvImgTag">Maritime · Ownership</div>
-          <div class="srv-img-caption show" id="srvImgCaption">Vessel Ownership &amp; Registry Tracing</div>
-        </div>
-      </div>
-      <div class="srv-img-info">
-        <div class="srv-img-info-desc" id="srvImgDesc">Full seven-role ownership mapping — beneficial owner, ISM manager, technical manager, commercial manager, commercial controller, registered owner, and DOC holder — through flag-state, IMO registries, and SPV corporate structures.</div>
-      </div>
-      <div class="srv-panel-bar">
-        <span class="srv-panel-cat" id="srvPanelCat">// Maritime Intelligence</span>
-        <div class="srv-panel-dot"></div>
-      </div>
-    </div>
-    </div>
-</section>
+        /* HERO VIDEO — lives in the CTA/contact section. Autoplay/muted/loop/playsinline are
+           native attributes on the <video> element, so no JS is required to start playback.
+           This script waits for enough buffered data before forcing play, avoids redundant
+           play() calls, and pauses when the section scrolls out of view. */
+        (function() {
+            const stage = document.querySelector('#cta .hero-video-stage');
+            const video = document.getElementById('cta-hero-video');
+            if (!stage || !video) return;
 
-<!-- METHODOLOGY (formerly "Core Data Services") — collapsible -->
-<section id="coredata" class="rv">
-  <div class="cds-intro">
-    <div class="sec-tag">Our Methodology</div>
-    <h2 class="sec-h2">The Operations Behind <em>Every Vertical</em></h2>
-    <p class="sec-p">Regardless of your industry, these are the foundational data capabilities we deploy across every engagement.</p>
-  </div>
+            function safePlay() {
+                if (video.paused) video.play().catch(() => {});
+            }
+            if (video.readyState >= 3) { safePlay(); } else { video.addEventListener('canplay', safePlay, { once: true }); }
 
-  <button class="methodology-toggle" id="methodologyToggle" onclick="toggleMethodology()">
-    <div class="methodology-toggle-left">
-      <div class="methodology-toggle-icon"><i class="ti ti-list-details"></i></div>
-      <div>
-        <div class="methodology-toggle-title">See the six-stage data pipeline</div>
-        <div class="methodology-toggle-sub">Research → Structuring → Labelling → QA → Automation → Reporting</div>
-      </div>
-    </div>
-    <div class="methodology-toggle-arrow">▾</div>
-  </button>
+            let visible = true;
+            const vo = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    visible = e.isIntersecting;
+                    if (visible) safePlay();
+                    else video.pause();
+                });
+            }, { threshold: 0.1, rootMargin: '80px 0px' });
+            vo.observe(stage);
 
-  <div class="methodology-body" id="methodologyBody">
-    <div class="methodology-body-inner">
-      <div class="cds-grid">
-        <div class="cds-card">
-          <div class="cds-ghost">D</div>
-          <div class="cds-img-wrap">
-            <img src="images/research.jpg" alt="Data Research"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-            <div class="cds-img-fallback" style="background:linear-gradient(135deg,#060e1a 0%,#0e1830 50%,rgba(255,92,0,0.12) 100%)"></div>
-          </div>
-          <div class="cds-num">SERVICE 01</div>
-          <div class="cds-title">Data Research &amp; Sourcing</div>
-          <div class="cds-desc">We locate, retrieve, and verify data from primary and secondary sources — registries, databases, public records, and proprietary feeds — so your pipeline starts with reliable inputs.</div>
-          <div class="cds-pills"><span class="cds-pill">Registry research</span><span class="cds-pill">Open-source intelligence</span><span class="cds-pill">Cross-source verification</span></div>
-        </div>
-        <div class="cds-card">
-          <div class="cds-ghost">S</div>
-          <div class="cds-img-wrap">
-            <img src="images/structure.jpg" alt="Data Structuring"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-            <div class="cds-img-fallback" style="background:linear-gradient(135deg,#080a16 0%,#121830 50%,rgba(255,92,0,0.10) 100%)"></div>
-          </div>
-          <div class="cds-num">SERVICE 02</div>
-          <div class="cds-title">Data Structuring &amp; Enrichment</div>
-          <div class="cds-desc">Raw data organised into schema-compliant, analysis-ready formats. We normalise, deduplicate, and enrich records so your systems receive clean, consistent data at every ingestion point.</div>
-          <div class="cds-pills"><span class="cds-pill">Schema design</span><span class="cds-pill">Deduplication</span><span class="cds-pill">Field enrichment</span></div>
-        </div>
-        <div class="cds-card">
-          <div class="cds-ghost">L</div>
-          <div class="cds-img-wrap">
-            <img src="images/label.jpg" alt="Labelling and Annotation"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-            <div class="cds-img-fallback" style="background:linear-gradient(135deg,#0a0812 0%,#160e22 50%,rgba(255,92,0,0.12) 100%)"></div>
-          </div>
-          <div class="cds-num">SERVICE 03</div>
-          <div class="cds-title">Labelling &amp; Annotation at Scale</div>
-          <div class="cds-desc">From image bounding boxes to complex NLP label taxonomies, we run annotation pipelines that produce model-ready training data with measurable quality controls and expert review layers.</div>
-          <div class="cds-pills"><span class="cds-pill">Bounding boxes</span><span class="cds-pill">NLP classification</span><span class="cds-pill">RLHF feedback</span></div>
-        </div>
-        <div class="cds-card">
-          <div class="cds-ghost">Q</div>
-          <div class="cds-img-wrap">
-            <img src="images/qa.jpg" alt="Quality Assurance"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-            <div class="cds-img-fallback" style="background:linear-gradient(135deg,#060c10 0%,#0e1820 50%,rgba(255,92,0,0.08) 100%)"></div>
-          </div>
-          <div class="cds-num">SERVICE 04</div>
-          <div class="cds-title">Quality Assurance &amp; Validation</div>
-          <div class="cds-desc">Multi-layer QA built into every workflow. Senior reviewers check outputs against your acceptance criteria before delivery — we don't ship until the numbers hold.</div>
-          <div class="cds-pills"><span class="cds-pill">Inter-rater agreement</span><span class="cds-pill">Pass-rate benchmarks</span><span class="cds-pill">Client spec sign-off</span></div>
-        </div>
-        <div class="cds-card">
-          <div class="cds-ghost">A</div>
-          <div class="cds-img-wrap">
-            <img src="images/automation.avif" alt="Workflow Automation"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-            <div class="cds-img-fallback" style="background:linear-gradient(135deg,#04100e 0%,#081a16 50%,rgba(255,92,0,0.10) 100%)"></div>
-          </div>
-          <div class="cds-num">SERVICE 05</div>
-          <div class="cds-title">Workflow Automation &amp; Integration</div>
-          <div class="cds-desc">n8n, Zapier, and custom API integrations that connect your tools and automate repetitive data operations — so your team handles exceptions, not volume.</div>
-          <div class="cds-pills"><span class="cds-pill">n8n workflows</span><span class="cds-pill">API connectors</span><span class="cds-pill">Zapier automation</span></div>
-        </div>
-        <div class="cds-card">
-          <div class="cds-ghost">R</div>
-          <div class="cds-img-wrap">
-            <img src="images/reporting.avif" alt="Reporting and Intelligence"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-            <div class="cds-img-fallback" style="background:linear-gradient(135deg,#0a0806 0%,#1a1408 50%,rgba(255,92,0,0.14) 100%)"></div>
-          </div>
-          <div class="cds-num">SERVICE 06</div>
-          <div class="cds-title">Reporting &amp; Intelligence Delivery</div>
-          <div class="cds-desc">Structured reports, dashboards, and data exports delivered on your schedule. We translate operational data into intelligence that drives decisions rather than workloads.</div>
-          <div class="cds-pills"><span class="cds-pill">Scheduled reporting</span><span class="cds-pill">Dashboard delivery</span><span class="cds-pill">Export-ready datasets</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden && visible) safePlay();
+            });
+        })();
 
-<!-- CAPABILITIES -->
-<section id="capabilities" class="rv">
-  <div class="cap-intro">
-    <div class="sec-tag">Why It Works</div>
-    <h2 class="sec-h2">Built for Precision<br><em>Not Volume</em></h2>
-    <p class="sec-p">Five capabilities that separate OmniPulse from generic BPO providers — and keep our error rates well below industry average.</p>
-  </div>
-  <div class="cap-grid">
-    <div class="cap-item">
-      <div class="cap-item-top"><span class="cap-icon">🌍</span><span class="cap-num">01</span></div>
-      <div class="cap-title">Domain Expertise, Not Generalism</div>
-      <div class="cap-desc">Our operators are trained in their assigned verticals. A maritime analyst understands IMO structures. A healthcare billing specialist knows ICD codes. Context cannot be outsourced — so we build it in.</div>
-      <div class="cap-stat">
-        <div class="cap-stat-n">6,140</div>
-        <div class="cap-stat-l">Vessel Ownership Chains Researched</div>
-      </div>
-    </div>
-    <div class="cap-item">
-      <div class="cap-item-top"><span class="cap-icon">🔬</span><span class="cap-num">02</span></div>
-      <div class="cap-title">African Data at the Source</div>
-      <div class="cap-desc">Based in Nairobi, we have direct access to African language speakers, East Africa logistics routes, and on-the-ground context that remote teams cannot replicate. Rare data. Real access.</div>
-      <div class="cap-stat">
-        <div class="cap-stat-n">94%</div>
-        <div class="cap-stat-l">Swahili, Kikuyu &amp; Luo Absent From Global NLP Datasets</div>
-      </div>
-    </div>
-    <div class="cap-item">
-      <div class="cap-item-top"><span class="cap-icon">⚡</span><span class="cap-num">03</span></div>
-      <div class="cap-title">48-Hour Operational Start</div>
-      <div class="cap-desc">From signed agreement to live operations in 48 hours. Systems connected, team briefed, first deliverables in queue. No procurement marathons or six-week implementation cycles.</div>
-      <div class="cap-stat">
-        <div class="cap-stat-n">48h</div>
-        <div class="cap-stat-l">Agreement To Live Operations</div>
-      </div>
-    </div>
-    <div class="cap-item">
-      <div class="cap-item-top"><span class="cap-icon">🤝</span><span class="cap-num">04</span></div>
-      <div class="cap-title">Single-Vendor Accountability</div>
-      <div class="cap-desc">One account manager. One team. One P&amp;L. We own the outcome end-to-end — no subcontractor chains, no handoff gaps, no ambiguity about who is responsible when something goes wrong.</div>
-      <div class="cap-stat">
-        <div class="cap-stat-n">1</div>
-        <div class="cap-stat-l">Point Of Contact, Zero Subcontractor Chains</div>
-      </div>
-    </div>
-    <div class="cap-item">
-      <div class="cap-item-top"><span class="cap-icon">🔒</span><span class="cap-num">05</span></div>
-      <div class="cap-title">NDA From Day One</div>
-      <div class="cap-desc">Every client relationship is protected by a mutual NDA from the moment an engagement starts. Maritime compliance data and AI training sets are commercially sensitive — we treat them that way by default, not on request.</div>
-      <div class="cap-stat">
-        <div class="cap-stat-n">100%</div>
-        <div class="cap-stat-l">Engagements Under Mutual NDA</div>
-      </div>
-    </div>
-  </div>
-</section>
+        /* METHODOLOGY COLLAPSIBLE */
+        function toggleMethodology() {
+            var toggle = document.getElementById('methodologyToggle');
+            var body = document.getElementById('methodologyBody');
+            var isOpen = toggle.classList.toggle('open');
+            body.classList.toggle('open', isOpen);
+        }
 
-<!-- CONTACT -->
-<section id="cta" class="rv">
-  <div class="cta-hero-band">
-    <div class="hero-video-stage">
-      <video id="cta-hero-video" class="hero-video active" autoplay muted loop playsinline preload="auto" poster="images/hero-poster.jpg" disablePictureInPicture disableRemotePlayback>
-        <source src="images/AIhero.mp4" type="video/mp4">
-      </video>
-    </div>
-    <div class="hero-video-overlay"></div>
-    <div class="sec-tag">Get In Touch</div>
-    <h2 class="sec-h2">Tell us what you need — <em>we'll take it from there.</em></h2>
-  </div>
-  <div class="cta-form-section">
-  <div class="contact-layout">
-    <div class="contact-form-wrap">
-      <form id="contactForm" action="contact.php" method="POST" novalidate>
-        <div class="cf-row">
-          <label class="cf-label" for="cf-name">Name *</label>
-          <input class="cf-input" type="text" id="cf-name" name="name" required>
-        </div>
-        <div class="cf-row">
-          <label class="cf-label" for="cf-company">Company *</label>
-          <input class="cf-input" type="text" id="cf-company" name="company" required>
-        </div>
-        <div class="cf-row">
-          <label class="cf-label" for="cf-email">Email *</label>
-          <input class="cf-input" type="email" id="cf-email" name="email" required>
-        </div>
-        <div class="cf-row">
-          <label class="cf-label" for="cf-industry">What do you need support with? *</label>
-          <select class="cf-input" id="cf-industry" name="industry" required>
-            <option value="" disabled selected>Select the closest fit</option>
-            <option>Back-Office &amp; Administrative Operations</option>
-            <option>Data &amp; Intelligence Operations</option>
-            <option>AI &amp; Data Operations</option>
-            <option>Customer Operations</option>
-            <option>Revenue &amp; Business Operations</option>
-            <option>Specialist Process Outsourcing (Maritime/Aviation/Healthcare/Logistics)</option>
-            <option>Not sure yet</option>
-          </select>
-        </div>
-        <div class="cf-row">
-          <label class="cf-label" for="cf-need">What do you need? *</label>
-          <textarea class="cf-input" id="cf-need" name="need" rows="4" required></textarea>
-        </div>
-        <div class="cf-row">
-          <label class="cf-label" for="cf-timeline">Preferred timeline</label>
-          <select class="cf-input" id="cf-timeline" name="timeline">
-            <option value="" disabled selected>Select a timeline</option>
-            <option>Immediately</option>
-            <option>Within 2 weeks</option>
-            <option>Within a month</option>
-            <option>Just exploring</option>
-          </select>
-        </div>
-        <!-- Honeypot spam trap: real visitors never see or fill this field -->
-        <div class="cf-hp" aria-hidden="true">
-          <label for="cf-website">Website</label>
-          <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
-        </div>
-        <button type="submit" class="cf-submit">Send Enquiry →</button>
-        <div class="cf-status" id="cfStatus" role="status" aria-live="polite"></div>
-      </form>
-    </div>
-    <div class="contact-side">
-      <div class="contact-response">
-        <div class="contact-response-title">Response Commitment</div>
-        <div class="contact-response-text">We respond to every enquiry within <b>24 hours</b>.<br>Discovery calls available <b>Monday–Friday, 08:00–18:00 EAT (UTC+3)</b>.</div>
-      </div>
-      <div class="contact-alt">Prefer to skip the form? <a href="mailto:info@support.omnipulseagency.com">Email us directly</a> at info@support.omnipulseagency.com.</div>
-    </div>
-  </div>
-  </div>
-</section>
+        /* CONTACT FORM — submits to contact.php via fetch, shows inline status.
+           Matches the same backend contract as index.html's #contact form. */
+        (function() {
+            var form = document.getElementById('contactForm');
+            if (!form) return;
+            var statusEl = document.getElementById('cfStatus');
+            var submitBtn = form.querySelector('.cf-submit');
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                statusEl.textContent = '';
+                statusEl.classList.remove('cf-status-ok', 'cf-status-err');
+                submitBtn.disabled = true;
+                var originalLabel = submitBtn.textContent;
+                submitBtn.textContent = 'Sending…';
+                try {
+                    var res = await fetch(form.action, {
+                        method: 'POST',
+                        body: new FormData(form),
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+                    var data = await res.json();
+                    statusEl.textContent = data.message;
+                    statusEl.classList.add(data.success ? 'cf-status-ok' : 'cf-status-err');
+                    if (data.success) form.reset();
+                } catch (err) {
+                    statusEl.textContent = 'Something went wrong sending your message. Please email us directly at info@support.omnipulseagency.com.';
+                    statusEl.classList.add('cf-status-err');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalLabel;
+                }
+            });
+        })();
 
-<footer>
-  <div class="footer-grid">
-    <div class="footer-col">
-      <div class="fl">
-        <div class="fl-orbit">
-          <div class="fl-ring r1"><div class="fl-dot"></div></div>
-          <div class="fl-ring r2"><div class="fl-dot sm"></div></div>
-          <div class="fl-ring r3"><div class="fl-dot dim"></div></div>
-          <div class="fl-center"></div>
-        </div>
-        <div class="fl-text">OMNI<em>PULSE</em></div>
-      </div>
-      <p class="footer-tagline">A global operations partner headquartered in Nairobi — back-office, data, AI, customer, and revenue operations for businesses worldwide.</p>
-      <div class="footer-location"><i class="ti ti-map-pin"></i> Nairobi, Kenya — serving clients globally</div>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Quick Links</div>
-      <div class="flinks">
-        <a href="index.html">Home</a>
-        <a href="#what-we-do">What We Do</a>
-        <a href="#services">Industries</a>
-        <a href="index.html#why">Why Us</a>
-        <a href="blog.html">Blog</a>
-        <a href="#cta">Contact</a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Get In Touch</div>
-      <div class="footer-contact-list">
-        <a href="mailto:info@support.omnipulseagency.com" class="fl-email">info@support.omnipulseagency.com</a>
-        <a href="https://www.linkedin.com/company/omnipulse" target="_blank" rel="noopener" class="fl-linkedin"><i class="ti ti-brand-linkedin"></i>Connect on LinkedIn →</a>
-      </div>
-      <div class="trust-chips">
-        <span class="trust-chip">NDA on request</span>
-        <span class="trust-chip">Access-controlled data handling</span>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="fc">© 2025 OmniPulse Agency · All Rights Reserved</div>
-  </div>
-</footer>
+        /* SHARED IMAGE PANEL UPDATER */
+        function updateSrvPanel(imgSrc, bgGrad, tag, caption, desc, catName) {
+            var img = document.getElementById('srvImg'),
+                bg = document.getElementById('srvImgBg'),
+                tagEl = document.getElementById('srvImgTag'),
+                capEl = document.getElementById('srvImgCaption'),
+                descEl = document.getElementById('srvImgDesc'),
+                catEl = document.getElementById('srvPanelCat');
+            tagEl.classList.remove('show');
+            capEl.classList.remove('show');
+            img.classList.remove('visible');
+            bg.classList.remove('visible');
+            setTimeout(function() {
+                if (imgSrc) {
+                    img.style.display = '';
+                    img.src = imgSrc;
+                    img.onload = function() { img.classList.add('visible') };
+                    img.onerror = function() { img.style.display = 'none';
+                        bg.style.background = bgGrad;
+                        bg.classList.add('visible') };
+                } else {
+                    img.style.display = 'none';
+                    bg.style.background = bgGrad;
+                    bg.classList.add('visible');
+                }
+                tagEl.textContent = tag;
+                capEl.innerHTML = caption;
+                if (descEl) descEl.textContent = desc;
+                if (catEl) catEl.textContent = '// ' + catName;
+                setTimeout(function() { tagEl.classList.add('show');
+                    capEl.classList.add('show') }, 80);
+            }, 220);
+        }
 
-<script>
-/* LOADER */
-setTimeout(()=>{document.getElementById('loader').classList.add('done')},1600);
+        /* SERVICE ACCORDION */
+        function srvToggle(btn) {
+            var cat = btn.closest('.srv-cat');
+            var isOpen = cat.classList.contains('open');
+            document.querySelectorAll('.srv-cat').forEach(function(c) { c.classList.remove('open') });
+            if (!isOpen) {
+                cat.classList.add('open');
+                var firstItem = cat.querySelector('.srv-item');
+                if (firstItem) srvActivate(firstItem);
+            }
+        }
 
-/* DAY/NIGHT */
-const themeBtn=document.getElementById('theme-btn');
-themeBtn.addEventListener('click',()=>{
-  const isDay=document.body.classList.toggle('day-mode');
-  themeBtn.textContent=isDay?'☀️':'🌙';
-  themeBtn.setAttribute('aria-label',isDay?'Switch to night mode':'Switch to day mode');
-});
+        /* Opens a specific category by id, activates its first item, and (optionally) scrolls it into view.
+           Used both for hash-based deep links (e.g. services.html#maritime) and cross-links between categories. */
+        function openCategoryById(catId, scrollTo) {
+            var cat = document.getElementById(catId);
+            if (!cat) return;
+            document.querySelectorAll('.srv-cat').forEach(function(c) { c.classList.remove('open') });
+            cat.classList.add('open');
+            var firstItem = cat.querySelector('.srv-item');
+            if (firstItem) srvActivate(firstItem);
+            if (scrollTo) {
+                requestAnimationFrame(function() {
+                    requestAnimationFrame(function() {
+                        cat.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                });
+            }
+        }
 
-/* HERO VIDEO — lives in the CTA/contact section. Autoplay/muted/loop/playsinline are
-   native attributes on the <video> element, so no JS is required to start playback.
-   This script waits for enough buffered data before forcing play, avoids redundant
-   play() calls, and pauses when the section scrolls out of view. */
-(function(){
-  const stage=document.querySelector('#cta .hero-video-stage');
-  const video=document.getElementById('cta-hero-video');
-  if(!stage||!video)return;
+        /* Reads the URL hash on load / change and opens + scrolls to the matching category.
+           This is what lets a visitor land straight on Maritime, Aviation, Healthcare,
+           Logistics, or AI & Visual content with zero extra clicks. */
+        var VALID_SERVICE_HASHES = ['maritime', 'aviation', 'healthcare', 'logistics', 'ai-visual'];
 
-  function safePlay(){
-    if(video.paused)video.play().catch(()=>{});
-  }
-  if(video.readyState>=3){safePlay();}
-  else{video.addEventListener('canplay',safePlay,{once:true});}
+        function handleServiceHashRoute() {
+            var hash = window.location.hash.replace('#', '');
+            if (VALID_SERVICE_HASHES.indexOf(hash) !== -1) {
+                openCategoryById(hash, true);
+            }
+        }
+        window.addEventListener('hashchange', handleServiceHashRoute);
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(handleServiceHashRoute, 60);
+        });
 
-  let visible=true;
-  const vo=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      visible=e.isIntersecting;
-      if(visible)safePlay();
-      else video.pause();
-    });
-  },{threshold:0.1,rootMargin:'80px 0px'});
-  vo.observe(stage);
+        function srvActivate(item) {
+            document.querySelectorAll('.srv-item').forEach(function(i) { i.classList.remove('active') });
+            item.classList.add('active');
+            var imgSrc = item.dataset.img || '',
+                bgGrad = item.dataset.bg || 'linear-gradient(135deg,#080b16,#10122a)',
+                tag = item.dataset.tag || '',
+                caption = item.dataset.caption || '',
+                desc = item.querySelector('.srv-item-desc') ? item.querySelector('.srv-item-desc').textContent : '',
+                catName = item.closest('.srv-cat').querySelector('.srv-cat-name').textContent;
+            updateSrvPanel(imgSrc, bgGrad, tag, caption, desc, catName);
+        }
 
-  document.addEventListener('visibilitychange',()=>{
-    if(!document.hidden&&visible)safePlay();
-  });
-})();
+        /* SCROLL REVEAL */
+        const obs = new IntersectionObserver(entries => entries.forEach(e => {
+            if (e.isIntersecting) e.target.classList.add('vis');
+        }), { threshold: .06 });
+        document.querySelectorAll('.rv').forEach((el, i) => { el.style.transitionDelay = (i % 3) * .1 + 's';
+            obs.observe(el) });
 
-/* METHODOLOGY COLLAPSIBLE */
-function toggleMethodology(){
-  var toggle=document.getElementById('methodologyToggle');
-  var body=document.getElementById('methodologyBody');
-  var isOpen=toggle.classList.toggle('open');
-  body.classList.toggle('open',isOpen);
-}
+        /* ACTIVE NAV ON SCROLL */
+        const sections = ['what-we-do', 'services', 'coredata', 'capabilities'];
+        window.addEventListener('scroll', () => {
+            let cur = '';
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && window.scrollY >= el.offsetTop - 140) cur = id;
+            });
+            document.querySelectorAll('.nav-links a').forEach(l => {
+                l.classList.remove('active');
+                if (l.getAttribute('href') === '#' + cur) l.classList.add('active');
+            });
+        }, { passive: true });
+    </script>
 
-/* CONTACT FORM — submits to contact.php via fetch, shows inline status.
-   Matches the same backend contract as index.html's #contact form. */
-(function(){
-  var form=document.getElementById('contactForm');
-  if(!form)return;
-  var statusEl=document.getElementById('cfStatus');
-  var submitBtn=form.querySelector('.cf-submit');
-  form.addEventListener('submit',async function(e){
-    e.preventDefault();
-    statusEl.textContent='';
-    statusEl.classList.remove('cf-status-ok','cf-status-err');
-    submitBtn.disabled=true;
-    var originalLabel=submitBtn.textContent;
-    submitBtn.textContent='Sending…';
-    try{
-      var res=await fetch(form.action,{
-        method:'POST',
-        body:new FormData(form),
-        headers:{'X-Requested-With':'XMLHttpRequest'}
-      });
-      var data=await res.json();
-      statusEl.textContent=data.message;
-      statusEl.classList.add(data.success?'cf-status-ok':'cf-status-err');
-      if(data.success)form.reset();
-    }catch(err){
-      statusEl.textContent='Something went wrong sending your message. Please email us directly at info@support.omnipulseagency.com.';
-      statusEl.classList.add('cf-status-err');
-    }finally{
-      submitBtn.disabled=false;
-      submitBtn.textContent=originalLabel;
-    }
-  });
-})();
-
-/* SHARED IMAGE PANEL UPDATER */
-function updateSrvPanel(imgSrc,bgGrad,tag,caption,desc,catName){
-  var img=document.getElementById('srvImg'),bg=document.getElementById('srvImgBg'),
-      tagEl=document.getElementById('srvImgTag'),capEl=document.getElementById('srvImgCaption'),
-      descEl=document.getElementById('srvImgDesc'),catEl=document.getElementById('srvPanelCat');
-  tagEl.classList.remove('show');capEl.classList.remove('show');
-  img.classList.remove('visible');bg.classList.remove('visible');
-  setTimeout(function(){
-    if(imgSrc){
-      img.style.display='';img.src=imgSrc;
-      img.onload=function(){img.classList.add('visible')};
-      img.onerror=function(){img.style.display='none';bg.style.background=bgGrad;bg.classList.add('visible')};
-    } else {
-      img.style.display='none';bg.style.background=bgGrad;bg.classList.add('visible');
-    }
-    tagEl.textContent=tag;capEl.innerHTML=caption;
-    if(descEl)descEl.textContent=desc;
-    if(catEl)catEl.textContent='// '+catName;
-    setTimeout(function(){tagEl.classList.add('show');capEl.classList.add('show')},80);
-  },220);
-}
-
-/* SERVICE ACCORDION */
-function srvToggle(btn){
-  var cat=btn.closest('.srv-cat');
-  var isOpen=cat.classList.contains('open');
-  document.querySelectorAll('.srv-cat').forEach(function(c){c.classList.remove('open')});
-  if(!isOpen){
-    cat.classList.add('open');
-    var firstItem=cat.querySelector('.srv-item');
-    if(firstItem)srvActivate(firstItem);
-  }
-}
-
-/* Opens a specific category by id, activates its first item, and (optionally) scrolls it into view.
-   Used both for hash-based deep links (e.g. services.html#maritime) and cross-links between categories. */
-function openCategoryById(catId,scrollTo){
-  var cat=document.getElementById(catId);
-  if(!cat)return;
-  document.querySelectorAll('.srv-cat').forEach(function(c){c.classList.remove('open')});
-  cat.classList.add('open');
-  var firstItem=cat.querySelector('.srv-item');
-  if(firstItem)srvActivate(firstItem);
-  if(scrollTo){
-    // Wait a tick for the accordion's max-height transition to begin so the
-    // final scroll position lands on the now-expanded category, not the collapsed one.
-    requestAnimationFrame(function(){
-      requestAnimationFrame(function(){
-        cat.scrollIntoView({behavior:'smooth',block:'start'});
-      });
-    });
-  }
-}
-
-/* Reads the URL hash on load / change and opens + scrolls to the matching category.
-   This is what lets a visitor land straight on Maritime, Aviation, Healthcare,
-   Logistics, or AI & Visual content with zero extra clicks. */
-var VALID_SERVICE_HASHES=['maritime','aviation','healthcare','logistics','ai-visual'];
-function handleServiceHashRoute(){
-  var hash=window.location.hash.replace('#','');
-  if(VALID_SERVICE_HASHES.indexOf(hash)!==-1){
-    openCategoryById(hash,true);
-  }
-}
-window.addEventListener('hashchange',handleServiceHashRoute);
-window.addEventListener('DOMContentLoaded',function(){
-  // Slight delay so the loader/layout has settled before we measure scroll position.
-  setTimeout(handleServiceHashRoute,60);
-});
-
-function srvActivate(item){
-  document.querySelectorAll('.srv-item').forEach(function(i){i.classList.remove('active')});
-  item.classList.add('active');
-  var imgSrc=item.dataset.img||'',bgGrad=item.dataset.bg||'linear-gradient(135deg,#080b16,#10122a)',
-      tag=item.dataset.tag||'',caption=item.dataset.caption||'',
-      desc=item.querySelector('.srv-item-desc')?item.querySelector('.srv-item-desc').textContent:'',
-      catName=item.closest('.srv-cat').querySelector('.srv-cat-name').textContent;
-  updateSrvPanel(imgSrc,bgGrad,tag,caption,desc,catName);
-}
-
-/* SCROLL REVEAL */
-const obs=new IntersectionObserver(entries=>entries.forEach(e=>{
-  if(e.isIntersecting)e.target.classList.add('vis');
-}),{threshold:.06});
-document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%3)*.1+'s';obs.observe(el)});
-
-/* ACTIVE NAV ON SCROLL */
-const sections=['what-we-do','services','coredata','capabilities'];
-window.addEventListener('scroll',()=>{
-  let cur='';
-  sections.forEach(id=>{
-    const el=document.getElementById(id);
-    if(el&&window.scrollY>=el.offsetTop-140)cur=id;
-  });
-  document.querySelectorAll('.nav-links a').forEach(l=>{
-    l.classList.remove('active');
-    if(l.getAttribute('href')==='#'+cur)l.classList.add('active');
-  });
-},{passive:true});
-</script>
 </body>
 </html>
