@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OmniPulse — Blog & Insights</title>
+    <meta name="description" content="Expert insights on maritime intelligence, aviation asset tracing, healthcare data, logistics, AI annotation, and operational excellence from OmniPulse Agency." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" />
+    <style>
+        /* ===== RESET & ROOT ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg: #f0f0e8;
+            --o: #ff5c00;
+            --panel: #ffffff;
+            --border: #d4d4c8;
+            --o2: #ff8800;
+            --w: #1a1a2e;
+            --dim: #e8e8e0;
+            --glow: rgba(255, 92, 0, 0.20);
+            --text: #5a5a72;
+            --text-bright: #2e2e44;
+            --radius: 12px;
+            --nav-height: 64px;
+        }
+        body.day-mode {
+            --bg: #03040a;
+            --panel: #080b16;
+            --border: #111428;
+            --w: #f0f0ff;
+            --dim: #1e2040;
+            --glow: rgba(255, 92, 0, 0.25);
+            --text: #c2c2d8;
+            --text-bright: #dcdcf0;
+        }
+        body.day-mode nav {
+            background: rgba(3, 4, 10, 0.85) !important;
+            border-bottom-color: #111428 !important;
+        }
+        body.day-mode nav .logo-text,
+        body.day-mode nav .nav-links a,
+        body.day-mode nav #theme-btn {
+            color: #e0e0f4;
+        }
+        body.day-mode nav .nav-links a:hover {
+            color: var(--o);
+        }
+        body.day-mode nav #theme-btn {
+            border-color: rgba(255, 255, 255, 0.20);
+            color: #e0e0f4;
+        }
+        body,
+        section,
+        footer {
+            transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+        }
+        nav {
+            transition: none;
+        }
+        #theme-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.20);
+            background: transparent;
+            color: var(--w);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all .3s;
+            line-height: 1;
+            padding: 0;
+        }
+        #theme-btn:hover {
+            border-color: var(--o);
+            background: rgba(255, 92, 0, 0.12);
+            transform: scale(1.1) rotate(15deg);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* --- BASE TYPOGRAPHY --- */
+        body {
+            background: var(--bg);
+            color: var(--w);
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 12px;
+            line-height: 1.0;
+            overflow-x: hidden;
+            cursor: auto;
+        }
+
+        /* Main headlines */
+        .sec-h2,
+        .post-title {
+            font-size: 24px !important;
+            line-height: 1.0 !important;
+            letter-spacing: -0.5px;
+        }
+
+        /* Subheadings */
+        .post-subtitle,
+        .category-title,
+        .featured-title {
+            font-size: 20px !important;
+            line-height: 1.0 !important;
+            letter-spacing: -0.2px;
+        }
+
+        /* Body text */
+        .post-excerpt,
+        .post-meta,
+        .blog-text,
+        .sec-p,
+        .footer-tagline,
+        .tag {
+            font-size: 12px !important;
+            line-height: 1.0 !important;
+        }
+
+        .post-excerpt,
+        .blog-text {
+            max-width: 70ch !important;
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            height: var(--nav-height);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(3, 4, 10, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            gap: 10px;
+            opacity: 1;
+            transform: none;
+            animation: none;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .logo-orbit-wrap {
+            position: relative;
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+        }
+        .lo-ring {
+            position: absolute;
+            border-radius: 50%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255, 92, 0, 0.28);
+        }
+        .lo-ring.r1 {
+            width: 14px;
+            height: 14px;
+            animation: spin-logo 4s linear infinite;
+        }
+        .lo-ring.r2 {
+            width: 22px;
+            height: 22px;
+            animation: spin-logo 7s linear infinite reverse;
+        }
+        .lo-ring.r3 {
+            width: 30px;
+            height: 30px;
+            animation: spin-logo 12s linear infinite;
+            border-style: dashed;
+            border-color: rgba(255, 92, 0, 0.15);
+        }
+        .lo-dot {
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ff5c00;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px #ff5c00, 0 0 20px rgba(255, 92, 0, 0.4);
+        }
+        .lo-dot.sm {
+            width: 4px;
+            height: 4px;
+            top: -2px;
+            background: #ff8800;
+            box-shadow: 0 0 7px #ff8800;
+        }
+        .lo-dot.dim {
+            width: 3px;
+            height: 3px;
+            top: -1.5px;
+            background: rgba(255, 92, 0, 0.5);
+            box-shadow: none;
+        }
+        .lo-center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #ff5c00;
+            box-shadow: 0 0 10px #ff5c00, 0 0 20px rgba(255, 92, 0, 0.5);
+            z-index: 2;
+        }
+        .lo-pulse {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 92, 0, 0.5);
+            animation: lo-pulse-out 2.5s ease-out infinite;
+            pointer-events: none;
+        }
+        .lo-pulse:nth-child(2) {
+            animation-delay: .9s;
+        }
+        @keyframes spin-logo {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+        @keyframes lo-pulse-out {
+            0% {
+                width: 10px;
+                height: 10px;
+                opacity: .7;
+            }
+            100% {
+                width: 32px;
+                height: 32px;
+                opacity: 0;
+            }
+        }
+        .logo-text {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #f0f0ff;
+        }
+        .logo-text em {
+            color: var(--o);
+            font-style: normal;
+        }
+        .logo-suffix {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 8px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            margin-left: 2px;
+            align-self: flex-end;
+            padding-bottom: 2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            color: #e0e0f4;
+            text-decoration: none;
+            transition: color .3s;
+            text-transform: uppercase;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--o);
+        }
+        .nav-cta {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 8px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: var(--o);
+            color: #f0f0ff !important;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: all .3s;
+            box-shadow: 0 0 20px var(--glow);
+            clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+            white-space: nowrap;
+        }
+        .nav-cta:hover {
+            background: var(--o2);
+            box-shadow: 0 0 30px rgba(255, 92, 0, .5);
+            transform: translateY(-2px);
+        }
+
+        /* ===== SECTION COMMONS ===== */
+        .sec-tag {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: var(--o);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sec-tag::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--o);
+        }
+        .sec-h2 {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            line-height: 1.0;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+        }
+        .sec-h2 em {
+            color: var(--o);
+            font-style: normal;
+        }
+        .sec-p {
+            font-weight: 400;
+            color: var(--text-bright);
+        }
+
+        /* ===== CATEGORIES ===== */
+        .categories-bar {
+            background: var(--bg);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 6px;
+            align-items: center;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .categories-bar::-webkit-scrollbar {
+            display: none;
+        }
+        .categories-bar-label {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: var(--text);
+            text-transform: uppercase;
+            margin-right: 4px;
+            flex-shrink: 0;
+        }
+        .cat-filter {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            color: var(--text-bright);
+            padding: 4px 10px;
+            border: 1px solid var(--border);
+            background: transparent;
+            cursor: pointer;
+            transition: all .25s;
+            text-transform: uppercase;
+            border-radius: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .cat-filter:hover,
+        .cat-filter.active {
+            border-color: var(--o);
+            color: var(--o);
+            background: rgba(255, 92, 0, 0.06);
+        }
+
+        /* ===== FEATURED CAROUSEL ===== */
+        .featured-post {
+            background: var(--panel);
+            padding: 24px 20px 32px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            margin-top: var(--nav-height);
+        }
+        .featured-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .featured-carousel {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            aspect-ratio: 16/10;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 100%;
+        }
+        .featured-slide {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            transform: scale(1.02);
+            pointer-events: none;
+            background: var(--bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        .featured-slide.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+        .featured-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: var(--radius);
+        }
+        .featured-slide .slide-fallback {
+            font-size: 36px;
+            opacity: 0.3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: var(--text);
+        }
+        .featured-slide .slide-fallback span {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .carousel-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 5;
+        }
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: transparent;
+            cursor: pointer;
+            transition: all .3s;
+            padding: 0;
+        }
+        .carousel-dot.active {
+            background: var(--o);
+            border-color: var(--o);
+            box-shadow: 0 0 10px rgba(255, 92, 0, 0.4);
+        }
+        .carousel-dot:hover {
+            border-color: var(--o);
+        }
+        .carousel-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 8px;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .carousel-arrow {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(3, 4, 10, 0.5);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all .3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+            padding: 0;
+        }
+        .carousel-arrow:hover {
+            background: var(--o);
+            border-color: var(--o);
+            box-shadow: 0 0 20px rgba(255, 92, 0, 0.3);
+        }
+        .featured-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+        }
+        .featured-tag {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: var(--o);
+            text-transform: uppercase;
+        }
+        .featured-title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            color: var(--w);
+            line-height: 1.0;
+            letter-spacing: -0.2px;
+            font-size: 20px !important;
+        }
+        .featured-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color .2s;
+        }
+        .featured-title a:hover {
+            color: var(--o);
+        }
+        .featured-desc {
+            color: var(--text-bright);
+            line-height: 1.0;
+            max-width: 70ch;
+            font-size: 12px !important;
+        }
+        .featured-meta {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 9px;
+            color: var(--text);
+            letter-spacing: 0.5px;
+        }
+        .featured-meta .author {
+            font-weight: 600;
+            color: var(--w);
+        }
+        .post-read-more {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-bright);
+            text-decoration: none;
+            transition: color .2s;
+            align-self: flex-start;
+        }
+        .post-read-more:hover {
+            color: var(--o);
+        }
+
+        /* ===== BLOG GRID ===== */
+        #blog-grid {
+            padding: 24px 20px 60px;
+            background: var(--bg);
+        }
+        .blog-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        .blog-post {
+            background: var(--panel);
+            padding: 20px 18px;
+            transition: all .3s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            cursor: pointer;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        .blog-post:hover {
+            background: rgba(255, 92, 0, 0.04);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            border-color: rgba(255, 92, 0, 0.2);
+        }
+        .blog-post:hover .post-read-more {
+            color: var(--o);
+        }
+        .post-tag {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 7px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: var(--o);
+            text-transform: uppercase;
+            display: inline-block;
+            padding: 2px 8px;
+            border: 1px solid rgba(255, 92, 0, 0.2);
+            align-self: flex-start;
+            border-radius: 4px;
+        }
+        .post-title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            color: var(--w);
+            line-height: 1.0;
+            letter-spacing: -0.2px;
+            font-size: 18px !important;
+        }
+        .post-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color .2s;
+        }
+        .post-title a:hover {
+            color: var(--o);
+        }
+        .post-excerpt {
+            color: var(--text-bright);
+            line-height: 1.0;
+            flex: 1;
+            font-size: 12px !important;
+        }
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 8px;
+            color: var(--text);
+            letter-spacing: 0.5px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+        }
+        .post-meta .author {
+            font-weight: 600;
+            color: var(--w);
+        }
+        .post-meta .date {
+            color: var(--text);
+        }
+
+        /* ===== CTA ===== */
+        .blog-cta {
+            padding: 60px 20px;
+            background: var(--panel);
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        .blog-cta .sec-h2 {
+            max-width: 70ch;
+            margin: 0 auto 12px;
+            font-size: 20px !important;
+        }
+        .blog-cta .sec-p {
+            max-width: 70ch;
+            margin: 0 auto 28px;
+            font-size: 12px !important;
+        }
+        .cta-btn {
+            display: inline-block;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: var(--o);
+            color: #f0f0ff !important;
+            padding: 12px 28px;
+            text-decoration: none;
+            transition: all .3s;
+            clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+            box-shadow: 0 0 20px var(--glow);
+        }
+        .cta-btn:hover {
+            background: var(--o2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 92, 0, .32);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 24px 20px 0;
+            background: rgba(3, 4, 10, 0.96);
+            border-top: 1px solid #111428;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            padding-bottom: 20px;
+        }
+        .footer-col-title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: 2.5px;
+            color: var(--o);
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+        .fl {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .fl-orbit {
+            position: relative;
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+        .fl-ring {
+            position: absolute;
+            border-radius: 50%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255, 92, 0, 0.25);
+        }
+        .fl-ring.r1 {
+            width: 11px;
+            height: 11px;
+            animation: spin-logo 4s linear infinite;
+        }
+        .fl-ring.r2 {
+            width: 18px;
+            height: 18px;
+            animation: spin-logo 7s linear infinite reverse;
+        }
+        .fl-ring.r3 {
+            width: 26px;
+            height: 26px;
+            animation: spin-logo 12s linear infinite;
+            border-style: dashed;
+            border-color: rgba(255, 92, 0, 0.12);
+        }
+        .fl-dot {
+            position: absolute;
+            top: -2.5px;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #ff5c00;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 7px #ff5c00;
+        }
+        .fl-dot.sm {
+            width: 3px;
+            height: 3px;
+            top: -1.5px;
+            background: #ff8800;
+        }
+        .fl-dot.dim {
+            width: 2.5px;
+            height: 2.5px;
+            top: -1px;
+            background: rgba(255, 92, 0, 0.45);
+            box-shadow: none;
+        }
+        .fl-center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #ff5c00;
+            box-shadow: 0 0 8px #ff5c00;
+            z-index: 2;
+        }
+        .fl-text {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #f0f0ff;
+        }
+        .fl-text em {
+            color: var(--o);
+            font-style: normal;
+        }
+        .footer-tagline {
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: #c2c2d8;
+            line-height: 1.0;
+            max-width: 70ch;
+            margin-bottom: 12px;
+            font-size: 12px !important;
+        }
+        .footer-location {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 10px;
+            color: #8f8fa8;
+            letter-spacing: .3px;
+        }
+        .footer-location i {
+            color: var(--o);
+            font-size: 12px;
+        }
+        .footer-col .flinks {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .flinks a {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: #c2c2d8;
+            text-decoration: none;
+            transition: color .3s;
+        }
+        .flinks a:hover {
+            color: var(--o);
+        }
+        .footer-contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .fl-email {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: 10px;
+            letter-spacing: .5px;
+            color: var(--o) !important;
+            text-decoration: none;
+        }
+        .fl-linkedin {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            font-size: 10px;
+            letter-spacing: .5px;
+            color: #c2c2d8;
+            text-decoration: none;
+            transition: color .2s;
+        }
+        .fl-linkedin:hover {
+            color: var(--o);
+        }
+        .fl-linkedin i {
+            font-size: 12px;
+        }
+        .trust-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .trust-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #dcdcf0;
+            border: 1px solid rgba(255, 92, 0, 0.3);
+            background: rgba(255, 92, 0, 0.06);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .trust-chip::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #00d97a;
+            flex-shrink: 0;
+        }
+        .footer-bottom {
+            border-top: 1px solid #111428;
+            padding: 12px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .fc {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 400;
+            font-size: 9px;
+            color: #c2c2d8;
+            text-align: center;
+        }
+
+        /* ===== REVEAL ===== */
+        .rv {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity .6s, transform .6s;
+        }
+        .rv.vis {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ===== RESPONSIVE - DESKTOP ===== */
+        @media (min-width: 768px) {
+            nav {
+                padding: 0 60px;
+            }
+            .nav-links {
+                gap: 32px;
+            }
+            .nav-links a {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+            .nav-cta {
+                font-size: 9px;
+                padding: 10px 22px;
+                clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+            }
+            .logo-text {
+                font-size: 16px;
+            }
+            .logo-orbit-wrap {
+                width: 38px;
+                height: 38px;
+            }
+            .featured-post {
+                padding: 40px 60px;
+            }
+            .featured-layout {
+                flex-direction: row;
+                gap: 48px;
+                align-items: stretch;
+            }
+            .featured-carousel {
+                aspect-ratio: 16/10;
+                flex: 1;
+                max-width: 55%;
+            }
+            .featured-content {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 0;
+            }
+            .featured-title {
+                font-size: 24px !important;
+            }
+            .blog-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+            }
+            #blog-grid {
+                padding: 40px 60px 80px;
+            }
+            .categories-bar {
+                padding: 16px 60px;
+                flex-wrap: wrap;
+                gap: 8px;
+                overflow-x: visible;
+            }
+            .blog-cta {
+                padding: 80px 60px;
+            }
+            .blog-cta .sec-h2 {
+                font-size: 24px !important;
+            }
+            footer {
+                padding: 32px 60px 0;
+            }
+            .footer-grid {
+                grid-template-columns: 1.2fr 1fr 1fr;
+                gap: 48px;
+                padding-bottom: 28px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .featured-carousel {
+                max-width: 50%;
+            }
+            .featured-title {
+                font-size: 28px !important;
+            }
+            .post-title {
+                font-size: 22px !important;
+            }
+        }
+
+        /* ===== RESPONSIVE - SMALL PHONES ===== */
+        @media (max-width: 400px) {
+            .logo-text {
+                font-size: 12px;
+                letter-spacing: 1.5px;
+            }
+            .logo-suffix {
+                font-size: 7px;
+            }
+            .logo-orbit-wrap {
+                width: 26px;
+                height: 26px;
+            }
+            .lo-ring.r1 {
+                width: 11px;
+                height: 11px;
+            }
+            .lo-ring.r2 {
+                width: 18px;
+                height: 18px;
+            }
+            .lo-ring.r3 {
+                width: 24px;
+                height: 24px;
+            }
+            .nav-cta {
+                font-size: 7px;
+                padding: 6px 12px;
+            }
+            .nav-links a {
+                font-size: 8px;
+                letter-spacing: 1px;
+            }
+            .featured-title {
+                font-size: 17px !important;
+            }
+            .post-title {
+                font-size: 16px !important;
+            }
+            .blog-post {
+                padding: 16px 14px;
+            }
+            .carousel-arrows {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAV ===== -->
+    <nav>
+        <a href="index.html" class="logo">
+            <div class="logo-orbit-wrap">
+                <div class="lo-pulse"></div><div class="lo-pulse"></div>
+                <div class="lo-ring r1"><div class="lo-dot"></div></div>
+                <div class="lo-ring r2"><div class="lo-dot sm"></div></div>
+                <div class="lo-ring r3"><div class="lo-dot dim"></div></div>
+                <div class="lo-center"></div>
+            </div>
+            <div class="logo-text">OMNI<em>PULSE</em></div>
+            <span class="logo-suffix">/ Blog</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html#what-we-do">What We Do</a></li>
+            <li><a href="services.html#services">Industries</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+            <li><a href="services.html#cta">Contact</a></li>
+        </ul>
+        <button id="theme-btn" aria-label="Toggle day/night mode">🌙</button>
+        <a href="services.html#cta" class="nav-cta">Get Started</a>
+    </nav>
+
+    <!-- ===== FEATURED CAROUSEL ===== -->
+    <section class="featured-post rv">
+        <div class="featured-layout">
+            <div class="featured-carousel" id="featuredCarousel">
+                <!-- SLIDE 1: Maritime -->
+                <div class="featured-slide active" data-index="0">
+                    <img src="images/maritime3.jpg" alt="Maritime Intelligence" onerror="this.style.display='none';this.parentElement.querySelector('.slide-fallback').style.display='flex'">
+                    <div class="slide-fallback" style="display:none;">🌊<span>Maritime</span></div>
+                </div>
+
+                <!-- SLIDE 2: Aviation -->
+                <div class="featured-slide" data-index="1">
+                    <img src="images/aviation2.jpg" alt="Aviation Asset Intelligence" onerror="this.style.display='none';this.parentElement.querySelector('.slide-fallback').style.display='flex'">
+                    <div class="slide-fallback" style="display:none;">✈️<span>Aviation</span></div>
+                </div>
+
+                <!-- SLIDE 3: Healthcare -->
+                <div class="featured-slide" data-index="2">
+                    <img src="images/health2.webp" alt="Healthcare Data" onerror="this.style.display='none';this.parentElement.querySelector('.slide-fallback').style.display='flex'">
+                    <div class="slide-fallback" style="display:none;">🏥<span>Healthcare</span></div>
+                </div>
+
+                <!-- SLIDE 4: Logistics -->
+                <div class="featured-slide" data-index="3">
+                    <img src="images/tr2.jpg" alt="Logistics Data" onerror="this.style.display='none';this.parentElement.querySelector('.slide-fallback').style.display='flex'">
+                    <div class="slide-fallback" style="display:none;">🚚<span>Logistics</span></div>
+                </div>
+
+                <!-- SLIDE 5: AI & Visual -->
+                <div class="featured-slide" data-index="4">
+                    <img src="images/ai.jpg" alt="AI & Visual Data" onerror="this.style.display='none';this.parentElement.querySelector('.slide-fallback').style.display='flex'">
+                    <div class="slide-fallback" style="display:none;">🧠<span>AI & Visual</span></div>
+                </div>
+
+                <!-- Arrows -->
+                <div class="carousel-arrows">
+                    <button class="carousel-arrow" id="prevSlide">‹</button>
+                    <button class="carousel-arrow" id="nextSlide">›</button>
+                </div>
+
+                <!-- Dots -->
+                <div class="carousel-dots" id="carouselDots">
+                    <button class="carousel-dot active" data-index="0"></button>
+                    <button class="carousel-dot" data-index="1"></button>
+                    <button class="carousel-dot" data-index="2"></button>
+                    <button class="carousel-dot" data-index="3"></button>
+                    <button class="carousel-dot" data-index="4"></button>
+                </div>
+            </div>
+
+            <div class="featured-content" id="featuredContent">
+                <span class="featured-tag">★ Featured · Maritime</span>
+                <h2 class="featured-title"><a href="#post-dark-fleet">Dark Fleet Detection: How We Trace the World's Most Opaque Vessels</a></h2>
+                <p class="featured-desc">The global shadow fleet is growing — and so is the sophistication of its evasion tactics. We break down how our ownership-tracing methodology cuts through layered corporate structures, AIS anomalies, and flag-state obfuscation to deliver decision-ready intelligence.</p>
+                <div class="featured-meta">By <span class="author">Maritime Intelligence Team</span> · 14 min read</div>
+                <a href="https://www.thesignalgroup.com/newsroom/what-is-the-dark-fleet-18b44" class="post-read-more">Read Full Article →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CATEGORIES ===== -->
+    <div class="categories-bar">
+        <span class="categories-bar-label">Filter:</span>
+        <button class="cat-filter active" data-cat="all">All</button>
+        <button class="cat-filter" data-cat="maritime">Maritime</button>
+        <button class="cat-filter" data-cat="aviation">Aviation</button>
+        <button class="cat-filter" data-cat="healthcare">Healthcare</button>
+        <button class="cat-filter" data-cat="logistics">Logistics</button>
+        <button class="cat-filter" data-cat="ai">AI & Data</button>
+        <button class="cat-filter" data-cat="operations">Operations</button>
+    </div>
+
+    <!-- ===== BLOG GRID ===== -->
+    <section id="blog-grid">
+        <div class="blog-grid" id="blogPosts">
+
+            <!-- POST 1: Maritime -->
+            <article class="blog-post rv" data-category="maritime">
+                <span class="post-tag">Maritime</span>
+                <h3 class="post-title"><a href="#post-ownership">The Seven Roles of Vessel Ownership: A Compliance Primer</a></h3>
+                <p class="post-excerpt">Breaking down beneficial owner, ISM manager, technical manager, commercial manager, commercial controller, registered owner, and DOC holder — and why each matters for sanctions screening.</p>
+                <div class="post-meta"><span class="author">Maritime Team</span> · <span class="date">Nov 2025</span> · 8 min read</div>
+                <a href="#post-ownership" class="post-read-more">Read More →</a>
+            </article>
+
+            <!-- POST 2: Aviation -->
+            <article class="blog-post rv" data-category="aviation">
+                <span class="post-tag">Aviation</span>
+                <h3 class="post-title"><a href="#post-adsb">ADS-B Movement Intelligence: Beyond the Flight Radar</a></h3>
+                <p class="post-excerpt">How structured ADS-B data reveals fleet utilisation patterns, sanctioned-country overflights, and operator behaviours that raw flight-trackers miss — with real-world case examples.</p>
+                <div class="post-meta"><span class="author">Aviation Team</span> · <span class="date">Oct 2025</span> · 7 min read</div>
+                <a href="#post-adsb" class="post-read-more">Read More →</a>
+            </article>
+
+            <!-- POST 3: Healthcare -->
+            <article class="blog-post rv" data-category="healthcare">
+                <span class="post-tag">Healthcare</span>
+                <h3 class="post-title"><a href="#post-billing">Medical Billing Data: Why Structure Matters for Revenue Cycle</a></h3>
+                <p class="post-excerpt">ICD-10, CPT, and HCPCS — how clean, structured billing data reduces denials, accelerates reimbursement, and enables AI-assisted coding for medical practices and health systems.</p>
+                <div class="post-meta"><span class="author">Healthcare Team</span> · <span class="date">Sep 2025</span> · 6 min read</div>
+                <a href="#post-billing" class="post-read-more">Read More →</a>
+            </article>
+
+            <!-- POST 4: AI & Data -->
+            <article class="blog-post rv" data-category="ai">
+                <span class="post-tag">AI & Data</span>
+                <h3 class="post-title"><a href="#post-annotation">African Language NLP: The Training Data Gap Nobody Is Filling</a></h3>
+                <p class="post-excerpt">Swahili, Kikuyu, Luo — and the 94% of African languages absent from global NLP datasets. Why this matters for AI companies, and how OmniPulse is positioned to bridge it.</p>
+                <div class="post-meta"><span class="author">AI Data Team</span> · <span class="date">Aug 2025</span> · 9 min read</div>
+                <a href="#post-annotation" class="post-read-more">Read More →</a>
+            </article>
+
+            <!-- POST 5: Logistics -->
+            <article class="blog-post rv" data-category="logistics">
+                <span class="post-tag">Logistics</span>
+                <h3 class="post-title"><a href="#post-supplychain">Turning Raw Freight Data Into Supply Chain Intelligence</a></h3>
+                <p class="post-excerpt">How we structure freight invoices, load confirmations, and route data into actionable intelligence — with lessons from USA and Canada logistics operations.</p>
+                <div class="post-meta"><span class="author">Logistics Team</span> · <span class="date">Jul 2025</span> · 6 min read</div>
+                <a href="#post-supplychain" class="post-read-more">Read More →</a>
+            </article>
+
+            <!-- POST 6: Operations -->
+            <article class="blog-post rv" data-category="operations">
+                <span class="post-tag">Operations</span>
+                <h3 class="post-title"><a href="#post-48h">The 48-Hour Operations Start: Why Speed Matters in Outsourcing</a></h3>
+                <p class="post-excerpt">From signed agreement to live operations in 48 hours. How we structure onboarding, systems access, and team briefings to deliver value faster than traditional BPOs.</p>
+                <div class="post-meta"><span class="author">Operations Team</span> · <span class="date">Jun 2025</span> · 5 min read</div>
+                <a href="#post-48h" class="post-read-more">Read More →</a>
+            </article>
+
+            <!-- POST 7: Maritime -->
+            <article class="blog-post rv" data-category="maritime">
+                <span class="post-tag">Maritime</span>
+                <h3 class="post-title"><a href="#post-sanctions">Sanctions Screening in Maritime: A Practical Guide for Compliance Teams</a></h3>
+                <p class="post-excerpt">Navigating OFAC, EU, and UN regimes — and why list-matching alone is not enough. We show how structured vessel ownership data transforms compliance workflows.</p>
+                <div class="post-meta"><span class="author">Maritime Team</span> · <span class="date">May 2025</span> · 10 min read</div>
+                <a href="#post-sanctions" class="post-read-more">Read More →</a>
+            </article>
+
+            <!-- POST 8: AI & Data -->
+            <article class="blog-post rv" data-category="ai">
+                <span class="post-tag">AI & Data</span>
+                <h3 class="post-title"><a href="#post-rlhf">RLHF at Scale: Human Feedback in the Loop for Better AI Models</a></h3>
+                <p class="post-excerpt">Reinforcement Learning from Human Feedback is only as good as the feedback itself. How we run quality-controlled RLHF pipelines for language and vision models.</p>
+                <div class="post-meta"><span class="author">AI Data Team</span> · <span class="date">Apr 2025</span> · 7 min read</div>
+                <a href="#post-rlhf" class="post-read-more">Read More →</a>
+            </article>
+
+            <!-- POST 9: Aviation -->
+            <article class="blog-post rv" data-category="aviation">
+                <span class="post-tag">Aviation</span>
+                <h3 class="post-title"><a href="#post-lessor">Aircraft Lessor Structures: Tracing Ownership Through SPVs</a></h3>
+                <p class="post-excerpt">Special purpose vehicles, multi-jurisdiction holding arrangements, and beneficial ownership — how we map the true controllers of commercial aircraft for lessors and insurers.</p>
+                <div class="post-meta"><span class="author">Aviation Team</span> · <span class="date">Mar 2025</span> · 8 min read</div>
+                <a href="#post-lessor" class="post-read-more">Read More →</a>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="blog-cta rv">
+        <div class="sec-tag" style="justify-content:center;">Let's Talk</div>
+        <h2 class="sec-h2">Want to see how these insights apply <em>to your business?</em></h2>
+        <p class="sec-p">Whether you need maritime intelligence, healthcare data operations, or AI annotation pipelines — we'll show you what's possible with a 30-minute discovery call.</p>
+        <a href="services.html#cta" class="cta-btn">Book a Call →</a>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="fl">
+                    <div class="fl-orbit">
+                        <div class="fl-ring r1"><div class="fl-dot"></div></div>
+                        <div class="fl-ring r2"><div class="fl-dot sm"></div></div>
+                        <div class="fl-ring r3"><div class="fl-dot dim"></div></div>
+                        <div class="fl-center"></div>
+                    </div>
+                    <div class="fl-text">OMNI<em>PULSE</em></div>
+                </div>
+                <p class="footer-tagline">A global operations partner headquartered in Nairobi — back-office, data, AI, customer, and revenue operations for businesses worldwide.</p>
+                <div class="footer-location"><i class="ti ti-map-pin"></i> Nairobi, Kenya — serving clients globally</div>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Quick Links</div>
+                <div class="flinks">
+                    <a href="index.html">Home</a>
+                    <a href="services.html#what-we-do">What We Do</a>
+                    <a href="services.html#services">Industries</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="services.html#cta">Contact</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Get In Touch</div>
+                <div class="footer-contact-list">
+                    <a href="mailto:info@support.omnipulseagency.com" class="fl-email">info@support.omnipulseagency.com</a>
+                    <a href="https://www.linkedin.com/company/omnipulse" target="_blank" rel="noopener" class="fl-linkedin"><i class="ti ti-brand-linkedin"></i>Connect on LinkedIn →</a>
+                </div>
+                <div class="trust-chips">
+                    <span class="trust-chip">NDA on request</span>
+                    <span class="trust-chip">Access-controlled data handling</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="fc">© 2025 OmniPulse Agency · All Rights Reserved</div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        /* DAY/NIGHT */
+        const themeBtn = document.getElementById('theme-btn');
+        themeBtn.addEventListener('click', () => {
+            const isDay = document.body.classList.toggle('day-mode');
+            themeBtn.textContent = isDay ? '☀️' : '🌙';
+            themeBtn.setAttribute('aria-label', isDay ? 'Switch to night mode' : 'Switch to day mode');
+        });
+
+        /* ===== FEATURED CAROUSEL ===== */
+        const slides = document.querySelectorAll('.featured-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        const prevBtn = document.getElementById('prevSlide');
+        const nextBtn = document.getElementById('nextSlide');
+        const featuredContent = document.getElementById('featuredContent');
+
+        const carouselData = [{
+            tag: '★ Featured · Maritime',
+            title: 'Dark Fleet Detection: How We Trace the World\'s Most Opaque Vessels',
+            desc: 'The global shadow fleet is growing — and so is the sophistication of its evasion tactics. We break down how our ownership-tracing methodology cuts through layered corporate structures, AIS anomalies, and flag-state obfuscation to deliver decision-ready intelligence.',
+            author: 'Maritime Intelligence Team',
+            readTime: '14 min read',
+            link: '#post-dark-fleet'
+        }, {
+            tag: '★ Featured · Aviation',
+            title: 'Aviation Asset Intelligence: From Registry to Runway',
+            desc: 'How we map beneficial ownership through FAA, EASA, ICAO, and national registries — including lessor structures, special purpose vehicles, and multi-jurisdiction holding arrangements.',
+            author: 'Aviation Intelligence Team',
+            readTime: '12 min read',
+            link: '#post-aviation-asset'
+        }, {
+            tag: '★ Featured · Healthcare',
+            title: 'Healthcare Data Operations: Billing, RCM & AI Readiness',
+            desc: 'End-to-end healthcare data management for providers, insurers, and medical AI platforms — from billing records and revenue cycle support to clinical dataset preparation.',
+            author: 'Healthcare Data Team',
+            readTime: '10 min read',
+            link: '#post-healthcare-data'
+        }, {
+            tag: '★ Featured · Logistics',
+            title: 'Supply Chain Intelligence: Turning Freight Data Into Decisions',
+            desc: 'Structured data operations for logistics companies, freight operators, and supply chain platforms — turning raw logistics data into audit-ready records and actionable intelligence.',
+            author: 'Logistics Data Team',
+            readTime: '9 min read',
+            link: '#post-logistics-data'
+        }, {
+            tag: '★ Featured · AI & Visual Data',
+            title: 'African Language NLP: The Training Data Gap Nobody Is Filling',
+            desc: 'Swahili, Kikuyu, Luo — and the 94% of African languages absent from global NLP datasets. Why this matters for AI companies, and how OmniPulse is positioned to bridge it.',
+            author: 'AI Data Team',
+            readTime: '11 min read',
+            link: '#post-african-nlp'
+        }];
+
+        let currentSlide = 0;
+        let interval;
+
+        function goToSlide(index) {
+            slides.forEach((s, i) => {
+                s.classList.toggle('active', i === index);
+            });
+            dots.forEach((d, i) => {
+                d.classList.toggle('active', i === index);
+            });
+
+            const data = carouselData[index];
+            if (data) {
+                featuredContent.querySelector('.featured-tag').textContent = data.tag;
+                featuredContent.querySelector('.featured-title a').textContent = data.title;
+                featuredContent.querySelector('.featured-title a').href = data.link;
+                featuredContent.querySelector('.featured-desc').textContent = data.desc;
+                featuredContent.querySelector('.featured-meta').innerHTML =
+                    `By <span class="author">${data.author}</span> · ${data.readTime}`;
+                featuredContent.querySelector('.post-read-more').href = data.link;
+            }
+
+            currentSlide = index;
+            resetInterval();
+        }
+
+        function nextSlide() {
+            goToSlide((currentSlide + 1) % slides.length);
+        }
+
+        function prevSlide() {
+            goToSlide((currentSlide - 1 + slides.length) % slides.length);
+        }
+
+        function resetInterval() {
+            clearInterval(interval);
+            interval = setInterval(nextSlide, 5000);
+        }
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                goToSlide(parseInt(dot.dataset.index));
+            });
+        });
+
+        prevBtn.addEventListener('click', (e) => { e.stopPropagation();
+            prevSlide(); });
+        nextBtn.addEventListener('click', (e) => { e.stopPropagation();
+            nextSlide(); });
+
+        const carousel = document.getElementById('featuredCarousel');
+        carousel.addEventListener('mouseenter', () => clearInterval(interval));
+        carousel.addEventListener('mouseleave', resetInterval);
+
+        interval = setInterval(nextSlide, 5000);
+
+        /* ===== CATEGORY FILTER ===== */
+        const filters = document.querySelectorAll('.cat-filter');
+        const posts = document.querySelectorAll('.blog-post');
+
+        filters.forEach(filter => {
+            filter.addEventListener('click', function() {
+                filters.forEach(f => f.classList.remove('active'));
+                this.classList.add('active');
+                const category = this.dataset.cat;
+                posts.forEach(post => {
+                    if (category === 'all' || post.dataset.category === category) {
+                        post.style.display = 'flex';
+                    } else {
+                        post.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        /* ===== SCROLL REVEAL ===== */
+        const obs = new IntersectionObserver(entries => entries.forEach(e => {
+            if (e.isIntersecting) e.target.classList.add('vis');
+        }), { threshold: .06 });
+        document.querySelectorAll('.rv').forEach((el, i) => {
+            el.style.transitionDelay = (i % 3) * .1 + 's';
+            obs.observe(el);
+        });
+
+        /* ===== ACTIVE NAV ON SCROLL ===== */
+        window.addEventListener('scroll', () => {
+            const carouselSection = document.querySelector('.featured-post');
+            let cur = '';
+            if (window.scrollY >= carouselSection.offsetTop + carouselSection.offsetHeight - 200) cur = 'blog';
+            document.querySelectorAll('.nav-links a').forEach(l => {
+                l.classList.remove('active');
+                if (l.getAttribute('href') === 'blog.html' && cur === 'blog') l.classList.add('active');
+            });
+        }, { passive: true });
+    </script>
+
+</body>
+</html>
