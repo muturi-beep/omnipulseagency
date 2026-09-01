@@ -36,6 +36,8 @@
             --font-mono: 'IBM Plex Mono', 'SFMono-Regular', ui-monospace, monospace;
             --cyan: #28e0e0;
             --cyan2: #5ad4ff;
+            --radius: 12px;
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.08);
         }
 
         body.day-mode {
@@ -46,6 +48,7 @@
             --dim: #1e2040;
             --text: #c2c2d8;
             --text-bright: #dcdcf0;
+            --shadow-hover: 0 12px 40px rgba(255, 92, 0, 0.15);
         }
 
         body,
@@ -64,8 +67,7 @@
             scroll-behavior: smooth;
         }
 
-        /* --- BASE TYPOGRAPHY (updated: 12px body, 20px subheadings, 24px headings, line-height 1.0, 70ch) --- */
-
+        /* --- BASE TYPOGRAPHY --- */
         body {
             background: var(--bg);
             color: var(--w);
@@ -94,7 +96,7 @@
             letter-spacing: -0.2px;
         }
 
-        /* Body text: 12px & line-height 1.0 (100%) */
+        /* Body text: 12px & line-height 1.0 */
         .hero-p,
         .cta-p,
         .wwd-desc,
@@ -129,12 +131,9 @@
             max-width: 70ch !important;
         }
 
-        /* Adjust hero content max-width to accommodate 70ch comfortably */
         .hero-content {
             max-width: 80ch;
         }
-
-        /* --- END TYPOGRAPHY TWEAKS --- */
 
         /* ===== LOADER ===== */
         #loader {
@@ -429,13 +428,14 @@
             color: #f0f0ff !important;
             padding: 10px 22px;
             text-decoration: none;
-            transition: background .2s, box-shadow .2s;
-            clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+            transition: background .2s, transform .2s;
+            border-radius: var(--radius);
+            box-shadow: none !important;
         }
 
         .nav-cta:hover {
             background: var(--o2);
-            box-shadow: 0 0 20px rgba(255, 92, 0, .35);
+            transform: translateY(-2px);
         }
 
         /* ===== HERO ===== */
@@ -578,6 +578,7 @@
             font-weight: 400;
         }
 
+        /* ===== HERO CAPABILITY PILLS ===== */
         .hero-caps {
             display: flex;
             flex-wrap: wrap;
@@ -602,12 +603,88 @@
             font-weight: 500;
             letter-spacing: .3px;
             color: rgba(240, 240, 255, .82);
-            padding: 5px 12px;
+            padding: 5px 14px;
             border: 1px solid rgba(255, 255, 255, .16);
-            border-radius: 2px;
+            border-radius: var(--radius);
             white-space: nowrap;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: default;
+            position: relative;
+            overflow: hidden;
         }
 
+        /* Individual pill stagger delays */
+        .hero-cap-pill:nth-child(1) { animation-delay: 0.05s; }
+        .hero-cap-pill:nth-child(2) { animation-delay: 0.10s; }
+        .hero-cap-pill:nth-child(3) { animation-delay: 0.15s; }
+        .hero-cap-pill:nth-child(4) { animation-delay: 0.20s; }
+        .hero-cap-pill:nth-child(5) { animation-delay: 0.25s; }
+        .hero-cap-pill:nth-child(6) { animation-delay: 0.30s; }
+
+        .hero-cap-pill::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius);
+            background: linear-gradient(135deg, var(--o), var(--o2));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .hero-cap-pill:hover {
+            color: #fff !important;
+            border-color: var(--o);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 92, 0, 0.3);
+            background: var(--o);
+        }
+
+        .hero-cap-pill:hover::before {
+            opacity: 1;
+        }
+
+        .hero-cap-pill:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        /* Glow pulse animation for pills */
+        .hero-cap-pill::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255, 92, 0, 0.08), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            border-radius: var(--radius);
+        }
+
+        .hero-cap-pill:hover::after {
+            opacity: 1;
+        }
+
+        /* Hero caps section entrance with stagger */
+        .hero-caps .hero-cap-pill {
+            opacity: 0;
+            animation: pillEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes pillEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(12px) scale(0.92);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ===== HERO DATAVIZ ===== */
         .hero-dataviz {
             position: absolute;
             inset: 0;
@@ -708,14 +785,14 @@
             color: #f0f0ff !important;
             padding: 15px 32px;
             text-decoration: none;
-            transition: background .2s, transform .2s, box-shadow .2s;
-            clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+            transition: background .2s, transform .2s;
+            border-radius: var(--radius);
+            box-shadow: none !important;
         }
 
         .btn-prime:hover {
             background: var(--o2);
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(255, 92, 0, .32);
         }
 
         .btn-ghost {
@@ -728,6 +805,8 @@
             text-decoration: none;
             border: 1px solid rgba(255, 255, 255, .22);
             transition: border-color .2s, color .2s;
+            border-radius: var(--radius);
+            box-shadow: none !important;
         }
 
         .btn-ghost:hover {
@@ -768,6 +847,8 @@
             min-width: 140px;
             transition: border-left-color .2s, background .2s;
             cursor: default;
+            border-radius: 0 !important;
+            box-shadow: none !important;
         }
 
         .hstat:hover {
@@ -934,6 +1015,162 @@
             background: var(--o);
         }
 
+        /* ===== WHAT WE DO ===== */
+        #what-we-do {
+            background: var(--panel);
+            padding: 100px 60px;
+            content-visibility: auto;
+            contain-intrinsic-size: 0 700px;
+        }
+
+        .wwd-intro {
+            max-width: 680px;
+            margin-bottom: 48px;
+        }
+
+        .wwd-intro p {
+            font-size: 12px;
+            line-height: 1.0;
+            color: var(--text-bright);
+            margin-top: 14px;
+            max-width: 70ch;
+        }
+
+        .wwd-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .wwd-card {
+            background: var(--bg);
+            padding: 30px 26px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: none;
+            cursor: default;
+        }
+
+        .wwd-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 92, 0, 0.04), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            border-radius: var(--radius);
+        }
+
+        .wwd-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--o);
+            box-shadow: var(--shadow-hover);
+            background: var(--panel);
+        }
+
+        .wwd-card:hover::before {
+            opacity: 1;
+        }
+
+        .wwd-num {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .wwd-card:hover .wwd-num {
+            color: var(--o);
+        }
+
+        .wwd-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--w);
+            line-height: 1.0;
+            transition: color 0.3s ease;
+        }
+
+        .wwd-card:hover .wwd-title {
+            color: var(--o);
+        }
+
+        .wwd-desc {
+            line-height: 1.0;
+            color: var(--text-bright);
+            font-weight: 400;
+            max-width: 70ch;
+            transition: color 0.3s ease;
+        }
+
+        .wwd-card:hover .wwd-desc {
+            color: var(--text-bright);
+        }
+
+        .wwd-link {
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--o);
+            text-decoration: none;
+            margin-top: 4px;
+            border-radius: var(--radius);
+            padding: 4px 12px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            align-self: flex-start;
+            background: transparent;
+            border: 1px solid transparent;
+            box-shadow: none !important;
+        }
+
+        .wwd-card:hover .wwd-link {
+            background: rgba(255, 92, 0, 0.08);
+            border-color: rgba(255, 92, 0, 0.2);
+            transform: translateX(4px);
+        }
+
+        .wwd-link:hover {
+            background: var(--o) !important;
+            color: #fff !important;
+            border-color: var(--o) !important;
+            transform: translateX(6px) !important;
+        }
+
+        body.day-mode #what-we-do {
+            background: var(--panel);
+        }
+
+        body.day-mode .wwd-card {
+            background: var(--panel);
+        }
+
+        body.day-mode .wwd-card:hover {
+            background: var(--bg);
+        }
+
+        body.day-mode .wwd-card:hover .wwd-link {
+            background: rgba(255, 92, 0, 0.12);
+        }
+
+        @media (max-width:900px) {
+            .wwd-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
         /* ===== PARTNERS (INDUSTRIES) ===== */
         #partners {
             background: var(--bg);
@@ -993,6 +1230,8 @@
             transition: flex .5s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: flex;
             contain: layout paint;
+            border-radius: 0 !important;
+            box-shadow: none !important;
         }
 
         .serve-panel:hover {
@@ -1007,6 +1246,7 @@
             transition: transform .6s ease, filter .5s ease;
             filter: brightness(.2) saturate(.35);
             will-change: transform, filter;
+            border-radius: 0 !important;
         }
 
         .serve-panel:hover .spanel-bg {
@@ -1022,6 +1262,7 @@
                 linear-gradient(to top, rgba(3, 4, 10, .99) 0%, rgba(3, 4, 10, .35) 50%, transparent 100%);
             z-index: 1;
             pointer-events: none;
+            border-radius: 0 !important;
         }
 
         .spanel-peek {
@@ -1113,6 +1354,7 @@
             transition: opacity .3s .1s, transform .3s .1s;
             pointer-events: none;
             overflow: hidden;
+            border-radius: 0 !important;
         }
 
         .serve-panel:hover .spanel-content {
@@ -1330,12 +1572,13 @@
             font-size: 9px;
             letter-spacing: 2.5px;
             text-transform: uppercase;
-            clip-path: polygon(7px 0%, 100% 0%, calc(100% - 7px) 100%, 0% 100%);
             transition: background .2s, transform .2s;
             pointer-events: all;
             cursor: pointer;
             white-space: nowrap;
             flex-shrink: 0;
+            border-radius: var(--radius);
+            box-shadow: none !important;
         }
 
         .spanel-cta:hover {
@@ -1367,6 +1610,7 @@
             transition: transform .45s .06s;
             z-index: 5;
             will-change: transform;
+            border-radius: 0 !important;
         }
 
         .serve-panel:hover .spanel-bar {
@@ -1494,6 +1738,8 @@
             background: var(--bg);
             border: 1px solid var(--border);
             overflow: hidden;
+            border-radius: 0 !important;
+            box-shadow: none !important;
         }
 
         .why-dash-head {
@@ -1671,6 +1917,8 @@
             transition: background .22s;
             position: relative;
             overflow: hidden;
+            border-radius: 0 !important;
+            box-shadow: none !important;
         }
 
         .ps:hover {
@@ -1831,6 +2079,8 @@
             display: flex;
             flex-direction: column;
             gap: 14px;
+            border-radius: 0 !important;
+            box-shadow: none !important;
         }
 
         .next-num {
@@ -1875,100 +2125,6 @@
         .cta-btns,
         .hero-btns {
             align-items: center;
-        }
-
-        /* ===== WHAT WE DO (capability-first) ===== */
-        #what-we-do {
-            background: var(--panel);
-            padding: 100px 60px;
-            content-visibility: auto;
-            contain-intrinsic-size: 0 700px;
-        }
-
-        .wwd-intro {
-            max-width: 680px;
-            margin-bottom: 48px;
-        }
-
-        .wwd-intro p {
-            font-size: 12px;
-            line-height: 1.0;
-            color: var(--text-bright);
-            margin-top: 14px;
-            max-width: 70ch;
-        }
-
-        .wwd-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2px;
-            background: var(--border);
-        }
-
-        .wwd-card {
-            background: var(--bg);
-            padding: 30px 26px;
-            transition: background .25s;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .wwd-card:hover {
-            background: rgba(255, 92, 0, 0.05);
-        }
-
-        .wwd-num {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            letter-spacing: 2px;
-            color: var(--o);
-            font-weight: 500;
-        }
-
-        .wwd-title {
-            font-family: var(--font-display);
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--w);
-            line-height: 1.0;
-        }
-
-        .wwd-desc {
-            line-height: 1.0;
-            color: var(--text-bright);
-            font-weight: 400;
-            max-width: 70ch;
-        }
-
-        .wwd-link {
-            font-family: var(--font-body);
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--o);
-            text-decoration: none;
-            margin-top: 4px;
-        }
-
-        .wwd-link:hover {
-            color: var(--o2);
-        }
-
-        body.day-mode #what-we-do {
-            background: var(--panel);
-        }
-
-        body.day-mode .wwd-card {
-            background: var(--bg);
-        }
-
-        @media (max-width:900px) {
-            .wwd-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         /* ===== FOOTER ===== */
@@ -2195,6 +2351,8 @@
             border: 1px solid rgba(255, 92, 0, .3);
             background: rgba(255, 92, 0, .06);
             padding: 6px 11px;
+            border-radius: 0 !important;
+            box-shadow: none !important;
         }
 
         .trust-chip::before {
@@ -2355,7 +2513,6 @@
                 grid-template-columns: 1fr;
                 gap: 32px;
             }
-            /* Adjust font sizes for mobile */
             .h1-conn,
             .sec-h2,
             .cta-h2,
@@ -2365,6 +2522,13 @@
             .h1-we,
             .why-subline {
                 font-size: 18px !important;
+            }
+            .wwd-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            #what-we-do {
+                padding: 60px 20px;
             }
         }
 
@@ -2390,11 +2554,13 @@
                 pointer-events: all;
                 position: relative;
                 inset: auto;
+                border-radius: 0 !important;
             }
             .spanel-bg {
                 position: absolute;
                 inset: 0;
                 filter: brightness(.28) saturate(.55);
+                border-radius: 0 !important;
             }
             .spanel-services {
                 grid-template-columns: 1fr;
@@ -2408,6 +2574,9 @@
             }
             .partners-intro {
                 padding: 0 20px;
+            }
+            .serve-panel {
+                border-radius: 0 !important;
             }
         }
 
@@ -2455,7 +2624,7 @@
             <li><a href="#partners">Industries</a></li>
             <li><a href="#why">Why Us</a></li>
             <li><a href="#process">Process</a></li>
-            <li><a href="services.html#cta">Contact</a></li>
+            <li><a href="blog.html">Blog</a></li>
         </ul>
         <button id="theme-btn" aria-label="Toggle day/night mode">🌙</button>
         <a href="services.html#cta" class="nav-cta">Get Started</a>
@@ -2826,7 +2995,6 @@
     </script>
 
     <script>
-        /* Isolated in its own <script> tag so a failure here can never block the counters below */
         const themeBtn = document.getElementById('theme-btn');
         if (themeBtn) {
             themeBtn.addEventListener('click', () => {
@@ -2838,10 +3006,6 @@
     </script>
 
     <script>
-        /* Hero video — single cinematic looping clip. Autoplay/muted/loop/playsinline are set as
-           native attributes on the <video> element above, so no JS is required to start playback.
-           This script only wires up the mute toggle and pauses playback when the hero scrolls
-           out of view (saves CPU/battery on long scrolls). */
         (function() {
             const stage = document.querySelector('.hero-video-stage');
             const video = document.getElementById('hero-video');
@@ -2875,7 +3039,6 @@
     </script>
 
     <script>
-        /* Mute toggle for hero video */
         const muteBtn = document.getElementById('muteBtn');
         if (muteBtn) {
             muteBtn.addEventListener('click', () => {
@@ -2886,7 +3049,6 @@
     </script>
 
     <script>
-        /* Scroll reveal */
         const obs = new IntersectionObserver(entries => {
             entries.forEach(e => {
                 if (!e.isIntersecting) return;

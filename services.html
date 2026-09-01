@@ -26,6 +26,7 @@
             --text-bright: #2e2e44;
             --nav-height: 64px;
             --radius: 12px;
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.08);
         }
         body.day-mode {
             --bg: #03040a;
@@ -36,6 +37,7 @@
             --glow: rgba(255, 92, 0, 0.25);
             --text: #c2c2d8;
             --text-bright: #dcdcf0;
+            --shadow-hover: 0 12px 40px rgba(255, 92, 0, 0.15);
         }
         body.day-mode nav {
             background: rgba(3, 4, 10, 0.85) !important;
@@ -93,20 +95,22 @@
             color: var(--w);
             font-family: 'IBM Plex Sans', sans-serif;
             font-size: 12px;
+            font-weight: 400;
             line-height: 1.0;
             overflow-x: hidden;
             cursor: auto;
         }
 
-        /* Main headlines: 24px desktop, smaller on mobile */
+        /* Main headlines: 24px, 700, -0.5px */
         .sec-h2,
         .cta-hero-band .sec-h2 {
             font-size: 24px !important;
+            font-weight: 700 !important;
             line-height: 1.0 !important;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.5px !important;
         }
 
-        /* Subheadings: 20px desktop, smaller on mobile */
+        /* Subheadings: 20px, 400, -0.2px */
         .wwd-title,
         .cds-title,
         .cap-title,
@@ -114,11 +118,12 @@
         .srv-item-title,
         .methodology-toggle-title {
             font-size: 20px !important;
+            font-weight: 400 !important;
             line-height: 1.0 !important;
-            letter-spacing: -0.2px;
+            letter-spacing: -0.2px !important;
         }
 
-        /* Body text: 12px */
+        /* Body text: 12px, 400, 1.0, 70ch max */
         .sec-p,
         .wwd-desc,
         .cds-desc,
@@ -160,6 +165,7 @@
         .cf-submit,
         .contact-response-title {
             font-size: 12px !important;
+            font-weight: 400 !important;
             line-height: 1.0 !important;
         }
 
@@ -436,8 +442,8 @@
             text-decoration: none;
             transition: all .3s;
             box-shadow: 0 0 20px var(--glow);
-            clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
             white-space: nowrap;
+            border-radius: var(--radius);
         }
         .nav-cta:hover {
             background: var(--o2);
@@ -480,7 +486,7 @@
             color: var(--text-bright);
         }
 
-        /* ===== WHAT WE DO ===== */
+        /* ===== WHAT WE DO (with animations & hover) ===== */
         #what-we-do {
             background: var(--panel);
             padding: 120px 20px 60px;
@@ -492,34 +498,68 @@
         .wwd-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 2px;
-            background: var(--border);
+            gap: 16px;
         }
         .wwd-card {
             background: var(--bg);
             padding: 20px 18px;
-            transition: none;
             position: relative;
             display: flex;
             flex-direction: column;
             gap: 6px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: none;
+            cursor: default;
+        }
+        .wwd-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 92, 0, 0.04), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            border-radius: var(--radius);
+        }
+        .wwd-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--o);
+            box-shadow: var(--shadow-hover);
+            background: var(--panel);
+        }
+        .wwd-card:hover::before {
+            opacity: 1;
         }
         .wwd-num {
             font-family: 'IBM Plex Mono', ui-monospace, monospace;
             font-size: 9px;
-            letter-spacing: 1.5px;
-            color: var(--o);
             font-weight: 500;
+            letter-spacing: 1.5px;
+            color: var(--text);
+            transition: color 0.3s ease;
+        }
+        .wwd-card:hover .wwd-num {
+            color: var(--o);
         }
         .wwd-title {
             font-family: 'IBM Plex Sans', sans-serif;
-            font-weight: 700;
+            font-weight: 400;
             color: var(--w);
             line-height: 1.0;
             font-size: 16px !important;
+            transition: color 0.3s ease;
+        }
+        .wwd-card:hover .wwd-title {
+            color: var(--o);
         }
         .wwd-desc {
             font-weight: 400;
+            color: var(--text-bright);
+            transition: color 0.3s ease;
+        }
+        .wwd-card:hover .wwd-desc {
             color: var(--text-bright);
         }
         .wwd-link {
@@ -531,15 +571,33 @@
             color: var(--o);
             text-decoration: none;
             margin-top: 2px;
+            padding: 4px 10px;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+            display: inline-block;
+            align-self: flex-start;
+            background: transparent;
+            border: 1px solid transparent;
+        }
+        .wwd-card:hover .wwd-link {
+            background: rgba(255, 92, 0, 0.08);
+            border-color: rgba(255, 92, 0, 0.2);
+            transform: translateX(4px);
         }
         .wwd-link:hover {
-            color: var(--o2);
+            background: var(--o) !important;
+            color: #fff !important;
+            border-color: var(--o) !important;
+            transform: translateX(6px) !important;
         }
         body.day-mode .wwd-card {
             background: var(--panel);
         }
         body.day-mode .wwd-card:hover {
-            background: rgba(255, 92, 0, 0.06);
+            background: var(--bg);
+        }
+        body.day-mode .wwd-card:hover .wwd-link {
+            background: rgba(255, 92, 0, 0.12);
         }
 
         /* ===== SERVICES ACCORDION ===== */
@@ -633,7 +691,7 @@
         }
         .srv-cat-name {
             font-family: 'IBM Plex Sans', sans-serif;
-            font-weight: 600;
+            font-weight: 400;
             color: var(--w);
             letter-spacing: .5px;
             line-height: 1.0;
@@ -718,7 +776,7 @@
         }
         .srv-item-title {
             font-family: 'IBM Plex Sans', sans-serif;
-            font-weight: 600;
+            font-weight: 400;
             color: var(--w);
             margin-bottom: 3px;
             line-height: 1.0;
@@ -919,12 +977,12 @@
         }
         .sit {
             font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
             font-size: 7px;
             letter-spacing: 0.5px;
             color: var(--text-bright);
             border: 1px solid var(--border);
             padding: 2px 6px;
-            font-weight: 500;
         }
         body.day-mode .sit {
             border-color: #111428;
@@ -971,6 +1029,7 @@
             color: var(--o);
             font-size: 13px;
             transition: all .3s;
+            border-radius: var(--radius);
         }
         .methodology-toggle:hover .methodology-toggle-icon {
             border-color: var(--o);
@@ -978,7 +1037,7 @@
         }
         .methodology-toggle-title {
             font-family: 'IBM Plex Sans', sans-serif;
-            font-weight: 700;
+            font-weight: 400;
             color: var(--w);
             line-height: 1.0;
             font-size: 15px !important;
@@ -1051,11 +1110,11 @@
         }
         .cds-num {
             font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
             font-size: 8px;
             letter-spacing: 2px;
             color: var(--o);
             margin-bottom: 8px;
-            font-weight: 500;
         }
         .cds-img-wrap {
             position: relative;
@@ -1094,7 +1153,7 @@
         }
         .cds-title {
             font-family: 'IBM Plex Sans', sans-serif;
-            font-weight: 700;
+            font-weight: 400;
             color: var(--w);
             margin-bottom: 6px;
             line-height: 1.0;
@@ -1113,18 +1172,18 @@
         }
         .cds-pill {
             font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
             font-size: 7px;
             letter-spacing: 0.5px;
             color: var(--text-bright);
             border: 1px solid var(--border);
             padding: 2px 6px;
-            font-weight: 500;
         }
         body.day-mode .cds-card {
             background: var(--panel);
         }
 
-        /* ===== CAPABILITIES ===== */
+        /* ===== CAPABILITIES (Why It Works) ===== */
         #capabilities {
             background: var(--bg);
             padding: 60px 20px;
@@ -1142,23 +1201,32 @@
             position: relative;
             padding: 20px 18px;
             border: 1px solid var(--border);
-            transition: none;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            border-radius: var(--radius);
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: var(--panel);
+            box-shadow: none;
         }
         .cap-item::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(255, 92, 0, 0.05), transparent);
+            background: linear-gradient(135deg, rgba(255, 92, 0, 0.04), transparent);
             opacity: 0;
-            transition: none;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            border-radius: var(--radius);
         }
         .cap-item:hover {
-            border-color: rgba(255, 92, 0, 0.35);
-            transform: none;
-            box-shadow: none;
+            transform: translateY(-6px);
+            border-color: var(--o);
+            box-shadow: var(--shadow-hover);
+            background: var(--bg);
+        }
+        .cap-item:hover::before {
+            opacity: 1;
         }
         .cap-item-top {
             display: flex;
@@ -1167,22 +1235,34 @@
             margin-bottom: 10px;
         }
         .cap-icon {
-            font-size: 18px;
+            font-size: 22px;
+            transition: transform 0.3s ease;
+        }
+        .cap-item:hover .cap-icon {
+            transform: scale(1.15) rotate(-5deg);
         }
         .cap-num {
             font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 10px;
             font-weight: 700;
+            font-size: 10px;
             color: rgba(255, 92, 0, 0.25);
             letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        .cap-item:hover .cap-num {
+            color: var(--o);
         }
         .cap-title {
             font-family: 'IBM Plex Sans', sans-serif;
-            font-weight: 700;
+            font-weight: 400;
             color: var(--w);
             margin-bottom: 6px;
             line-height: 1.0;
             font-size: 16px !important;
+            transition: color 0.3s ease;
+        }
+        .cap-item:hover .cap-title {
+            color: var(--o);
         }
         .cap-desc {
             font-weight: 400;
@@ -1195,6 +1275,10 @@
             border-top: 1px solid var(--border);
             position: relative;
             z-index: 1;
+            transition: border-color 0.3s ease;
+        }
+        .cap-item:hover .cap-stat {
+            border-color: rgba(255, 92, 0, 0.3);
         }
         .cap-stat-n {
             font-family: 'IBM Plex Mono', ui-monospace, monospace;
@@ -1202,6 +1286,10 @@
             font-weight: 600;
             color: var(--o);
             line-height: 1;
+            transition: transform 0.3s ease;
+        }
+        .cap-item:hover .cap-stat-n {
+            transform: scale(1.05);
         }
         .cap-stat-l {
             font-family: 'IBM Plex Sans', sans-serif;
@@ -1259,7 +1347,22 @@
         .contact-form-wrap {
             background: var(--bg);
             border: 1px solid var(--border);
-            padding: 20px;
+            padding: 24px 20px;
+            border-radius: var(--radius);
+        }
+        .contact-form-wrap .form-head {
+            margin-bottom: 18px;
+        }
+        .contact-form-wrap .form-head h3 {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--w);
+            margin-bottom: 4px;
+        }
+        .contact-form-wrap .form-head p {
+            font-size: 12px;
+            color: var(--text);
         }
         .contact-side {
             display: flex;
@@ -1267,7 +1370,7 @@
             gap: 16px;
         }
         .cf-row {
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             position: relative;
         }
         .cf-label {
@@ -1280,19 +1383,45 @@
             color: var(--text);
             margin-bottom: 4px;
         }
+        .cf-input-wrap {
+            position: relative;
+        }
+        .cf-input-wrap .cf-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text);
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .cf-input-wrap .cf-icon.textarea-icon {
+            top: 12px;
+            transform: none;
+        }
+        .cf-input-wrap .cf-input,
+        .cf-input-wrap select.cf-input,
+        .cf-input-wrap textarea.cf-input {
+            padding-left: 36px;
+        }
         .cf-input {
             width: 100%;
             padding: 9px 12px;
+            padding-left: 36px;
             font-family: 'IBM Plex Sans', sans-serif;
             font-size: 12px;
             color: var(--w);
             background: var(--panel);
             border: 1px solid var(--border);
-            transition: border-color .2s;
+            transition: border-color .2s, box-shadow .2s;
+            border-radius: var(--radius);
+            outline: none;
+            font-weight: 400;
         }
         .cf-input:focus {
-            outline: none;
             border-color: var(--o);
+            box-shadow: 0 0 0 3px rgba(255, 92, 0, 0.12);
         }
         textarea.cf-input {
             resize: vertical;
@@ -1301,6 +1430,11 @@
         }
         select.cf-input {
             cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235a5a72' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
         }
         .cf-hp {
             position: absolute;
@@ -1326,7 +1460,7 @@
             padding: 12px 24px;
             cursor: pointer;
             transition: all .3s;
-            clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+            border-radius: var(--radius);
         }
         .cf-submit:hover {
             background: var(--o2);
@@ -1356,6 +1490,7 @@
             border: 1px solid var(--border);
             border-left: 2px solid var(--o);
             padding: 16px 18px;
+            border-radius: var(--radius);
         }
         .contact-response-title {
             font-family: 'IBM Plex Sans', sans-serif;
@@ -1504,6 +1639,8 @@
             line-height: 1.0;
             max-width: 70ch;
             margin-bottom: 12px;
+            font-size: 12px !important;
+            font-weight: 400 !important;
         }
         .footer-location {
             display: flex;
@@ -1678,12 +1815,14 @@
             }
             .wwd-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
             }
             .cds-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             .cap-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
             }
             #what-we-do {
                 padding: 130px 40px 80px;
@@ -1706,6 +1845,9 @@
             .contact-layout {
                 grid-template-columns: 1fr 1fr;
                 gap: 40px;
+            }
+            .contact-form-wrap {
+                padding: 28px 24px;
             }
             footer {
                 padding: 28px 40px 0;
@@ -1731,7 +1873,6 @@
             .nav-cta {
                 font-size: 9px;
                 padding: 10px 22px;
-                clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
             }
             .logo-text {
                 font-size: 16px;
@@ -1766,6 +1907,9 @@
                 grid-template-columns: 1.1fr .9fr;
                 gap: 56px;
             }
+            .contact-form-wrap {
+                padding: 32px 28px;
+            }
             .srv-layout {
                 grid-template-columns: 1fr 380px;
                 gap: 2px;
@@ -1780,6 +1924,7 @@
             }
             .wwd-grid {
                 grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
             }
             .cds-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -1947,31 +2092,37 @@
                 <div class="wwd-num">01</div>
                 <div class="wwd-title">Back-Office &amp; Administrative Operations</div>
                 <div class="wwd-desc">Data entry, document management, CRM administration, records management, virtual assistance, and workflow coordination.</div>
+                <a href="#services" class="wwd-link">Learn More →</a>
             </div>
             <div class="wwd-card">
                 <div class="wwd-num">02</div>
                 <div class="wwd-title">Data &amp; Intelligence Operations</div>
                 <div class="wwd-desc">Research, data collection, cleansing, enrichment, and structured reporting — see our full <a href="#coredata" class="cross-link">six-stage methodology</a> below.</div>
+                <a href="#coredata" class="wwd-link">Learn More →</a>
             </div>
             <div class="wwd-card">
                 <div class="wwd-num">03</div>
                 <div class="wwd-title">AI &amp; Data Operations</div>
                 <div class="wwd-desc">Data annotation, labelling, dataset QA, and human-in-the-loop evaluation — see <a href="#ai-visual" class="cross-link">AI &amp; Visual Data</a> below.</div>
+                <a href="#ai-visual" class="wwd-link">Learn More →</a>
             </div>
             <div class="wwd-card">
                 <div class="wwd-num">04</div>
                 <div class="wwd-title">Customer Operations</div>
                 <div class="wwd-desc">Email, chat, and ticket-based support operations, customer onboarding, and customer information management.</div>
+                <a href="#services" class="wwd-link">Learn More →</a>
             </div>
             <div class="wwd-card">
                 <div class="wwd-num">05</div>
                 <div class="wwd-title">Revenue &amp; Business Operations</div>
                 <div class="wwd-desc">CRM management, lead research, pipeline administration, and sales operations support.</div>
+                <a href="#services" class="wwd-link">Learn More →</a>
             </div>
             <div class="wwd-card">
                 <div class="wwd-num">06</div>
                 <div class="wwd-title">Specialist Process Outsourcing</div>
                 <div class="wwd-desc">Compliance workflows and registry research for processes too specific for a standard BPO category — see <a href="#services" class="cross-link">Maritime, Aviation, Healthcare &amp; Logistics</a> below.</div>
+                <a href="#services" class="wwd-link">Learn More →</a>
             </div>
         </div>
     </section>
@@ -2360,7 +2511,7 @@
         </div>
     </section>
 
-    <!-- ===== CAPABILITIES ===== -->
+    <!-- ===== CAPABILITIES (Why It Works) ===== -->
     <section id="capabilities" class="rv">
         <div class="cap-intro">
             <div class="sec-tag">Why It Works</div>
@@ -2431,45 +2582,67 @@
         <div class="cta-form-section">
             <div class="contact-layout">
                 <div class="contact-form-wrap">
+                    <div class="form-head">
+                        <h3>Send us a message</h3>
+                        <p>We'll reply within 24 hours to discuss how we can support your operations.</p>
+                    </div>
                     <form id="contactForm" action="contact.php" method="POST" novalidate>
                         <div class="cf-row">
-                            <label class="cf-label" for="cf-name">Name *</label>
-                            <input class="cf-input" type="text" id="cf-name" name="name" required>
+                            <label class="cf-label" for="cf-name">Full Name *</label>
+                            <div class="cf-input-wrap">
+                                <i class="ti ti-user cf-icon"></i>
+                                <input class="cf-input" type="text" id="cf-name" name="name" placeholder="e.g., Jane Doe" required>
+                            </div>
                         </div>
                         <div class="cf-row">
                             <label class="cf-label" for="cf-company">Company *</label>
-                            <input class="cf-input" type="text" id="cf-company" name="company" required>
+                            <div class="cf-input-wrap">
+                                <i class="ti ti-building cf-icon"></i>
+                                <input class="cf-input" type="text" id="cf-company" name="company" placeholder="Your company name" required>
+                            </div>
                         </div>
                         <div class="cf-row">
-                            <label class="cf-label" for="cf-email">Email *</label>
-                            <input class="cf-input" type="email" id="cf-email" name="email" required>
+                            <label class="cf-label" for="cf-email">Email Address *</label>
+                            <div class="cf-input-wrap">
+                                <i class="ti ti-mail cf-icon"></i>
+                                <input class="cf-input" type="email" id="cf-email" name="email" placeholder="you@company.com" required>
+                            </div>
                         </div>
                         <div class="cf-row">
                             <label class="cf-label" for="cf-industry">What do you need support with? *</label>
-                            <select class="cf-input" id="cf-industry" name="industry" required>
-                                <option value="" disabled selected>Select the closest fit</option>
-                                <option>Back-Office &amp; Administrative Operations</option>
-                                <option>Data &amp; Intelligence Operations</option>
-                                <option>AI &amp; Data Operations</option>
-                                <option>Customer Operations</option>
-                                <option>Revenue &amp; Business Operations</option>
-                                <option>Specialist Process Outsourcing (Maritime/Aviation/Healthcare/Logistics)</option>
-                                <option>Not sure yet</option>
-                            </select>
+                            <div class="cf-input-wrap">
+                                <i class="ti ti-category cf-icon"></i>
+                                <select class="cf-input" id="cf-industry" name="industry" required>
+                                    <option value="" disabled selected>Select the closest fit</option>
+                                    <option>Back-Office &amp; Administrative Operations</option>
+                                    <option>Data &amp; Intelligence Operations</option>
+                                    <option>AI &amp; Data Operations</option>
+                                    <option>Customer Operations</option>
+                                    <option>Revenue &amp; Business Operations</option>
+                                    <option>Specialist Process Outsourcing (Maritime/Aviation/Healthcare/Logistics)</option>
+                                    <option>Not sure yet</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="cf-row">
-                            <label class="cf-label" for="cf-need">What do you need? *</label>
-                            <textarea class="cf-input" id="cf-need" name="need" rows="4" required></textarea>
+                            <label class="cf-label" for="cf-need">Tell us about your needs *</label>
+                            <div class="cf-input-wrap">
+                                <i class="ti ti-message cf-icon textarea-icon"></i>
+                                <textarea class="cf-input" id="cf-need" name="need" rows="4" placeholder="Describe what you're looking for, your timeline, or any specific requirements..." required></textarea>
+                            </div>
                         </div>
                         <div class="cf-row">
                             <label class="cf-label" for="cf-timeline">Preferred timeline</label>
-                            <select class="cf-input" id="cf-timeline" name="timeline">
-                                <option value="" disabled selected>Select a timeline</option>
-                                <option>Immediately</option>
-                                <option>Within 2 weeks</option>
-                                <option>Within a month</option>
-                                <option>Just exploring</option>
-                            </select>
+                            <div class="cf-input-wrap">
+                                <i class="ti ti-clock cf-icon"></i>
+                                <select class="cf-input" id="cf-timeline" name="timeline">
+                                    <option value="" disabled selected>Select a timeline</option>
+                                    <option>Immediately</option>
+                                    <option>Within 2 weeks</option>
+                                    <option>Within a month</option>
+                                    <option>Just exploring</option>
+                                </select>
+                            </div>
                         </div>
                         <!-- Honeypot spam trap: real visitors never see or fill this field -->
                         <div class="cf-hp" aria-hidden="true">
