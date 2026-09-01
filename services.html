@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OmniPulse — Services</title>
-<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -23,16 +23,12 @@ nav{transition:none}
 #theme-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.20);background:transparent;color:var(--w);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;line-height:1;padding:0}
 #theme-btn:hover{border-color:var(--o);background:rgba(255,92,0,0.12);transform:scale(1.1) rotate(15deg)}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--w);font-family:'IBM Plex Sans',sans-serif;overflow-x:hidden;cursor:none}
-
-/* CURSOR */
-#cursor{position:fixed;pointer-events:none;z-index:9999;mix-blend-mode:difference}
-#cur-ring{width:40px;height:40px;border:1.5px solid var(--o);border-radius:50%;position:absolute;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s;box-shadow:0 0 10px var(--o)}
-#cur-dot{width:6px;height:6px;background:var(--o);border-radius:50%;position:absolute;transform:translate(-50%,-50%);box-shadow:0 0 8px var(--o)}
+/* Standard/default browser cursor is used throughout this page (no custom cursor). */
+body{background:var(--bg);color:var(--w);font-family:'IBM Plex Sans',sans-serif;overflow-x:hidden;cursor:auto}
 
 /* LOADER */
 #loader{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px}
-.load-logo{font-family:'Spectral',serif;font-size:32px;font-weight:800;letter-spacing:6px;color:var(--w);opacity:0;animation:loadIn 0.6s ease forwards 0.3s}
+.load-logo{font-family:'IBM Plex Sans',sans-serif;font-size:32px;font-weight:800;letter-spacing:6px;color:var(--w);opacity:0;animation:loadIn 0.6s ease forwards 0.3s}
 .load-logo em{color:var(--o);font-style:normal}
 .load-bar-wrap{width:280px;height:2px;background:var(--dim);overflow:hidden}
 .load-bar{height:100%;width:0;background:linear-gradient(90deg,var(--o),var(--o2));animation:loadBar 1.4s ease-out forwards 0.5s;box-shadow:0 0 10px var(--o)}
@@ -59,7 +55,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 60px;d
 .lo-pulse:nth-child(2){animation-delay:.9s}
 @keyframes spin-logo{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
 @keyframes lo-pulse-out{0%{width:12px;height:12px;opacity:.7}100%{width:38px;height:38px;opacity:0}}
-.logo-text{font-family:'Spectral',serif;font-size:16px;font-weight:700;letter-spacing:3px;color:#f0f0ff}
+.logo-text{font-family:'IBM Plex Sans',sans-serif;font-size:16px;font-weight:700;letter-spacing:3px;color:#f0f0ff}
 .logo-text em{color:var(--o);font-style:normal}
 .logo-suffix{font-family:'IBM Plex Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:3px;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-left:2px;align-self:flex-end;padding-bottom:2px}
 .nav-links{display:flex;gap:32px;list-style:none}
@@ -71,31 +67,37 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 60px;d
 /* SECTION COMMONS */
 .sec-tag{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:10px;letter-spacing:4px;color:var(--o);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .sec-tag::before{content:'';width:20px;height:1px;background:var(--o)}
-.sec-h2{font-family:'Spectral',serif;font-size:clamp(28px,4vw,48px);font-weight:700;line-height:1.05;letter-spacing:-1px;margin-bottom:16px}
+.sec-h2{font-family:'IBM Plex Sans',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:700;line-height:1.05;letter-spacing:-1px;margin-bottom:16px}
 .sec-h2 em{color:var(--o);font-style:normal}
 .sec-p{font-size:15px;color:var(--text-bright);line-height:1.85;font-weight:400}
 
-/* SERVICES */
-#services{background:var(--bg);padding:140px 60px 100px;position:relative;overflow:hidden}
+/* WHAT WE DO — capability-first section (new), shown before the industry accordion.
+   Reuses the same card language as #capabilities further down the page. */
+#what-we-do{background:var(--panel);padding:140px 60px 90px}
+.wwd-intro{max-width:700px;margin-bottom:48px}
+.wwd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border)}
+.wwd-card{background:var(--bg);padding:28px 24px;transition:all .3s;position:relative;display:flex;flex-direction:column;gap:10px}
+.wwd-card:hover{background:rgba(255,92,0,0.05)}
+.wwd-num{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;letter-spacing:2px;color:var(--o);font-weight:500}
+.wwd-title{font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:700;color:var(--w);line-height:1.3}
+.wwd-desc{font-size:12px;color:var(--text-bright);line-height:1.7;font-weight:400}
+.wwd-link{font-family:'IBM Plex Sans',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--o);text-decoration:none;margin-top:4px}
+.wwd-link:hover{color:var(--o2)}
+body.day-mode .wwd-card{background:var(--panel)}
+body.day-mode .wwd-card:hover{background:rgba(255,92,0,0.06)}
+@media(max-width:900px){.wwd-grid{grid-template-columns:1fr}#what-we-do{padding:120px 20px 60px}}
 
-/* Background image layer — subtle, sits behind the accordion/image panel.
-   SWAP the url below to your chosen image. Suggested searches (all free, no attribution needed):
-   ① Unsplash: "server room dark orange lights"        — data-center racks lit in warm amber, ties to the AI/data theme
-   ② Unsplash: "container port aerial night"             — echoes the hero ship image, reads as "global operations"
-   ③ Unsplash: "world map light trails night"            — abstract global network / logistics-flow feel
-   ④ Unsplash: "fiber optic cables orange glow macro"     — close-up data/comms texture, very on-brand with --o
-   Recommended: keep it desaturated/dark so the orange glow overlay does the color work and the
-   accordion text stays legible — avoid busy or bright daylight photography here. */
-.services-bg-img{
-  position:absolute;inset:0;z-index:0;
-  background-image:url('images/services-bg.jpg');
-  background-size:cover;
-  background-position:center;
-  background-color:#050810;
-  opacity:.16;
-  filter:grayscale(35%) contrast(1.1);
-  pointer-events:none;
-}
+/* SERVICES (industry deep-dives) */
+#services{background:var(--bg);padding:80px 60px 100px;position:relative;overflow:hidden}
+
+/* Hero video background classes — same implementation as the homepage hero (index.html):
+   autoplay, muted, looped, inline video with a dark gradient overlay for legibility.
+   Used on the CTA/contact section below (#cta), not here — kept as shared, reusable
+   classes so both pages/sections stay in sync if the clip ever changes. */
+.hero-video-stage{position:absolute;inset:0;z-index:0;background:#03040a;overflow:hidden}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;opacity:0;transition:opacity 1.1s ease}
+.hero-video.active{opacity:1}
+.hero-video-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(105deg,rgba(3,4,10,.72) 0%,rgba(3,4,10,.45) 50%,rgba(3,4,10,.18) 100%),linear-gradient(to top,rgba(255,92,0,.09) 0%,transparent 40%);pointer-events:none}
 .services-bg-overlay{
   position:absolute;inset:0;z-index:0;
   background:
@@ -103,7 +105,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 60px;d
     radial-gradient(ellipse 60% 45% at 85% 8%,rgba(255,92,0,0.12) 0%,transparent 65%);
   pointer-events:none;
 }
-#services > .sec-tag,#services > .sec-h2,#services > .srv-layout{position:relative;z-index:1}
+#services > .sec-tag,#services > .sec-h2,#services > .sec-p,#services > .srv-layout{position:relative;z-index:1}
 
 .srv-layout{display:grid;grid-template-columns:1fr 380px;gap:2px;background:var(--border);margin-top:48px;align-items:start}
 .srv-accordion{background:var(--bg);display:flex;flex-direction:column}
@@ -116,9 +118,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 60px;d
 .srv-cat.open .srv-cat-hd{background:rgba(255,92,0,0.06)}
 .srv-cat-icon{font-size:19px;flex-shrink:0;width:32px;text-align:center;color:var(--o)}
 .srv-cat-label{flex:1}
-.srv-cat-name{font-family:'Spectral',serif;font-size:13px;font-weight:600;color:var(--w);letter-spacing:.5px;line-height:1}
+.srv-cat-name{font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;color:var(--w);letter-spacing:.5px;line-height:1}
 .srv-cat-sub{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:9px;letter-spacing:2px;color:var(--text);text-transform:uppercase;margin-top:4px}
-.srv-cat-count{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:9px;letter-spacing:2px;color:var(--text);margin-right:4px}
+.srv-cat-count{font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:500;font-size:10px;letter-spacing:1px;color:var(--text);margin-right:4px}
 .srv-cat-arrow{width:18px;height:18px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .35s;color:var(--text);font-size:9px}
 .srv-cat.open .srv-cat-arrow{background:var(--o);border-color:var(--o);color:#fff;transform:rotate(180deg)}
 .srv-items{max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(0.22,1,0.36,1)}
@@ -129,7 +131,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 60px;d
 .srv-item-num{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:9px;letter-spacing:2px;color:var(--o);flex-shrink:0;margin-top:2px;width:24px}
 .srv-item-body{flex:1}
 .srv-item-icon{font-size:15px;margin-bottom:3px;color:rgba(255,92,0,.65)}
-.srv-item-title{font-family:'Spectral',serif;font-size:12px;font-weight:600;color:var(--w);margin-bottom:4px;line-height:1.3}
+.srv-item-title{font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;color:var(--w);margin-bottom:4px;line-height:1.3}
 .srv-item-desc{font-size:12px;color:var(--text-bright);line-height:1.6;font-weight:400}
 .srv-item-chevron{font-size:10px;color:var(--text);flex-shrink:0;margin-top:2px;transition:color .2s,transform .2s}
 .srv-item:hover .srv-item-chevron,.srv-item.active .srv-item-chevron{color:var(--o);transform:translateX(3px)}
@@ -143,7 +145,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 60px;d
 .srv-img-meta{position:absolute;bottom:0;left:0;right:0;z-index:3;padding:16px 18px}
 .srv-img-tag{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:8px;letter-spacing:3px;color:var(--o);text-transform:uppercase;margin-bottom:5px;opacity:0;transform:translateY(6px);transition:opacity .35s .1s,transform .35s .1s}
 .srv-img-tag.show{opacity:1;transform:translateY(0)}
-.srv-img-caption{font-family:'Spectral',serif;font-size:13px;font-weight:700;color:#fff;line-height:1.2;opacity:0;transform:translateY(8px);transition:opacity .35s .18s,transform .35s .18s}
+.srv-img-caption{font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;color:#fff;line-height:1.2;opacity:0;transform:translateY(8px);transition:opacity .35s .18s,transform .35s .18s}
 .srv-img-caption.show{opacity:1;transform:translateY(0)}
 .srv-img-info{padding:16px 18px;border-top:1px solid var(--border);flex:1}
 .srv-img-info-desc{font-size:12px;color:var(--text-bright);line-height:1.7;font-weight:400;min-height:56px;transition:opacity .3s}
@@ -188,7 +190,7 @@ body.day-mode .sit{border-color:#111428;color:#c2c2d8}
 .methodology-toggle-left{display:flex;align-items:center;gap:14px}
 .methodology-toggle-icon{width:34px;height:34px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--o);font-size:15px;transition:all .3s}
 .methodology-toggle:hover .methodology-toggle-icon{border-color:var(--o);background:rgba(255,92,0,0.06)}
-.methodology-toggle-title{font-family:'Spectral',serif;font-size:17px;font-weight:700;color:var(--w)}
+.methodology-toggle-title{font-family:'IBM Plex Sans',sans-serif;font-size:17px;font-weight:700;color:var(--w)}
 .methodology-toggle-sub{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:10px;letter-spacing:2px;color:var(--text);text-transform:uppercase;margin-top:3px}
 .methodology-toggle-arrow{width:26px;height:26px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text);font-size:11px;transition:all .35s}
 .methodology-toggle.open .methodology-toggle-arrow{background:var(--o);border-color:var(--o);color:#fff;transform:rotate(180deg)}
@@ -199,7 +201,7 @@ body.day-mode .sit{border-color:#111428;color:#c2c2d8}
 .cds-card{background:var(--bg);padding:32px;position:relative;overflow:hidden;transition:all .3s;cursor:default}
 .cds-card:hover{background:rgba(255,92,0,0.04)}
 .cds-card:hover .cds-ghost{opacity:.07}
-.cds-ghost{position:absolute;right:-10px;bottom:-20px;font-family:'Spectral',serif;font-size:110px;font-weight:800;color:rgba(255,92,0,0);opacity:.03;line-height:1;pointer-events:none;transition:opacity .35s}
+.cds-ghost{position:absolute;right:-10px;bottom:-20px;font-family:'IBM Plex Sans',sans-serif;font-size:110px;font-weight:800;color:rgba(255,92,0,0);opacity:.03;line-height:1;pointer-events:none;transition:opacity .35s}
 .cds-num{font-family:'IBM Plex Sans',sans-serif;font-size:9px;letter-spacing:3px;color:var(--o);margin-bottom:12px;font-weight:500}
 
 .cds-img-wrap{
@@ -227,7 +229,7 @@ body.day-mode .sit{border-color:#111428;color:#c2c2d8}
 }
 .cds-img-wrap img.broken + .cds-img-fallback{display:block}
 
-.cds-title{font-family:'Spectral',serif;font-size:15px;font-weight:700;color:var(--w);margin-bottom:10px;line-height:1.2}
+.cds-title{font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:700;color:var(--w);margin-bottom:10px;line-height:1.2}
 .cds-desc{font-size:13px;color:var(--text-bright);line-height:1.75;font-weight:400;margin-bottom:18px}
 .cds-pills{display:flex;flex-wrap:wrap;gap:5px}
 .cds-pill{font-family:'IBM Plex Sans',sans-serif;font-size:8px;letter-spacing:1px;color:var(--text-bright);border:1px solid var(--border);padding:3px 8px;font-weight:500}
@@ -245,15 +247,28 @@ body.day-mode .cds-card:hover{background:rgba(255,92,0,0.05)}
 .cap-item-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .cap-icon{font-size:22px}
 .cap-num{font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;color:rgba(255,92,0,0.25);letter-spacing:1px}
-.cap-title{font-family:'Spectral',serif;font-size:14px;font-weight:700;color:var(--w);margin-bottom:8px;line-height:1.25}
+.cap-title{font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;color:var(--w);margin-bottom:8px;line-height:1.25}
 .cap-desc{font-size:12px;color:var(--text-bright);line-height:1.7;font-weight:400}
 .cap-stat{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);position:relative;z-index:1}
-.cap-stat-n{font-family:'Spectral',serif;font-size:20px;font-weight:700;color:var(--o);line-height:1}
+.cap-stat-n{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:19px;font-weight:600;color:var(--o);line-height:1}
 .cap-stat-l{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:9px;letter-spacing:1.5px;color:var(--text);text-transform:uppercase;margin-top:4px}
 
-/* CONTACT — matches index.html's native PHP-backed contact section */
-#cta{background:var(--panel);padding:100px 60px}
-.contact-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:start;margin-top:44px}
+/* CONTACT / CTA — restructured into two parts:
+   1) .cta-hero-band — a fixed-height banner that hosts the video (reuses the shared
+      .hero-video-stage / .hero-video / .hero-video-overlay classes). Giving the video its
+      own bounded-height container (instead of stretching behind the full, content-driven
+      height of the form grid) is what stops it looking stretched/blown-up — object-fit:cover
+      only ever has to fill a predictable banner aspect ratio, not an arbitrarily tall section.
+   2) .cta-form-section — a normal solid-background section below it holding the actual
+      contact form, matching the rest of the page's card styling. */
+#cta{padding:0;overflow:hidden}
+.cta-hero-band{position:relative;overflow:hidden;height:clamp(260px,32vw,420px);display:flex;flex-direction:column;justify-content:center;padding:0 60px;background:#03040a}
+.cta-hero-band > .sec-tag,.cta-hero-band > .sec-h2{position:relative;z-index:2;max-width:760px}
+.cta-hero-band > .sec-tag{color:var(--o)}
+.cta-hero-band > .sec-h2{color:#f0f0ff;margin-bottom:0}
+.cta-hero-band > .sec-h2 em{color:var(--o)}
+.cta-form-section{background:var(--panel);padding:70px 60px 100px}
+.contact-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:start}
 .contact-form-wrap{background:var(--bg);border:1px solid var(--border);padding:28px}
 .contact-side{display:flex;flex-direction:column;gap:20px}
 .cf-row{margin-bottom:16px;position:relative}
@@ -278,6 +293,7 @@ select.cf-input{cursor:pointer}
 .contact-alt a:hover{border-color:var(--o)}
 body.day-mode .cf-input{background:var(--panel)}
 @media(max-width:1000px){.contact-layout{grid-template-columns:1fr}}
+@media(max-width:600px){.cta-hero-band{height:clamp(220px,50vw,320px);padding:0 20px}.cta-form-section{padding:50px 20px 70px}}
 
 /* FOOTER — three column */
 footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #111428}
@@ -293,7 +309,7 @@ footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #11
 .fl-dot.sm{width:4px;height:4px;top:-2px;background:#ff8800}
 .fl-dot.dim{width:3px;height:3px;top:-1.5px;background:rgba(255,92,0,0.45);box-shadow:none}
 .fl-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:5px;height:5px;border-radius:50%;background:#ff5c00;box-shadow:0 0 8px #ff5c00;z-index:2}
-.fl-text{font-family:'Spectral',serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#f0f0ff}
+.fl-text{font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;color:#f0f0ff}
 .fl-text em{color:var(--o);font-style:normal}
 .footer-tagline{font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;color:#c2c2d8;line-height:1.75;max-width:280px;margin-bottom:16px}
 .footer-location{display:flex;align-items:center;gap:8px;font-family:'IBM Plex Sans',sans-serif;font-size:11px;color:#8f8fa8;letter-spacing:.3px}
@@ -337,8 +353,6 @@ footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #11
 </head>
 <body>
 
-<div id="cursor"><div id="cur-ring"></div><div id="cur-dot"></div></div>
-
 <div id="loader">
   <div class="load-logo">OMNI<em>PULSE</em></div>
   <div class="load-bar-wrap"><div class="load-bar"></div></div>
@@ -360,7 +374,8 @@ footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #11
   </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="#services" class="active">Services</a></li>
+    <li><a href="#what-we-do" class="active">What We Do</a></li>
+    <li><a href="#services">Industries</a></li>
     <li><a href="#coredata">Methodology</a></li>
     <li><a href="#capabilities">Why Us</a></li>
     <li><a href="#cta">Contact</a></li>
@@ -369,12 +384,54 @@ footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #11
   <a href="#cta" class="nav-cta">Get Started</a>
 </nav>
 
-<!-- SERVICES ACCORDION -->
+<!-- WHAT WE DO — capability-first section (new). This is the primary answer to
+     "what does OmniPulse do", shown before the industry-specific deep dives below. -->
+<section id="what-we-do" class="rv">
+  <div class="wwd-intro">
+    <div class="sec-tag">What We Do</div>
+    <h2 class="sec-h2">Six operational capabilities. <em>One accountable partner.</em></h2>
+    <p class="sec-p">Services describe what OmniPulse does. Industries describe where that capability gets applied — see the industry-specific deep dives further down this page.</p>
+  </div>
+  <div class="wwd-grid">
+    <div class="wwd-card">
+      <div class="wwd-num">01</div>
+      <div class="wwd-title">Back-Office &amp; Administrative Operations</div>
+      <div class="wwd-desc">Data entry, document management, CRM administration, records management, virtual assistance, and workflow coordination.</div>
+    </div>
+    <div class="wwd-card">
+      <div class="wwd-num">02</div>
+      <div class="wwd-title">Data &amp; Intelligence Operations</div>
+      <div class="wwd-desc">Research, data collection, cleansing, enrichment, and structured reporting — see our full <a href="#coredata" class="cross-link">six-stage methodology</a> below.</div>
+    </div>
+    <div class="wwd-card">
+      <div class="wwd-num">03</div>
+      <div class="wwd-title">AI &amp; Data Operations</div>
+      <div class="wwd-desc">Data annotation, labelling, dataset QA, and human-in-the-loop evaluation — see <a href="#ai-visual" class="cross-link">AI &amp; Visual Data</a> below.</div>
+    </div>
+    <div class="wwd-card">
+      <div class="wwd-num">04</div>
+      <div class="wwd-title">Customer Operations</div>
+      <div class="wwd-desc">Email, chat, and ticket-based support operations, customer onboarding, and customer information management.</div>
+    </div>
+    <div class="wwd-card">
+      <div class="wwd-num">05</div>
+      <div class="wwd-title">Revenue &amp; Business Operations</div>
+      <div class="wwd-desc">CRM management, lead research, pipeline administration, and sales operations support.</div>
+    </div>
+    <div class="wwd-card">
+      <div class="wwd-num">06</div>
+      <div class="wwd-title">Specialist Process Outsourcing</div>
+      <div class="wwd-desc">Compliance workflows and registry research for processes too specific for a standard BPO category — see <a href="#services" class="cross-link">Maritime, Aviation, Healthcare &amp; Logistics</a> below.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES ACCORDION (industry-specific deep dives) -->
 <section id="services" class="rv">
-  <div class="services-bg-img"></div>
   <div class="services-bg-overlay"></div>
-  <div class="sec-tag">Service Verticals</div>
-  <h2 class="sec-h2">Choose Your <em>Domain</em></h2>
+  <div class="sec-tag">Industries</div>
+  <h2 class="sec-h2">Industry-Specific <em>Deep Dives</em></h2>
+  <p class="sec-p" style="max-width:680px;margin-bottom:8px">Our six capabilities above are built to support businesses across sectors. In the industries below, direct experience has given us real specialist depth.</p>
 
   <div class="srv-layout">
     <div class="srv-accordion">
@@ -811,8 +868,17 @@ footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #11
 
 <!-- CONTACT -->
 <section id="cta" class="rv">
-  <div class="sec-tag">Get In Touch</div>
-  <h2 class="sec-h2">Tell us what you need — <em>we'll take it from there.</em></h2>
+  <div class="cta-hero-band">
+    <div class="hero-video-stage">
+      <video id="cta-hero-video" class="hero-video active" autoplay muted loop playsinline preload="auto" poster="images/hero-poster.jpg" disablePictureInPicture disableRemotePlayback>
+        <source src="images/AIhero.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="hero-video-overlay"></div>
+    <div class="sec-tag">Get In Touch</div>
+    <h2 class="sec-h2">Tell us what you need — <em>we'll take it from there.</em></h2>
+  </div>
+  <div class="cta-form-section">
   <div class="contact-layout">
     <div class="contact-form-wrap">
       <form id="contactForm" action="contact.php" method="POST" novalidate>
@@ -829,15 +895,16 @@ footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #11
           <input class="cf-input" type="email" id="cf-email" name="email" required>
         </div>
         <div class="cf-row">
-          <label class="cf-label" for="cf-industry">Industry *</label>
+          <label class="cf-label" for="cf-industry">What do you need support with? *</label>
           <select class="cf-input" id="cf-industry" name="industry" required>
-            <option value="" disabled selected>Select your industry</option>
-            <option>Maritime</option>
-            <option>Aviation</option>
-            <option>Healthcare</option>
-            <option>Logistics</option>
-            <option>AI &amp; Visual Data</option>
-            <option>Other</option>
+            <option value="" disabled selected>Select the closest fit</option>
+            <option>Back-Office &amp; Administrative Operations</option>
+            <option>Data &amp; Intelligence Operations</option>
+            <option>AI &amp; Data Operations</option>
+            <option>Customer Operations</option>
+            <option>Revenue &amp; Business Operations</option>
+            <option>Specialist Process Outsourcing (Maritime/Aviation/Healthcare/Logistics)</option>
+            <option>Not sure yet</option>
           </select>
         </div>
         <div class="cf-row">
@@ -871,6 +938,7 @@ footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #11
       <div class="contact-alt">Prefer to skip the form? <a href="mailto:info@support.omnipulseagency.com">Email us directly</a> at info@support.omnipulseagency.com.</div>
     </div>
   </div>
+  </div>
 </section>
 
 <footer>
@@ -885,14 +953,15 @@ footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #11
         </div>
         <div class="fl-text">OMNI<em>PULSE</em></div>
       </div>
-      <p class="footer-tagline">Specialist data intelligence and BPO services for industries that can't afford to get it wrong.</p>
+      <p class="footer-tagline">A global operations partner headquartered in Nairobi — back-office, data, AI, customer, and revenue operations for businesses worldwide.</p>
       <div class="footer-location"><i class="ti ti-map-pin"></i> Nairobi, Kenya — serving clients globally</div>
     </div>
     <div class="footer-col">
       <div class="footer-col-title">Quick Links</div>
       <div class="flinks">
         <a href="index.html">Home</a>
-        <a href="#services">Services</a>
+        <a href="#what-we-do">What We Do</a>
+        <a href="#services">Industries</a>
         <a href="index.html#why">Why Us</a>
         <a href="blog.html">Blog</a>
         <a href="#cta">Contact</a>
@@ -905,9 +974,8 @@ footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #11
         <a href="https://www.linkedin.com/company/omnipulse" target="_blank" rel="noopener" class="fl-linkedin"><i class="ti ti-brand-linkedin"></i>Connect on LinkedIn →</a>
       </div>
       <div class="trust-chips">
-        <span class="trust-chip">NDA</span>
-        <span class="trust-chip">HIPAA-aware</span>
-        <span class="trust-chip">Data secure</span>
+        <span class="trust-chip">NDA on request</span>
+        <span class="trust-chip">Access-controlled data handling</span>
       </div>
     </div>
   </div>
@@ -917,17 +985,6 @@ footer{padding:32px 60px 0;background:rgba(3,4,10,0.96);border-top:1px solid #11
 </footer>
 
 <script>
-/* CURSOR */
-const cursor=document.getElementById('cursor'),ring=document.getElementById('cur-ring'),dot=document.getElementById('cur-dot');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
-function animCursor(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animCursor)}
-animCursor();
-document.querySelectorAll('a,button,.srv-item,.srv-cat-hd,.cap-item,.cds-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{ring.style.width='60px';ring.style.height='60px';ring.style.borderColor='#fff'});
-  el.addEventListener('mouseleave',()=>{ring.style.width='40px';ring.style.height='40px';ring.style.borderColor='var(--o)'});
-});
-
 /* LOADER */
 setTimeout(()=>{document.getElementById('loader').classList.add('done')},1600);
 
@@ -938,6 +995,36 @@ themeBtn.addEventListener('click',()=>{
   themeBtn.textContent=isDay?'☀️':'🌙';
   themeBtn.setAttribute('aria-label',isDay?'Switch to night mode':'Switch to day mode');
 });
+
+/* HERO VIDEO — lives in the CTA/contact section. Autoplay/muted/loop/playsinline are
+   native attributes on the <video> element, so no JS is required to start playback.
+   This script waits for enough buffered data before forcing play, avoids redundant
+   play() calls, and pauses when the section scrolls out of view. */
+(function(){
+  const stage=document.querySelector('#cta .hero-video-stage');
+  const video=document.getElementById('cta-hero-video');
+  if(!stage||!video)return;
+
+  function safePlay(){
+    if(video.paused)video.play().catch(()=>{});
+  }
+  if(video.readyState>=3){safePlay();}
+  else{video.addEventListener('canplay',safePlay,{once:true});}
+
+  let visible=true;
+  const vo=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      visible=e.isIntersecting;
+      if(visible)safePlay();
+      else video.pause();
+    });
+  },{threshold:0.1,rootMargin:'80px 0px'});
+  vo.observe(stage);
+
+  document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden&&visible)safePlay();
+  });
+})();
 
 /* METHODOLOGY COLLAPSIBLE */
 function toggleMethodology(){
@@ -1068,7 +1155,7 @@ const obs=new IntersectionObserver(entries=>entries.forEach(e=>{
 document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%3)*.1+'s';obs.observe(el)});
 
 /* ACTIVE NAV ON SCROLL */
-const sections=['services','coredata','capabilities'];
+const sections=['what-we-do','services','coredata','capabilities'];
 window.addEventListener('scroll',()=>{
   let cur='';
   sections.forEach(id=>{
