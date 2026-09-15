@@ -2757,36 +2757,51 @@
 
         /* CONTACT FORM */
         (function() {
-            var form = document.getElementById('contactForm');
-            if (!form) return;
-            var statusEl = document.getElementById('cfStatus');
-            var submitBtn = form.querySelector('.cf-submit');
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                statusEl.textContent = '';
-                statusEl.classList.remove('cf-status-ok', 'cf-status-err');
-                submitBtn.disabled = true;
-                var originalLabel = submitBtn.textContent;
-                submitBtn.textContent = 'Sending…';
-                try {
-                    var res = await fetch(form.action, {
-                        method: 'POST',
-                        body: new FormData(form),
-                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                    });
-                    var data = await res.json();
-                    statusEl.textContent = data.message;
-                    statusEl.classList.add(data.success ? 'cf-status-ok' : 'cf-status-err');
-                    if (data.success) form.reset();
-                } catch (err) {
-                    statusEl.textContent = 'Something went wrong sending your message. Please email us directly at info@support.omnipulseagency.com.';
-                    statusEl.classList.add('cf-status-err');
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = originalLabel;
-                }
+    var form = document.getElementById('contactForm');
+    if (!form) return;
+    var statusEl  = document.getElementById('cfStatus');
+    var submitBtn = form.querySelector('.cf-submit');
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        statusEl.textContent = '';
+        statusEl.classList.remove('cf-status-ok', 'cf-status-err');
+        submitBtn.disabled = true;
+        var originalLabel = submitBtn.textContent;
+        submitBtn.textContent = 'Sending…';
+
+        try {
+            var res = await fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
             });
-        })();
+
+            var raw = await res.text();
+            console.log('contact.php HTTP status:', res.status);
+            console.log('contact.php raw body:', raw);
+
+            var data;
+            try {
+                data = JSON.parse(raw);
+            } catch (parseErr) {
+                throw new Error('Server returned non-JSON (HTTP ' + res.status + '): ' + raw.slice(0, 250));
+            }
+
+            statusEl.textContent = data.message || 'Done.';
+            statusEl.classList.add(data.success ? 'cf-status-ok' : 'cf-status-err');
+            if (data.success) form.reset();
+
+        } catch (err) {
+            console.error('Contact form error:', err);
+            statusEl.textContent = 'Error: ' + err.message;
+            statusEl.classList.add('cf-status-err');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalLabel;
+        }
+    });
+})();
 
         /* SHARED IMAGE PANEL UPDATER */
         function updateSrvPanel(imgSrc, bgGrad, tag, caption, desc, catName) {
