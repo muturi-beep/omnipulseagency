@@ -2586,7 +2586,15 @@
                         <h3>Send us a message</h3>
                         <p>We'll reply within 24 hours to discuss how we can support your operations.</p>
                     </div>
-                    <form id="contactForm" action="contact.php" method="POST" novalidate>
+                    <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+                        <!-- === Web3Forms configuration (hidden) === -->
+                        <input type="hidden" name="access_key" value="7a650226-7350-4fac-97b4-dd8cbdd23bd1">
+                        <input type="hidden" name="subject"   value="New enquiry from OmniPulse website">
+                        <input type="hidden" name="from_name" value="OmniPulse Website">
+                        <input type="hidden" name="redirect"  value="false">
+                        <!-- Web3Forms honeypot: real visitors never tick this -->
+                        <input type="checkbox" name="botcheck" class="cf-hp" style="display:none !important" tabindex="-1" autocomplete="off">
+
                         <div class="cf-row">
                             <label class="cf-label" for="cf-name">Full Name *</label>
                             <div class="cf-input-wrap">
@@ -2643,11 +2651,6 @@
                                     <option>Just exploring</option>
                                 </select>
                             </div>
-                        </div>
-                        <!-- Honeypot spam trap: real visitors never see or fill this field -->
-                        <div class="cf-hp" aria-hidden="true">
-                            <label for="cf-website">Website</label>
-                            <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
                         </div>
                         <button type="submit" class="cf-submit">Send Enquiry →</button>
                         <div class="cf-status" id="cfStatus" role="status" aria-live="polite"></div>
@@ -2755,53 +2758,53 @@
             body.classList.toggle('open', isOpen);
         }
 
-        /* CONTACT FORM */
+        /* CONTACT FORM (Web3Forms) */
         (function() {
-    var form = document.getElementById('contactForm');
-    if (!form) return;
-    var statusEl  = document.getElementById('cfStatus');
-    var submitBtn = form.querySelector('.cf-submit');
+            var form = document.getElementById('contactForm');
+            if (!form) return;
+            var statusEl  = document.getElementById('cfStatus');
+            var submitBtn = form.querySelector('.cf-submit');
 
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        statusEl.textContent = '';
-        statusEl.classList.remove('cf-status-ok', 'cf-status-err');
-        submitBtn.disabled = true;
-        var originalLabel = submitBtn.textContent;
-        submitBtn.textContent = 'Sending…';
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                statusEl.textContent = '';
+                statusEl.classList.remove('cf-status-ok', 'cf-status-err');
+                submitBtn.disabled = true;
+                var originalLabel = submitBtn.textContent;
+                submitBtn.textContent = 'Sending…';
 
-        try {
-            var res = await fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                try {
+                    var res = await fetch(form.action, {
+                        method: 'POST',
+                        body: new FormData(form),
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    var raw = await res.text();
+                    console.log('Contact form HTTP status:', res.status);
+                    console.log('Contact form raw body:', raw);
+
+                    var data;
+                    try {
+                        data = JSON.parse(raw);
+                    } catch (parseErr) {
+                        throw new Error('Server returned non-JSON (HTTP ' + res.status + '): ' + raw.slice(0, 250));
+                    }
+
+                    statusEl.textContent = data.message || (data.success ? 'Thank you — your message has been sent.' : 'Something went wrong.');
+                    statusEl.classList.add(data.success ? 'cf-status-ok' : 'cf-status-err');
+                    if (data.success) form.reset();
+
+                } catch (err) {
+                    console.error('Contact form error:', err);
+                    statusEl.textContent = 'Error: ' + err.message;
+                    statusEl.classList.add('cf-status-err');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalLabel;
+                }
             });
-
-            var raw = await res.text();
-            console.log('contact.php HTTP status:', res.status);
-            console.log('contact.php raw body:', raw);
-
-            var data;
-            try {
-                data = JSON.parse(raw);
-            } catch (parseErr) {
-                throw new Error('Server returned non-JSON (HTTP ' + res.status + '): ' + raw.slice(0, 250));
-            }
-
-            statusEl.textContent = data.message || 'Done.';
-            statusEl.classList.add(data.success ? 'cf-status-ok' : 'cf-status-err');
-            if (data.success) form.reset();
-
-        } catch (err) {
-            console.error('Contact form error:', err);
-            statusEl.textContent = 'Error: ' + err.message;
-            statusEl.classList.add('cf-status-err');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalLabel;
-        }
-    });
-})();
+        })();
 
         /* SHARED IMAGE PANEL UPDATER */
         function updateSrvPanel(imgSrc, bgGrad, tag, caption, desc, catName) {
