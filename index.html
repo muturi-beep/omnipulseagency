@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OmniPulse — AI-Powered Operations Agency</title>
-    <link rel="icon" type="image/jpeg" href="images/logo.jpeg" />
-    <link rel="apple-touch-icon" href="images/logo.jpeg" />
+    <link rel="icon" type="image/jpeg" href="images/logo2.jpeg" />
+    <link rel="apple-touch-icon" href="images/logo2.jpeg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <href
-      ="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link
@@ -270,6 +270,7 @@
         }
       }
 
+      /* ===== UPDATED LOGO STYLES ===== */
       .logo {
         display: flex;
         align-items: center;
@@ -277,132 +278,16 @@
         text-decoration: none;
       }
 
-      .logo-orbit-wrap {
-        position: relative;
-        width: 38px;
-        height: 38px;
-        flex-shrink: 0;
+      .nav-logo-img {
+        height: 40px;
+        width: auto;
+        object-fit: contain;
+        mix-blend-mode: multiply;
       }
 
-      .lo-ring {
-        position: absolute;
-        border-radius: 50%;
-        border: 1px solid rgba(255, 92, 0, 0.28);
-        will-change: transform;
-        contain: layout paint;
-      }
-
-      .lo-ring.r1 {
-        width: 16px;
-        height: 16px;
-        top: 11px;
-        left: 11px;
-        animation: spin 4s linear infinite;
-      }
-
-      .lo-ring.r2 {
-        width: 26px;
-        height: 26px;
-        top: 6px;
-        left: 6px;
-        animation: spin 7s linear infinite reverse;
-      }
-
-      .lo-ring.r3 {
-        width: 36px;
-        height: 36px;
-        top: 1px;
-        left: 1px;
-        animation: spin 12s linear infinite;
-        border-style: dashed;
-        border-color: rgba(255, 92, 0, 0.14);
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      .lo-dot {
-        position: absolute;
-        top: -4px;
-        left: 50%;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: #ff5c00;
-        transform: translateX(-50%);
-      }
-
-      .lo-dot.sm {
-        width: 5px;
-        height: 5px;
-        top: -2.5px;
-        background: #ff8800;
-      }
-
-      .lo-dot.dim {
-        width: 4px;
-        height: 4px;
-        top: -2px;
-        background: rgba(255, 92, 0, 0.5);
-        box-shadow: none;
-      }
-
-      .lo-center {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #ff5c00;
-        z-index: 2;
-      }
-
-      .lo-pulse {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        border: 1px solid rgba(255, 92, 0, 0.5);
-        animation: lopulse 2.5s ease-out infinite;
-        will-change: width, height, opacity;
-      }
-
-      .lo-pulse:nth-child(2) {
-        animation-delay: 0.9s;
-      }
-
-      @keyframes lopulse {
-        0% {
-          width: 12px;
-          height: 12px;
-          opacity: 0.7;
-        }
-        100% {
-          width: 38px;
-          height: 38px;
-          opacity: 0;
-        }
-      }
-
-      .logo-text {
-        font-family: var(--font-display);
-        font-size: 16px;
-        font-weight: 700;
-        letter-spacing: 3px;
-        color: #f0f0ff;
-      }
-
-      .logo-text em {
-        color: var(--o);
-        font-style: normal;
+      body.day-mode .nav-logo-img {
+        filter: invert(1) hue-rotate(180deg) brightness(1.5);
+        mix-blend-mode: screen;
       }
 
       .nav-links {
@@ -632,7 +517,6 @@
         overflow: hidden;
       }
 
-      /* Individual pill stagger delays */
       .hero-cap-pill:nth-child(1) {
         animation-delay: 0.05s;
       }
@@ -679,7 +563,6 @@
         transform: translateY(-1px) scale(0.98);
       }
 
-      /* Glow pulse animation for pills */
       .hero-cap-pill::after {
         content: "";
         position: absolute;
@@ -702,7 +585,6 @@
         opacity: 1;
       }
 
-      /* Hero caps section entrance with stagger */
       .hero-caps .hero-cap-pill {
         opacity: 0;
         animation: pillEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -1218,6 +1100,353 @@
         }
       }
 
+      /* ===== PROCESS ===== */
+      #process {
+        background: var(--bg);
+        content-visibility: auto;
+        contain-intrinsic-size: 0 500px;
+      }
+
+      .proc-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2px;
+        background: var(--border);
+        margin-top: 48px;
+      }
+
+      .ps {
+        background: var(--panel);
+        padding: 36px;
+        transition: background 0.22s;
+        position: relative;
+        overflow: hidden;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+
+      .ps:hover {
+        background: var(--bg);
+      }
+
+      .ps-ghost {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: var(--font-display);
+        font-size: 90px;
+        font-weight: 700;
+        color: rgba(255, 92, 0, 0.04);
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .ps-num {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 10px;
+        letter-spacing: 3px;
+        color: var(--o);
+        margin-bottom: 14px;
+        text-transform: uppercase;
+      }
+
+      .ps-title {
+        font-family: var(--font-display);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--w);
+        margin-bottom: 10px;
+        line-height: 1;
+      }
+
+      .ps-desc {
+        line-height: 1;
+        color: var(--text-bright);
+        font-weight: 400;
+        max-width: 70ch;
+      }
+
+      /* ===== WHY ===== */
+      #why {
+        background: var(--panel);
+        padding: 100px 60px;
+        content-visibility: auto;
+        contain-intrinsic-size: 0 700px;
+      }
+
+      .why-layout {
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        gap: 60px;
+        align-items: start;
+      }
+
+      .why-intro-tag {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 10px;
+        letter-spacing: 4px;
+        color: var(--o);
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .why-intro-tag::before {
+        content: "";
+        width: 20px;
+        height: 1px;
+        background: var(--o);
+      }
+
+      .why-headline {
+        font-family: var(--font-display);
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -0.5px;
+        margin-bottom: 16px;
+      }
+
+      .why-headline em {
+        color: var(--o);
+        font-style: normal;
+      }
+
+      .why-subline {
+        line-height: 1;
+        color: var(--text-bright);
+        margin-bottom: 40px;
+        max-width: 70ch;
+        font-weight: 400;
+      }
+
+      .why-points {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .why-point {
+        display: flex;
+        gap: 20px;
+        padding: 22px 0;
+        border-bottom: 1px solid var(--border);
+        transition: padding-left 0.22s;
+        cursor: default;
+      }
+
+      .why-point:first-child {
+        border-top: 1px solid var(--border);
+      }
+
+      .why-point:hover {
+        padding-left: 8px;
+      }
+
+      .why-point:hover .why-point-num {
+        color: var(--o);
+      }
+
+      .why-point-num {
+        font-family: var(--font-display);
+        font-size: 11px;
+        font-weight: 700;
+        color: rgba(255, 92, 0, 0.32);
+        flex-shrink: 0;
+        width: 28px;
+        padding-top: 2px;
+        transition: color 0.22s;
+      }
+
+      .why-point-title {
+        font-family: var(--font-display);
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--w);
+        margin-bottom: 6px;
+        line-height: 1;
+      }
+
+      .why-point-desc {
+        line-height: 1;
+        color: var(--text-bright);
+        font-weight: 400;
+        max-width: 70ch;
+      }
+
+      .why-right {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        position: sticky;
+        top: 88px;
+      }
+
+      .why-dash {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+
+      .why-dash-head {
+        background: rgba(255, 92, 0, 0.05);
+        border-bottom: 1px solid var(--border);
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .why-dash-title {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 9px;
+        letter-spacing: 2px;
+        color: var(--text-bright);
+        text-transform: uppercase;
+      }
+
+      .why-dash-live {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 9px;
+        color: var(--o);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .why-dash-live::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--o);
+        animation: dpulse 2.5s ease-in-out infinite;
+      }
+
+      @keyframes dpulse {
+        0%,
+        100% {
+          box-shadow: 0 0 3px var(--o);
+        }
+        50% {
+          box-shadow: 0 0 9px var(--o);
+        }
+      }
+
+      .why-flow {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(255, 92, 0, 0.025);
+      }
+
+      .why-flow-step {
+        font-family: var(--font-mono);
+        font-weight: 500;
+        font-size: 11px;
+        color: var(--w);
+        white-space: nowrap;
+      }
+
+      .why-flow-step.ok {
+        color: #00d97a;
+      }
+
+      .why-flow-arrow {
+        color: var(--o);
+        font-size: 11px;
+        opacity: 0.7;
+      }
+
+      .why-dash-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 18px;
+        border-bottom: 1px solid rgba(17, 20, 40, 0.45);
+        transition: background 0.18s;
+      }
+
+      .why-dash-row:last-child {
+        border-bottom: none;
+      }
+
+      .why-dash-row:hover {
+        background: rgba(255, 92, 0, 0.03);
+      }
+
+      .why-dr-lbl {
+        font-family: var(--font-body);
+        font-size: 10px;
+        color: var(--text-bright);
+        font-weight: 400;
+      }
+
+      .why-dr-val {
+        font-family: var(--font-mono);
+        font-weight: 500;
+        font-size: 10px;
+        color: var(--w);
+        text-align: right;
+      }
+
+      .why-dr-val.ok {
+        color: #00d97a;
+      }
+
+      .why-dr-val.warn {
+        color: var(--o);
+      }
+
+      .why-dash-bar-row {
+        padding: 10px 18px 12px;
+        border-bottom: 1px solid rgba(17, 20, 40, 0.45);
+      }
+
+      .why-dbr-top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+
+      .why-dbr-lbl {
+        font-family: var(--font-body);
+        font-size: 9px;
+        color: var(--text-bright);
+        font-weight: 400;
+      }
+
+      .why-dbr-val {
+        font-family: var(--font-mono);
+        font-weight: 500;
+        font-size: 9px;
+        color: var(--o);
+      }
+
+      .why-dbr-track {
+        height: 2px;
+        background: var(--border);
+        overflow: hidden;
+      }
+
+      .why-dbr-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--o), var(--o2));
+        width: 0;
+        transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: width;
+      }
+
       /* ===== PARTNERS (INDUSTRIES) ===== */
       #partners {
         background: var(--bg);
@@ -1681,351 +1910,73 @@
         transform: scaleX(1);
       }
 
-      /* ===== WHY ===== */
-      #why {
+      /* ===== NEXT STEPS ===== */
+      .next-steps {
         background: var(--panel);
-        padding: 100px 60px;
-        content-visibility: auto;
-        contain-intrinsic-size: 0 700px;
+        padding: 80px 60px;
       }
 
-      .why-layout {
+      .next-grid {
         display: grid;
-        grid-template-columns: 1fr 420px;
-        gap: 60px;
-        align-items: start;
-      }
-
-      .why-intro-tag {
-        font-family: var(--font-body);
-        font-weight: 600;
-        font-size: 10px;
-        letter-spacing: 4px;
-        color: var(--o);
-        text-transform: uppercase;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .why-intro-tag::before {
-        content: "";
-        width: 20px;
-        height: 1px;
-        background: var(--o);
-      }
-
-      .why-headline {
-        font-family: var(--font-display);
-        font-weight: 700;
-        line-height: 1;
-        letter-spacing: -0.5px;
-        margin-bottom: 16px;
-      }
-
-      .why-headline em {
-        color: var(--o);
-        font-style: normal;
-      }
-
-      .why-subline {
-        line-height: 1;
-        color: var(--text-bright);
-        margin-bottom: 40px;
-        max-width: 70ch;
-        font-weight: 400;
-      }
-
-      .why-points {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .why-point {
-        display: flex;
-        gap: 20px;
-        padding: 22px 0;
-        border-bottom: 1px solid var(--border);
-        transition: padding-left 0.22s;
-        cursor: default;
-      }
-
-      .why-point:first-child {
-        border-top: 1px solid var(--border);
-      }
-
-      .why-point:hover {
-        padding-left: 8px;
-      }
-
-      .why-point:hover .why-point-num {
-        color: var(--o);
-      }
-
-      .why-point-num {
-        font-family: var(--font-display);
-        font-size: 11px;
-        font-weight: 700;
-        color: rgba(255, 92, 0, 0.32);
-        flex-shrink: 0;
-        width: 28px;
-        padding-top: 2px;
-        transition: color 0.22s;
-      }
-
-      .why-point-title {
-        font-family: var(--font-display);
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--w);
-        margin-bottom: 6px;
-        line-height: 1;
-      }
-
-      .why-point-desc {
-        line-height: 1;
-        color: var(--text-bright);
-        font-weight: 400;
-        max-width: 70ch;
-      }
-
-      .why-right {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        position: sticky;
-        top: 88px;
-      }
-
-      .why-dash {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        overflow: hidden;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-      }
-
-      .why-dash-head {
-        background: rgba(255, 92, 0, 0.05);
-        border-bottom: 1px solid var(--border);
-        padding: 14px 18px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .why-dash-title {
-        font-family: var(--font-body);
-        font-weight: 600;
-        font-size: 9px;
-        letter-spacing: 2px;
-        color: var(--text-bright);
-        text-transform: uppercase;
-      }
-
-      .why-dash-live {
-        font-family: var(--font-body);
-        font-weight: 600;
-        font-size: 9px;
-        color: var(--o);
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .why-dash-live::before {
-        content: "";
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--o);
-        animation: dpulse 2.5s ease-in-out infinite;
-      }
-
-      @keyframes dpulse {
-        0%,
-        100% {
-          box-shadow: 0 0 3px var(--o);
-        }
-        50% {
-          box-shadow: 0 0 9px var(--o);
-        }
-      }
-
-      .why-flow {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 8px;
-        padding: 14px 18px;
-        border-bottom: 1px solid var(--border);
-        background: rgba(255, 92, 0, 0.025);
-      }
-
-      .why-flow-step {
-        font-family: var(--font-mono);
-        font-weight: 500;
-        font-size: 11px;
-        color: var(--w);
-        white-space: nowrap;
-      }
-
-      .why-flow-step.ok {
-        color: #00d97a;
-      }
-
-      .why-flow-arrow {
-        color: var(--o);
-        font-size: 11px;
-        opacity: 0.7;
-      }
-
-      .why-dash-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 18px;
-        border-bottom: 1px solid rgba(17, 20, 40, 0.45);
-        transition: background 0.18s;
-      }
-
-      .why-dash-row:last-child {
-        border-bottom: none;
-      }
-
-      .why-dash-row:hover {
-        background: rgba(255, 92, 0, 0.03);
-      }
-
-      .why-dr-lbl {
-        font-family: var(--font-body);
-        font-size: 10px;
-        color: var(--text-bright);
-        font-weight: 400;
-      }
-
-      .why-dr-val {
-        font-family: var(--font-mono);
-        font-weight: 500;
-        font-size: 10px;
-        color: var(--w);
-        text-align: right;
-      }
-
-      .why-dr-val.ok {
-        color: #00d97a;
-      }
-
-      .why-dr-val.warn {
-        color: var(--o);
-      }
-
-      .why-dash-bar-row {
-        padding: 10px 18px 12px;
-        border-bottom: 1px solid rgba(17, 20, 40, 0.45);
-      }
-
-      .why-dbr-top {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 6px;
-      }
-
-      .why-dbr-lbl {
-        font-family: var(--font-body);
-        font-size: 9px;
-        color: var(--text-bright);
-        font-weight: 400;
-      }
-
-      .why-dbr-val {
-        font-family: var(--font-mono);
-        font-weight: 500;
-        font-size: 9px;
-        color: var(--o);
-      }
-
-      .why-dbr-track {
-        height: 2px;
-        background: var(--border);
-        overflow: hidden;
-      }
-
-      .why-dbr-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--o), var(--o2));
-        width: 0;
-        transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1);
-        will-change: width;
-      }
-
-      /* ===== PROCESS ===== */
-      #process {
-        background: var(--bg);
-        content-visibility: auto;
-        contain-intrinsic-size: 0 500px;
-      }
-
-      .proc-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 2px;
         background: var(--border);
-        margin-top: 48px;
+        margin-top: 44px;
       }
 
-      .ps {
-        background: var(--panel);
-        padding: 36px;
-        transition: background 0.22s;
+      .next-step {
+        background: var(--bg);
+        padding: 32px 30px;
         position: relative;
-        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
         border-radius: 0 !important;
         box-shadow: none !important;
       }
 
-      .ps:hover {
-        background: var(--bg);
-      }
-
-      .ps-ghost {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+      .next-num {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--o);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-family: var(--font-display);
-        font-size: 90px;
         font-weight: 700;
-        color: rgba(255, 92, 0, 0.04);
-        pointer-events: none;
-        user-select: none;
+        font-size: 13px;
+        flex-shrink: 0;
       }
 
-      .ps-num {
-        font-family: var(--font-body);
-        font-weight: 600;
-        font-size: 10px;
-        letter-spacing: 3px;
-        color: var(--o);
-        margin-bottom: 14px;
-        text-transform: uppercase;
-      }
-
-      .ps-title {
-        font-family: var(--font-display);
-        font-size: 15px;
-        font-weight: 600;
-        color: var(--w);
-        margin-bottom: 10px;
-        line-height: 1;
-      }
-
-      .ps-desc {
+      .next-text {
         line-height: 1;
         color: var(--text-bright);
-        font-weight: 400;
         max-width: 70ch;
+      }
+
+      .next-text strong {
+        color: var(--w);
+        font-weight: 600;
+      }
+
+      .next-arrow {
+        position: absolute;
+        top: 32px;
+        right: -17px;
+        font-size: 16px;
+        color: rgba(255, 92, 0, 0.4);
+        z-index: 2;
+      }
+
+      .next-step:last-child .next-arrow {
+        display: none;
+      }
+
+      .cta-btns,
+      .hero-btns {
+        align-items: center;
       }
 
       /* ===== CTA ===== */
@@ -2127,75 +2078,6 @@
       .cta-contact-line a:hover {
         color: var(--o);
         border-color: var(--o);
-      }
-
-      /* ===== NEXT STEPS ===== */
-      .next-steps {
-        background: var(--panel);
-        padding: 80px 60px;
-      }
-
-      .next-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2px;
-        background: var(--border);
-        margin-top: 44px;
-      }
-
-      .next-step {
-        background: var(--bg);
-        padding: 32px 30px;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-      }
-
-      .next-num {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background: var(--o);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-display);
-        font-weight: 700;
-        font-size: 13px;
-        flex-shrink: 0;
-      }
-
-      .next-text {
-        line-height: 1;
-        color: var(--text-bright);
-        max-width: 70ch;
-      }
-
-      .next-text strong {
-        color: var(--w);
-        font-weight: 600;
-      }
-
-      .next-arrow {
-        position: absolute;
-        top: 32px;
-        right: -17px;
-        font-size: 16px;
-        color: rgba(255, 92, 0, 0.4);
-        z-index: 2;
-      }
-
-      .next-step:last-child .next-arrow {
-        display: none;
-      }
-
-      .cta-btns,
-      .hero-btns {
-        align-items: center;
       }
 
       /* ===== FOOTER ===== */
@@ -2680,23 +2562,19 @@
 
     <!-- ===== NAV ===== -->
     <nav>
-      <a href="#" class="logo">
-        <div class="logo-orbit-wrap">
-          <div class="lo-pulse"></div>
-          <div class="lo-pulse"></div>
-          <div class="lo-ring r1"><div class="lo-dot"></div></div>
-          <div class="lo-ring r2"><div class="lo-dot sm"></div></div>
-          <div class="lo-ring r3"><div class="lo-dot dim"></div></div>
-          <div class="lo-center"></div>
-        </div>
-        <div class="logo-text">OMNI<em>PULSE</em></div>
+      <a href="index.html" class="logo">
+        <img
+          src="images/logo2.jpeg"
+          alt="OmniPulse Logo"
+          class="nav-logo-img"
+        />
       </a>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="#what-we-do">What We Do</a></li>
-        <li><a href="#partners">Industries</a></li>
-        <li><a href="#why">Why Us</a></li>
         <li><a href="#process">Process</a></li>
+        <li><a href="#why">Why Us</a></li>
+        <li><a href="#partners">Industries</a></li>
         <li><a href="blog.html">Blog</a></li>
       </ul>
       <button id="theme-btn" aria-label="Toggle day/night mode">🌙</button>
@@ -2955,6 +2833,202 @@
             deepest industry work below.
           </div>
           <a href="#partners" class="wwd-link">See Industries →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROCESS ===== -->
+    <section id="process" class="rv">
+      <div class="sec-tag">How It Works</div>
+      <h2 class="sec-h2">From Inquiry to <em>Fully Operational</em></h2>
+      <div class="proc-grid">
+        <div class="ps">
+          <div class="ps-ghost">01</div>
+          <div class="ps-num">STEP 01</div>
+          <div class="ps-title">Discovery Call</div>
+          <div class="ps-desc">
+            We learn what you need, what's breaking, and what success looks
+            like. No generic forms.
+          </div>
+        </div>
+        <div class="ps">
+          <div class="ps-ghost">02</div>
+          <div class="ps-num">STEP 02</div>
+          <div class="ps-title">Custom Proposal</div>
+          <div class="ps-desc">
+            A tailored plan with clear deliverables, timelines and pricing,
+            built for your business.
+          </div>
+        </div>
+        <div class="ps">
+          <div class="ps-ghost">03</div>
+          <div class="ps-num">STEP 03</div>
+          <div class="ps-title">48h Onboarding</div>
+          <div class="ps-desc">
+            Within 48 hours of signing: systems connected, workflows live,
+            communication running.
+          </div>
+        </div>
+        <div class="ps">
+          <div class="ps-ghost">04</div>
+          <div class="ps-num">STEP 04</div>
+          <div class="ps-title">Ongoing Growth</div>
+          <div class="ps-desc">
+            Monthly reviews, performance reports and continuous optimisation to
+            maximise your ROI.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WHY US ===== -->
+    <section id="why" class="rv">
+      <div class="why-layout">
+        <div class="why-left">
+          <div class="why-intro-tag">Why OmniPulse</div>
+          <h2 class="why-headline">
+            A partner who knows<br /><em>your data.</em>
+          </h2>
+          <p class="why-subline">
+            We're not a call centre. We're a specialist data bureau built from
+            the ground up around domain expertise — operating from one of the
+            world's most data-centric and underserved regions.
+          </p>
+          <div class="why-points">
+            <div class="why-point">
+              <div class="why-point-num">01</div>
+              <div class="why-point-body">
+                <div class="why-point-title">
+                  We sit inside your vertical not outside it
+                </div>
+                <div class="why-point-desc">
+                  Our teams are trained in maritime, healthcare, logistics, and
+                  AI data — not just general data entry. When you send us vessel
+                  ownership records, we know what they mean.
+                </div>
+              </div>
+            </div>
+            <div class="why-point">
+              <div class="why-point-num">02</div>
+              <div class="why-point-body">
+                <div class="why-point-title">
+                  African data expertise is genuinely scarce
+                </div>
+                <div class="why-point-desc">
+                  African language NLP datasets, African-context image
+                  annotations, and East Africa logistics data are in global
+                  demand and short supply. We are positioned at the source.
+                </div>
+              </div>
+            </div>
+            <div class="why-point">
+              <div class="why-point-num">03</div>
+              <div class="why-point-body">
+                <div class="why-point-title">
+                  60–70% cost advantage with no quality compromise
+                </div>
+                <div class="why-point-desc">
+                  Your data budget stretches significantly further when your
+                  operations team is in Nairobi. We hold ourselves to
+                  international quality standards and price competitively.
+                </div>
+              </div>
+            </div>
+            <div class="why-point">
+              <div class="why-point-num">04</div>
+              <div class="why-point-body">
+                <div class="why-point-title">
+                  One partner, full accountability
+                </div>
+                <div class="why-point-desc">
+                  One account manager, one team. No handoffs between vendors, no
+                  finger pointing. We own the outcome end to end.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="why-right">
+          <div class="why-dash">
+            <div class="why-dash-head">
+              <span class="why-dash-title">Maritime Pipeline Sample</span
+              ><span class="why-dash-live">LIVE</span>
+            </div>
+            <div class="why-flow">
+              <span class="why-flow-step">48,200 Records</span
+              ><span class="why-flow-arrow">→</span
+              ><span class="why-flow-step">6,140 Ownership Chains</span
+              ><span class="why-flow-arrow">→</span
+              ><span class="why-flow-step">312 Compliance Matches</span
+              ><span class="why-flow-arrow">→</span
+              ><span class="why-flow-step ok">✓ Verified</span>
+            </div>
+            <div class="why-dash-row">
+              <span class="why-dr-lbl">AIS vessel records ingested</span
+              ><span class="why-dr-val">48,200 records</span>
+            </div>
+            <div class="why-dash-row">
+              <span class="why-dr-lbl">Duplicate IMO entries removed</span
+              ><span class="why-dr-val warn">−2.1% flagged</span>
+            </div>
+            <div class="why-dash-row">
+              <span class="why-dr-lbl">Ownership chains structured</span
+              ><span class="why-dr-val">6,140 vessels</span>
+            </div>
+            <div class="why-dash-row">
+              <span class="why-dr-lbl">Sanctions flags cross-referenced</span
+              ><span class="why-dr-val warn">312 matches</span>
+            </div>
+            <div class="why-dash-row">
+              <span class="why-dr-lbl">Compliance dataset delivered</span
+              ><span class="why-dr-val ok">✓ Complete</span>
+            </div>
+          </div>
+          <div class="why-dash">
+            <div class="why-dash-head">
+              <span class="why-dash-title">Annotation Project Sample</span
+              ><span class="why-dash-live">LIVE</span>
+            </div>
+            <div class="why-flow">
+              <span class="why-flow-step">24,000 Frames</span
+              ><span class="why-flow-arrow">→</span
+              ><span class="why-flow-step">143,800 Labels</span
+              ><span class="why-flow-arrow">→</span
+              ><span class="why-flow-step">96.3% QA Pass</span
+              ><span class="why-flow-arrow">→</span
+              ><span class="why-flow-step ok">✓ Delivered</span>
+            </div>
+            <div class="why-dash-row">
+              <span class="why-dr-lbl">Images received for annotation</span
+              ><span class="why-dr-val">24,000 frames</span>
+            </div>
+            <div class="why-dash-row">
+              <span class="why-dr-lbl">Bounding boxes applied</span
+              ><span class="why-dr-val">143,800 labels</span>
+            </div>
+            <div class="why-dash-bar-row">
+              <div class="why-dbr-top">
+                <span class="why-dbr-lbl">QA Review Pass Rate</span
+                ><span class="why-dbr-val">96.3%</span>
+              </div>
+              <div class="why-dbr-track">
+                <div class="why-dbr-fill" data-w="96.3%"></div>
+              </div>
+            </div>
+            <div class="why-dash-bar-row">
+              <div class="why-dbr-top">
+                <span class="why-dbr-lbl">Labeller Accuracy Score</span
+                ><span class="why-dbr-val">98.1%</span>
+              </div>
+              <div class="why-dbr-track">
+                <div class="why-dbr-fill" data-w="98.1%"></div>
+              </div>
+            </div>
+            <div class="why-dash-row">
+              <span class="why-dr-lbl">Dataset exported to client</span
+              ><span class="why-dr-val ok">✓ Delivered</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -3271,8 +3345,7 @@
                   </div>
                 </div>
                 <div class="spanel-extra">
-                  Covering USA &amp; Canada — owner-operators to enterprise
-                  fleets
+                  Covering US &amp; Canadian logistics operations
                 </div>
                 <div class="spanel-foot">
                   <div class="spanel-foot-note">
@@ -3366,202 +3439,6 @@
       </div>
     </section>
 
-    <!-- ===== WHY US ===== -->
-    <section id="why" class="rv">
-      <div class="why-layout">
-        <div class="why-left">
-          <div class="why-intro-tag">Why OmniPulse</div>
-          <h2 class="why-headline">
-            A partner who knows<br /><em>your data.</em>
-          </h2>
-          <p class="why-subline">
-            We're not a call centre. We're a specialist data bureau built from
-            the ground up around domain expertise — operating from one of the
-            world's most data-centric and underserved regions.
-          </p>
-          <div class="why-points">
-            <div class="why-point">
-              <div class="why-point-num">01</div>
-              <div class="why-point-body">
-                <div class="why-point-title">
-                  We sit inside your vertical not outside it
-                </div>
-                <div class="why-point-desc">
-                  Our teams are trained in maritime, healthcare, logistics, and
-                  AI data — not just general data entry. When you send us vessel
-                  ownership records, we know what they mean.
-                </div>
-              </div>
-            </div>
-            <div class="why-point">
-              <div class="why-point-num">02</div>
-              <div class="why-point-body">
-                <div class="why-point-title">
-                  African data expertise is genuinely scarce
-                </div>
-                <div class="why-point-desc">
-                  African language NLP datasets, African-context image
-                  annotations, and East Africa logistics data are in global
-                  demand and short supply. We are positioned at the source.
-                </div>
-              </div>
-            </div>
-            <div class="why-point">
-              <div class="why-point-num">03</div>
-              <div class="why-point-body">
-                <div class="why-point-title">
-                  60–70% cost advantage with no quality compromise
-                </div>
-                <div class="why-point-desc">
-                  Your data budget stretches significantly further when your
-                  operations team is in Nairobi. We hold ourselves to
-                  international quality standards and price competitively.
-                </div>
-              </div>
-            </div>
-            <div class="why-point">
-              <div class="why-point-num">04</div>
-              <div class="why-point-body">
-                <div class="why-point-title">
-                  One partner, full accountability
-                </div>
-                <div class="why-point-desc">
-                  One account manager, one team. No handoffs between vendors, no
-                  finger pointing. We own the outcome end to end.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="why-right">
-          <div class="why-dash">
-            <div class="why-dash-head">
-              <span class="why-dash-title">Maritime Pipeline Sample</span
-              ><span class="why-dash-live">LIVE</span>
-            </div>
-            <div class="why-flow">
-              <span class="why-flow-step">48,200 Records</span
-              ><span class="why-flow-arrow">→</span
-              ><span class="why-flow-step">6,140 Ownership Chains</span
-              ><span class="why-flow-arrow">→</span
-              ><span class="why-flow-step">312 Compliance Matches</span
-              ><span class="why-flow-arrow">→</span
-              ><span class="why-flow-step ok">✓ Verified</span>
-            </div>
-            <div class="why-dash-row">
-              <span class="why-dr-lbl">AIS vessel records ingested</span
-              ><span class="why-dr-val">48,200 records</span>
-            </div>
-            <div class="why-dash-row">
-              <span class="why-dr-lbl">Duplicate IMO entries removed</span
-              ><span class="why-dr-val warn">−2.1% flagged</span>
-            </div>
-            <div class="why-dash-row">
-              <span class="why-dr-lbl">Ownership chains structured</span
-              ><span class="why-dr-val">6,140 vessels</span>
-            </div>
-            <div class="why-dash-row">
-              <span class="why-dr-lbl">Sanctions flags cross-referenced</span
-              ><span class="why-dr-val warn">312 matches</span>
-            </div>
-            <div class="why-dash-row">
-              <span class="why-dr-lbl">Compliance dataset delivered</span
-              ><span class="why-dr-val ok">✓ Complete</span>
-            </div>
-          </div>
-          <div class="why-dash">
-            <div class="why-dash-head">
-              <span class="why-dash-title">Annotation Project Sample</span
-              ><span class="why-dash-live">LIVE</span>
-            </div>
-            <div class="why-flow">
-              <span class="why-flow-step">24,000 Frames</span
-              ><span class="why-flow-arrow">→</span
-              ><span class="why-flow-step">143,800 Labels</span
-              ><span class="why-flow-arrow">→</span
-              ><span class="why-flow-step">96.3% QA Pass</span
-              ><span class="why-flow-arrow">→</span
-              ><span class="why-flow-step ok">✓ Delivered</span>
-            </div>
-            <div class="why-dash-row">
-              <span class="why-dr-lbl">Images received for annotation</span
-              ><span class="why-dr-val">24,000 frames</span>
-            </div>
-            <div class="why-dash-row">
-              <span class="why-dr-lbl">Bounding boxes applied</span
-              ><span class="why-dr-val">143,800 labels</span>
-            </div>
-            <div class="why-dash-bar-row">
-              <div class="why-dbr-top">
-                <span class="why-dbr-lbl">QA Review Pass Rate</span
-                ><span class="why-dbr-val">96.3%</span>
-              </div>
-              <div class="why-dbr-track">
-                <div class="why-dbr-fill" data-w="96.3%"></div>
-              </div>
-            </div>
-            <div class="why-dash-bar-row">
-              <div class="why-dbr-top">
-                <span class="why-dbr-lbl">Labeller Accuracy Score</span
-                ><span class="why-dbr-val">98.1%</span>
-              </div>
-              <div class="why-dbr-track">
-                <div class="why-dbr-fill" data-w="98.1%"></div>
-              </div>
-            </div>
-            <div class="why-dash-row">
-              <span class="why-dr-lbl">Dataset exported to client</span
-              ><span class="why-dr-val ok">✓ Delivered</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== PROCESS ===== -->
-    <section id="process" class="rv">
-      <div class="sec-tag">How It Works</div>
-      <h2 class="sec-h2">From Inquiry to <em>Fully Operational</em></h2>
-      <div class="proc-grid">
-        <div class="ps">
-          <div class="ps-ghost">01</div>
-          <div class="ps-num">STEP 01</div>
-          <div class="ps-title">Discovery Call</div>
-          <div class="ps-desc">
-            We learn what you need, what's breaking, and what success looks
-            like. No generic forms.
-          </div>
-        </div>
-        <div class="ps">
-          <div class="ps-ghost">02</div>
-          <div class="ps-num">STEP 02</div>
-          <div class="ps-title">Custom Proposal</div>
-          <div class="ps-desc">
-            A tailored plan with clear deliverables, timelines and pricing,
-            built for your business.
-          </div>
-        </div>
-        <div class="ps">
-          <div class="ps-ghost">03</div>
-          <div class="ps-num">STEP 03</div>
-          <div class="ps-title">48h Onboarding</div>
-          <div class="ps-desc">
-            Within 48 hours of signing: systems connected, workflows live,
-            communication running.
-          </div>
-        </div>
-        <div class="ps">
-          <div class="ps-ghost">04</div>
-          <div class="ps-num">STEP 04</div>
-          <div class="ps-title">Ongoing Growth</div>
-          <div class="ps-desc">
-            Monthly reviews, performance reports and continuous optimisation to
-            maximise your ROI.
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- ===== NEXT STEPS ===== -->
     <section id="next-steps" class="next-steps rv">
       <div class="sec-tag">What Happens Next</div>
@@ -3645,8 +3522,9 @@
           <div class="flinks">
             <a href="index.html">Home</a>
             <a href="#what-we-do">What We Do</a>
-            <a href="#partners">Industries</a>
+            <a href="#process">Process</a>
             <a href="#why">Why Us</a>
+            <a href="#partners">Industries</a>
             <a href="services.html#cta">Contact</a>
           </div>
         </div>
