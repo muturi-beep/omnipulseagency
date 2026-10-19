@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://https://omnipulseagency.com//sitemap.xml
+Sitemap: https://https://omnipulseagency.com/sitemap.xml
