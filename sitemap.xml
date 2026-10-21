@@ -18,4 +18,16 @@
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
    </url>
+   <url>
+      <loc>https://omnipulseagency.com/post-vessel-ownership.html</loc>
+      <lastmod>2026-10-21</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+      <url>
+      <loc>https://omnipulseagency.com/post-aviation-adsb.html</loc>
+      <lastmod>2026-10-21</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+   </url>
 </urlset>
