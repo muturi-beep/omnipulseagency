@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO Optimized Title & Meta Description -->
+    <title>
+      Sanctions Screening in Maritime: A Practical Guide for Compliance Teams
+    </title>
+    <meta
+      name="description"
+      content="Navigating OFAC, EU, and UN regimes — and why list-matching alone is not enough. Learn how structured vessel ownership data transforms maritime compliance workflows."
+    />
+
+    <link rel="icon" type="image/jpeg" href="images/logo.jpeg" />
+    <link rel="apple-touch-icon" href="images/logo.jpeg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css"
+    />
+    <style>
+      /* ===== RESET & ROOT ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #f0f0e8;
+        --o: #ff5c00;
+        --panel: #ffffff;
+        --border: #d4d4c8;
+        --o2: #ff8800;
+        --w: #1a1a2e;
+        --dim: #e8e8e0;
+        --text: #5a5a72;
+        --text-bright: #2e2e44;
+        --font-body: "IBM Plex Sans", "Inter", system-ui, sans-serif;
+        --font-display: "IBM Plex Sans", "Inter", system-ui, sans-serif;
+        --font-mono: "IBM Plex Mono", "SFMono-Regular", ui-monospace, monospace;
+        --radius: 12px;
+      }
+
+      body.day-mode {
+        --bg: #03040a;
+        --panel: #080b16;
+        --border: #111428;
+        --w: #f0f0ff;
+        --dim: #1e2040;
+        --text: #c2c2d8;
+        --text-bright: #dcdcf0;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--w);
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.6;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        transition:
+          background 0.35s,
+          color 0.35s;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* ===== NAV ===== */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        height: 64px;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(3, 4, 10, 0.92);
+        border-bottom: 1px solid var(--border);
+        gap: 16px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+
+      .logo-orbit-wrap {
+        position: relative;
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+      }
+
+      .lo-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 92, 0, 0.28);
+      }
+
+      .lo-ring.r1 {
+        width: 14px;
+        height: 14px;
+        top: 9px;
+        left: 9px;
+        animation: spin 4s linear infinite;
+      }
+      .lo-ring.r2 {
+        width: 22px;
+        height: 22px;
+        top: 5px;
+        left: 5px;
+        animation: spin 7s linear infinite reverse;
+      }
+      .lo-ring.r3 {
+        width: 30px;
+        height: 30px;
+        top: 1px;
+        left: 1px;
+        animation: spin 12s linear infinite;
+        border-style: dashed;
+        border-color: rgba(255, 92, 0, 0.14);
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .lo-dot {
+        position: absolute;
+        top: -3px;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #ff5c00;
+        transform: translateX(-50%);
+      }
+      .lo-dot.sm {
+        width: 4px;
+        height: 4px;
+        top: -2px;
+        background: #ff8800;
+      }
+      .lo-dot.dim {
+        width: 3px;
+        height: 3px;
+        top: -1.5px;
+        background: rgba(255, 92, 0, 0.5);
+      }
+
+      .lo-center {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #ff5c00;
+        z-index: 2;
+      }
+
+      .lo-pulse {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 92, 0, 0.5);
+        animation: lopulse 2.5s ease-out infinite;
+      }
+
+      .lo-pulse:nth-child(2) {
+        animation-delay: 0.9s;
+      }
+
+      @keyframes lopulse {
+        0% {
+          width: 10px;
+          height: 10px;
+          opacity: 0.7;
+        }
+        100% {
+          width: 32px;
+          height: 32px;
+          opacity: 0;
+        }
+      }
+
+      .logo-text {
+        font-family: var(--font-display);
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: #f0f0ff;
+      }
+      .logo-text em {
+        color: var(--o);
+        font-style: normal;
+      }
+      .logo-suffix {
+        font-family: var(--font-body);
+        font-size: 8px;
+        font-weight: 500;
+        letter-spacing: 2px;
+        color: rgba(255, 255, 255, 0.4);
+        text-transform: uppercase;
+        margin-left: 4px;
+        align-self: flex-end;
+        padding-bottom: 2px;
+      }
+
+      .nav-back {
+        font-family: var(--font-body);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        color: #e0e0f4;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: color 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .nav-back:hover {
+        color: var(--o);
+      }
+
+      #theme-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(255, 255, 255, 0.2);
+        background: transparent;
+        color: var(--w);
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.25s;
+      }
+
+      /* ===== ARTICLE LAYOUT ===== */
+      .article-header {
+        padding: 140px 20px 60px;
+        background: var(--panel);
+        border-bottom: 1px solid var(--border);
+        text-align: center;
+      }
+
+      .article-meta {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: var(--o);
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+
+      .article-h1 {
+        font-family: var(--font-display);
+        font-size: clamp(28px, 5vw, 48px);
+        font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: -1px;
+        color: var(--w);
+        max-width: 900px;
+        margin: 0 auto 24px;
+      }
+
+      .article-subtitle {
+        font-size: 18px;
+        color: var(--text-bright);
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.5;
+      }
+
+      .article-author {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 32px;
+        font-size: 13px;
+        color: var(--text);
+      }
+
+      .article-author strong {
+        color: var(--w);
+        font-weight: 600;
+      }
+
+      .article-body {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 60px 20px;
+        background: var(--bg);
+      }
+
+      .article-body p {
+        margin-bottom: 24px;
+        color: var(--text-bright);
+      }
+
+      .article-body h2 {
+        font-family: var(--font-display);
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--w);
+        margin: 48px 0 20px;
+        letter-spacing: -0.5px;
+        line-height: 1.2;
+      }
+
+      .article-body h3 {
+        font-family: var(--font-display);
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--o);
+        margin: 32px 0 12px;
+        letter-spacing: -0.2px;
+      }
+
+      .article-body ul {
+        margin-bottom: 24px;
+        padding-left: 20px;
+      }
+
+      .article-body li {
+        margin-bottom: 12px;
+        color: var(--text-bright);
+      }
+
+      .article-body strong {
+        color: var(--w);
+        font-weight: 600;
+      }
+
+      /* Callout Box */
+      .callout {
+        background: var(--panel);
+        border-left: 4px solid var(--o);
+        padding: 24px;
+        margin: 32px 0;
+        border-radius: 0 var(--radius) var(--radius) 0;
+      }
+
+      .callout-title {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 1.5px;
+        color: var(--o);
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+
+      .callout p {
+        margin-bottom: 0 !important;
+        font-size: 15px;
+      }
+
+      /* Internal Link Styling */
+      .article-body a {
+        color: var(--o);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(255, 92, 0, 0.4);
+        transition: border-color 0.2s;
+        font-weight: 500;
+      }
+
+      .article-body a:hover {
+        border-color: var(--o);
+      }
+
+      /* CTA Box at bottom */
+      .article-cta {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 40px;
+        text-align: center;
+        margin-top: 60px;
+      }
+
+      .article-cta h3 {
+        margin-top: 0 !important;
+        color: var(--w) !important;
+        font-size: 24px;
+      }
+
+      .article-cta p {
+        max-width: 600px;
+        margin: 0 auto 24px;
+      }
+
+      .btn-prime {
+        display: inline-block;
+        font-family: var(--font-body);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background: var(--o);
+        color: #fff !important;
+        padding: 16px 32px;
+        text-decoration: none;
+        border-radius: var(--radius);
+        transition:
+          background 0.2s,
+          transform 0.2s;
+        border: none;
+      }
+
+      .btn-prime:hover {
+        background: var(--o2);
+        transform: translateY(-2px);
+        border: none;
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        padding: 32px 20px 0;
+        background: rgba(3, 4, 10, 0.96);
+        border-top: 1px solid #111428;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid #111428;
+        padding: 20px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .fc {
+        font-family: var(--font-body);
+        font-size: 11px;
+        color: #c2c2d8;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (min-width: 768px) {
+        .article-header {
+          padding: 160px 40px 80px;
+        }
+        .article-body {
+          padding: 80px 40px;
+        }
+        nav {
+          padding: 0 60px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== NAV ===== -->
+    <nav>
+      <a href="index.html" class="logo">
+        <div class="logo-orbit-wrap">
+          <div class="lo-pulse"></div>
+          <div class="lo-pulse"></div>
+          <div class="lo-ring r1"><div class="lo-dot"></div></div>
+          <div class="lo-ring r2"><div class="lo-dot sm"></div></div>
+          <div class="lo-ring r3"><div class="lo-dot dim"></div></div>
+          <div class="lo-center"></div>
+        </div>
+        <div class="logo-text">OMNI<em>PULSE</em></div>
+        <span class="logo-suffix">/ Blog</span>
+      </a>
+
+      <a href="blog.html" class="nav-back"
+        ><i class="ti ti-arrow-left"></i> Back to Insights</a
+      >
+
+      <button id="theme-btn" aria-label="Toggle day/night mode">🌙</button>
+    </nav>
+
+    <!-- ===== ARTICLE HEADER ===== -->
+    <header class="article-header">
+      <div class="article-meta">Maritime Intelligence · May 2025</div>
+      <h1 class="article-h1">
+        Sanctions Screening in Maritime: A Practical Guide for Compliance Teams
+      </h1>
+      <p class="article-subtitle">
+        Navigating OFAC, EU, and UN regimes — and why list-matching alone is not
+        enough. We show how structured vessel ownership data transforms
+        compliance workflows.
+      </p>
+
+      <div class="article-author">
+        <span>By <strong>Maritime Team</strong></span>
+        <span>•</span>
+        <span>10 min read</span>
+      </div>
+    </header>
+
+    <!-- ===== ARTICLE BODY ===== -->
+    <article class="article-body">
+      <p>
+        Maritime sanctions compliance is one of the most complex and high-stakes
+        areas of regulatory risk. A single vessel trading with a sanctioned
+        entity can expose a shipowner, charterer, or financier to millions of
+        dollars in fines, reputational damage, and even criminal liability.
+      </p>
+
+      <p>
+        The challenge is that the maritime industry is inherently opaque.
+        Vessels change hands frequently, ownership structures are deliberately
+        complex, and sanctioned entities are increasingly sophisticated at
+        hiding their involvement.
+      </p>
+
+      <p>
+        This guide is designed for compliance teams who need to move beyond
+        basic list-matching and build a more robust, data-driven screening
+        process.
+      </p>
+
+      <h2>1. The Three Major Sanctions Regimes</h2>
+      <p>
+        If you are operating in the maritime sector, you need to be aware of the
+        three primary sanctions regimes:
+      </p>
+      <ul>
+        <li>
+          <strong>OFAC (Office of Foreign Assets Control):</strong> The US
+          Treasury department's sanctions arm. OFAC sanctions are the most
+          aggressively enforced and carry the highest penalties.
+        </li>
+        <li>
+          <strong>EU Sanctions:</strong> The European Union maintains its own
+          sanctions list, which often overlaps with OFAC but can differ in scope
+          and target.
+        </li>
+        <li>
+          <strong>UN Sanctions:</strong> The United Nations Security Council
+          imposes sanctions that are binding on all member states.
+        </li>
+      </ul>
+      <p>
+        A robust compliance program screens against all three regimes, as well
+        as any relevant national lists (such as the UK's OFSI).
+      </p>
+
+      <h2>2. Why List-Matching is Not Enough</h2>
+      <p>
+        The most common mistake in maritime compliance is relying solely on
+        list-matching. This means checking a vessel's name, IMO number, or
+        registered owner against a sanctions list. While this is a necessary
+        first step, it is not sufficient.
+      </p>
+      <p><strong>Why it fails:</strong></p>
+      <ul>
+        <li>
+          <strong
+            >Sanctioned entities can hide behind compliant registered
+            owners:</strong
+          >
+          A vessel may be owned by a clean SPV, but if the beneficial owner is
+          sanctioned, the vessel is still a sanctioned asset.
+        </li>
+        <li>
+          <strong>Vessels change names:</strong> A vessel can be renamed to
+          evade detection. The IMO number is the only permanent identifier, but
+          even that can be manipulated.
+        </li>
+        <li>
+          <strong>Dark fleet tactics:</strong> Sanctioned actors use AIS
+          manipulation, ship-to-ship transfers, and falsified documentation to
+          hide their activities.
+        </li>
+      </ul>
+
+      <div class="callout">
+        <div class="callout-title">// Compliance Insight</div>
+        <p>
+          The key to effective sanctions screening is not just checking names,
+          but understanding the full ownership and operational structure of a
+          vessel. If you do not know who the beneficial owner, technical
+          manager, and commercial controller are, you cannot accurately assess
+          the risk.
+        </p>
+      </div>
+
+      <h2>3. Building a Data-Driven Screening Workflow</h2>
+      <p>
+        A modern maritime compliance workflow should include the following
+        steps:
+      </p>
+      <ul>
+        <li>
+          <strong>Step 1: Identify all seven roles of ownership:</strong>
+          Beneficial owner, registered owner, ISM manager, technical manager,
+          commercial manager, commercial controller, and DOC holder.
+        </li>
+        <li>
+          <strong
+            >Step 2: Screen each role against all relevant sanctions
+            lists:</strong
+          >
+          Do not just screen the registered owner.
+        </li>
+        <li>
+          <strong>Step 3: Analyze AIS movement data:</strong> Look for patterns
+          of sanctioned-country overflights, AIS gaps, or ship-to-ship
+          transfers.
+        </li>
+        <li>
+          <strong>Step 4: Document your findings:</strong> A clear, auditable
+          record of your screening process is essential for demonstrating
+          compliance to regulators.
+        </li>
+      </ul>
+      <p>
+        This is the workflow that
+        <a href="services.html#maritime"
+          >OmniPulse's Maritime Intelligence services</a
+        >
+        are built to support. We provide the structured ownership data and
+        movement intelligence that compliance teams need to make informed
+        decisions.
+      </p>
+
+      <h2>4. The Cost of Non-Compliance</h2>
+      <p>
+        The penalties for maritime sanctions violations are severe. OFAC has
+        fined companies millions of dollars for sanctions breaches, and in some
+        cases, individuals have faced criminal prosecution. Beyond the financial
+        penalties, the reputational damage can be catastrophic, leading to loss
+        of banking relationships, insurance coverage, and customer trust.
+      </p>
+
+      <p>
+        Investing in robust sanctions screening is not just a regulatory
+        requirement; it is a business imperative. If you need help building a
+        more effective screening workflow,
+        <a href="services.html#cta">contact our team</a> to discuss how we can
+        support your compliance operations.
+      </p>
+
+      <!-- CTA -->
+      <div class="article-cta">
+        <h3>Need to screen a vessel or fleet?</h3>
+        <p>
+          We provide full seven-role ownership mapping, sanctions screening
+          against OFAC, EU, and UN regimes, and AIS movement intelligence.
+        </p>
+        <a href="services.html#maritime" class="btn-prime"
+          >Explore Maritime Intelligence →</a
+        >
+      </div>
+    </article>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+      <div class="footer-bottom">
+        <div class="fc">© 2025 OmniPulse Agency · All Rights Reserved</div>
+      </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+      const themeBtn = document.getElementById("theme-btn");
+      if (themeBtn) {
+        themeBtn.addEventListener("click", () => {
+          const d = document.body.classList.toggle("day-mode");
+          themeBtn.textContent = d ? "☀️" : "🌙";
+          themeBtn.setAttribute(
+            "aria-label",
+            d ? "Switch to night mode" : "Switch to day mode",
+          );
+        });
+      }
+    </script>
+  </body>
+</html>
